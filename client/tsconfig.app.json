@@ -1,0 +1,66 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@commons/*": ["src/common/*"],
+      "@components/*": ["src/common/components/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@guards/*": ["src/guards/*"],
+      "@pages/*": ["src/pages/*"],
+
+      "@common": ["src/common"],
+      "@component": ["src/common/components"],
+      "@context": ["src/contexts"],
+      "@guard": ["src/guards"],
+      "@page": ["src/pages"],
+
+      "@httpTypes/*": ["src/common/typesAndValues/httpTypes/*"],
+      "@nullValues/*": ["src/common/typesAndValues/nullValues/*"],
+      "@props/*": ["src/common/typesAndValues/props/*"],
+      "@secret/*": ["src/common/secret/*"],
+      "@server/*": ["src/common/server/*"],
+      "@shareTypes/*": ["src/common/typesAndValues/shareTypes/*"],
+      "@shareValues/*": ["src/common/typesAndValues/shareValues/*"],
+      "@socketTypes/*": ["src/common/typesAndValues/socketTypes/*"],
+      "@utils/*": ["src/common/utils/*"],
+      "@types/*": ["src/common/typesAndValues/types/*"],
+
+      "@httpType": ["src/common/typesAndValues/httpTypes"],
+      "@nullValue": ["src/common/typesAndValues/nullValues"],
+      "@prop": ["src/common/typesAndValues/props"],
+      "@secret": ["src/common/secret"],
+      "@server": ["src/common/server"],
+      "@shareType": ["src/common/typesAndValues/shareTypes"],
+      "@shareValue": ["src/common/typesAndValues/shareValues"],
+      "@socketType": ["src/common/typesAndValues/socketTypes"],
+      "@util": ["src/common/utils"],
+      "@type": ["src/common/typesAndValues/types"],
+      "@value": ["src/common/typesAndValues/values"]
+    }
+  },
+  "include": ["src"]
+}
