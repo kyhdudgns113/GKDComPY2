@@ -1,0 +1,95 @@
+@use '../../../base/styles/values.scss' as v;
+
+div._page {
+  align-items: center;
+  background-color: v.$SAKURA_BG;
+  color: v.$SAKURA_TEXT;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  justify-content: center;
+
+  width: 100vw;
+
+  div._container {
+    align-items: center;
+    background-color: #ffffff;
+    border-color: v.$SAKURA_BORDER;
+    border-radius: 10px;
+    border-width: 4px;
+
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    width: fit-content;
+  }
+
+  p._title {
+    font-size: 32px;
+    font-weight: 700;
+    user-select: none;
+
+    margin-bottom: 16px;
+  }
+
+  ._part_input {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    margin-top: 16px;
+
+    width: fit-content;
+
+    ._category {
+      font-size: 30px;
+      font-weight: 700;
+
+      text-align: center;
+      user-select: none;
+      width: 80px;
+    }
+
+    ._input {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 10px;
+      border-width: 2px;
+
+      font-size: 24px;
+
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      width: 300px;
+    }
+  }
+
+  ._button_row {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin-top: 40px;
+
+    button {
+      border-radius: 8px;
+      border-width: 3px;
+      cursor: pointer;
+
+      font-size: 20px;
+      font-weight: 700;
+
+      height: 40px;
+      width: 100px;
+    }
+  }
+}

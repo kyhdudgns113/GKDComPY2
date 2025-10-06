@@ -2,7 +2,7 @@ import {defineConfig} from 'vite'
 import checker from 'vite-plugin-checker'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import {clientIP, clientPort} from './src/base/secret'
+import {adminIP, adminPort} from './src/base/secret'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
     tsconfigPaths()
   ],
   server: {
-    host: clientIP,
-    port: clientPort
+    host: adminIP,
+    port: adminPort
   }
 })

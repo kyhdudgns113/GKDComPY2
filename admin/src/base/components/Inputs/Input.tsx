@@ -1,5 +1,5 @@
 import type {FC} from 'react'
-import type {InputCommonProps} from '../../typesAndValues'
+import type {InputCommonProps} from '@prop'
 
 type InputProps = InputCommonProps & {
   disabled?: boolean
