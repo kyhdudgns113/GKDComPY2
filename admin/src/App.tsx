@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <div>
-        <p>Hello World</p>
+        <p>관리자 페이지 스켈레톤</p>
       </div>
     </>
   )
