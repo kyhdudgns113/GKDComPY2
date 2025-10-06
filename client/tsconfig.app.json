@@ -26,41 +26,30 @@
 
     "baseUrl": ".",
     "paths": {
-      "@commons/*": ["src/common/*"],
-      "@components/*": ["src/common/components/*"],
-      "@contexts/*": ["src/contexts/*"],
-      "@guards/*": ["src/guards/*"],
-      "@pages/*": ["src/pages/*"],
+      "@component": ["src/base/components"],
+      "@fetch": ["src/base/fetchs"],
 
-      "@common": ["src/common"],
-      "@component": ["src/common/components"],
-      "@context": ["src/contexts"],
-      "@guard": ["src/guards"],
+      "@httpType": ["src/base/types/httpTypes"],
+      "@nullValue": ["src/base/values/nullValues"],
       "@page": ["src/pages"],
+      "@prop": ["src/base/types/props"],
 
-      "@httpTypes/*": ["src/common/typesAndValues/httpTypes/*"],
-      "@nullValues/*": ["src/common/typesAndValues/nullValues/*"],
-      "@props/*": ["src/common/typesAndValues/props/*"],
-      "@secret/*": ["src/common/secret/*"],
-      "@server/*": ["src/common/server/*"],
-      "@shareTypes/*": ["src/common/typesAndValues/shareTypes/*"],
-      "@shareValues/*": ["src/common/typesAndValues/shareValues/*"],
-      "@socketTypes/*": ["src/common/typesAndValues/socketTypes/*"],
-      "@utils/*": ["src/common/utils/*"],
-      "@types/*": ["src/common/typesAndValues/types/*"],
+      "@secret": ["src/base/secret"],
+      "@shareType": ["src/base/types/shareTypes"],
+      "@shareValue": ["src/base/values/shareValues"],
+      "@socketType": ["src/base/types/socketTypes"],
 
-      "@httpType": ["src/common/typesAndValues/httpTypes"],
-      "@nullValue": ["src/common/typesAndValues/nullValues"],
-      "@prop": ["src/common/typesAndValues/props"],
-      "@secret": ["src/common/secret"],
-      "@server": ["src/common/server"],
-      "@shareType": ["src/common/typesAndValues/shareTypes"],
-      "@shareValue": ["src/common/typesAndValues/shareValues"],
-      "@socketType": ["src/common/typesAndValues/socketTypes"],
-      "@util": ["src/common/utils"],
-      "@type": ["src/common/typesAndValues/types"],
-      "@value": ["src/common/typesAndValues/values"]
+      "@store": ["src/base/store"],
+      "@style": ["src/base/styles"],
+
+      "@type": ["src/base/types/types"],
+      "@util": ["src/base/utils"],
+      "@value": ["src/base/values/values"],
+
+      //
+
+      "@styles/*": ["src/base/styles/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/base"]
 }

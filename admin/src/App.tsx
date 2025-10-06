@@ -1,12 +1,15 @@
-import './App.css'
+import {Route, Routes} from 'react-router-dom'
+
+import * as P from '@page'
+
+import '@styles/App.css'
 
 function App() {
   return (
-    <>
-      <div>
-        <p>관리자 페이지 스켈레톤</p>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<P.RootPage />} />
+      <Route path="/signIn" element={<P.SignInPage />} />
+    </Routes>
   )
 }
 
