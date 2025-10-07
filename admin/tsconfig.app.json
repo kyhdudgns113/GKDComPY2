@@ -27,7 +27,8 @@
     "baseUrl": ".",
     "paths": {
       "@component": ["src/base/components"],
-      "@fetch": ["src/base/fetchs"],
+      "@context": ["src/contexts"],
+      "@fetch": ["src/base/fetch"],
 
       "@httpType": ["src/base/types/httpTypes"],
       "@nullValue": ["src/base/values/nullValues"],
@@ -47,7 +48,7 @@
       "@value": ["src/base/values/values"],
 
       //
-
+      "@contexts/*": ["src/contexts/*"],
       "@styles/*": ["src/base/styles/*"]
     }
   },

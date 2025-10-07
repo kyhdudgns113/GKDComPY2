@@ -1,5 +1,6 @@
 import {useCallback, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {useAuthCallbacksContext} from '@context'
 
 import {InputIDPart, InputPWPart, InputPWConfirmPart} from './parts'
 
@@ -11,6 +12,8 @@ import '../_styles/Sign.scss'
 type SignUpPageProps = DivCommonProps & {}
 
 export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) => {
+  const {signUp} = useAuthCallbacksContext()
+
   const [userId, setUserId] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [passwordConfirm, setPasswordConfirm] = useState<string>('')
@@ -34,7 +37,11 @@ export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) =>
         return
       }
 
-      console.log('회원가입:', {userId, password})
+      signUp(userId, password).then(res => {
+        if (res) {
+          navigate('/')
+        }
+      })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )

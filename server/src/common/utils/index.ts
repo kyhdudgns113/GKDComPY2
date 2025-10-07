@@ -1,7 +1,6 @@
 import {DEBUG_MODE} from '@secret'
 
 export * from './_decorators'
-export * from './_extraObjects'
 
 export const consoleColors = {
   Reset: '\x1b[0m',

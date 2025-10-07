@@ -3,10 +3,14 @@ import {BrowserRouter} from 'react-router-dom'
 
 import App from './App.tsx'
 
+import * as CT from '@context'
+
 import '@styles/index.css'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <App />
+    <CT.AuthProvider>
+      <App />
+    </CT.AuthProvider>
   </BrowserRouter>
 )
