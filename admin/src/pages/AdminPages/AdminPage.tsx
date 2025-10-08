@@ -5,7 +5,7 @@ type AdminPageProps = DivCommonProps & {}
 
 export const AdminPage: FC<AdminPageProps> = ({className, style, ...props}) => {
   return (
-    <div className={`Admin_Page _page  ${className || ''}`} style={style} {...props}>
+    <div className={`Admin_Page _page flex flex-col  ${className || ''}`} style={style} {...props}>
       <p>Admin Page</p>
     </div>
   )
