@@ -226,6 +226,22 @@ CREATE TABLE dailyRecords (
 
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
 
+-- 12. docs 테이블 (clubs 참조)
+CREATE TABLE docs (
+  docOId CHAR(24) NOT NULL PRIMARY KEY,
+
+  clubOId CHAR(24) NOT NULL UNIQUE,
+  contents TEXT NOT NULL,
+
+  CONSTRAINT fk_docs_clubOId
+    FOREIGN KEY (clubOId)
+    REFERENCES clubs (clubOId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+
+)   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
+
+
 -- ============================================
 -- 완료: 모든 테이블이 외래키 의존성 순서대로 생성됨
 -- ============================================

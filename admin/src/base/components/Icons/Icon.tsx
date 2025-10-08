@@ -1,5 +1,5 @@
 import type {CSSProperties, FC} from 'react'
-import type {SpanCommonProps} from '../../typesAndValues'
+import type {SpanCommonProps} from '@prop'
 
 export type IconProps = SpanCommonProps & {
   iconName: string

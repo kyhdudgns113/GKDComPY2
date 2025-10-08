@@ -1,0 +1,20 @@
+.Template {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  width: 100%;
+
+  .Header {
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+
+    user-select: none;
+
+    width: 100%;
+  }
+}
