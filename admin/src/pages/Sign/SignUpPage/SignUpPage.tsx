@@ -1,10 +1,10 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useAuthCallbacksContext} from '@context'
 
 import {InputIDPart, InputPWPart, InputPWConfirmPart} from './parts'
 
-import type {FC, MouseEvent} from 'react'
+import type {FC, KeyboardEvent, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import '../_styles/Sign.scss'
@@ -12,7 +12,7 @@ import '../_styles/Sign.scss'
 type SignUpPageProps = DivCommonProps & {}
 
 export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) => {
-  const {signUp} = useAuthCallbacksContext()
+  const {refreshToken, signUp} = useAuthCallbacksContext()
 
   const [userId, setUserId] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -20,11 +20,8 @@ export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) =>
 
   const navigate = useNavigate()
 
-  const onClickSignUp = useCallback(
-    (userId: string, password: string, passwordConfirm: string) => (e: MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault()
-      e.stopPropagation()
-
+  const _executeSignUp = useCallback(
+    (userId: string, password: string, passwordConfirm: string) => {
       // 비밀번호 확인 검증
       if (password !== passwordConfirm) {
         alert('비밀번호가 일치하지 않습니다.')
@@ -39,9 +36,20 @@ export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) =>
 
       signUp(userId, password).then(res => {
         if (res) {
+          alert('회원가입이 완료되었습니다.')
           navigate('/')
         }
       })
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const onClickSignUp = useCallback(
+    (userId: string, password: string, passwordConfirm: string) => (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      _executeSignUp(userId, password, passwordConfirm)
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
@@ -56,9 +64,34 @@ export const SignUpPage: FC<SignUpPageProps> = ({className, style, ...props}) =>
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  // Enter 키 누르면 회원가입 버튼 누르는 효과
+  const onKeyDownContainer = useCallback(
+    (userId: string, password: string, passwordConfirm: string) => (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        _executeSignUp(userId, password, passwordConfirm)
+      }
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  // 토큰 갱신하여 로그인상태 확인후, 로그인중이면 admin 으로 이동
+  useEffect(() => {
+    refreshToken()
+      .then(res => {
+        if (res) {
+          navigate('/admin')
+        }
+      })
+      .catch(() => navigate('/signIn'))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <div className={`SignUp_Page _page  ${className || ''}`} style={style} tabIndex={0} {...props}>
-      <div className="_container">
+    <div className={`SignUp_Page _page  ${className || ''}`} style={style} {...props}>
+      <div
+        className="_container" // ::
+        onKeyDown={onKeyDownContainer(userId, password, passwordConfirm)}
+        tabIndex={0}
+      >
         {/* 1. 타이틀 */}
         <p className="_title">관리자 생성</p>
 

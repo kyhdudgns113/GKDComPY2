@@ -1,9 +1,10 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {useAuthCallbacksContext} from '@context'
 
 import {InputIDPart, InputPWPart} from './parts'
 
-import type {FC, MouseEvent} from 'react'
+import type {FC, KeyboardEvent, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import '../_styles/Sign.scss'
@@ -11,17 +12,35 @@ import '../_styles/Sign.scss'
 type SignInPageProps = DivCommonProps & {}
 
 export const SignInPage: FC<SignInPageProps> = ({className, style, ...props}) => {
+  const {refreshToken, signIn} = useAuthCallbacksContext()
+
   const [userId, setUserId] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
   const navigate = useNavigate()
+
+  const _executeSignIn = useCallback(
+    (userId: string, password: string) => {
+      if (!userId || !password) {
+        alert('모든 필드를 입력해주세요.')
+        return
+      }
+
+      signIn(userId, password).then(res => {
+        if (res) {
+          navigate('/')
+        }
+      })
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   const onClickSignIn = useCallback(
     (userId: string, password: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 
-      console.log(userId, password)
+      _executeSignIn(userId, password)
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
@@ -36,9 +55,33 @@ export const SignInPage: FC<SignInPageProps> = ({className, style, ...props}) =>
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const onKeyDownContainer = useCallback(
+    (userId: string, password: string) => (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        _executeSignIn(userId, password)
+      }
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  // 토큰 갱신하여 로그인상태 확인후, 로그인중이면 admin 으로 이동
+  useEffect(() => {
+    refreshToken()
+      .then(res => {
+        if (res) {
+          navigate('/admin')
+        }
+      })
+      .catch(() => navigate('/signIn'))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <div className={`SignIn_Page _page  ${className || ''}`} style={style} tabIndex={0} {...props}>
-      <div className="_container">
+    <div className={`SignIn_Page _page  ${className || ''}`} style={style} {...props}>
+      <div
+        className="_container" // ::
+        onKeyDown={onKeyDownContainer(userId, password)}
+        tabIndex={0}
+      >
         {/* 1. 타이틀 */}
         <p className="_title">관리자 페이지</p>
 

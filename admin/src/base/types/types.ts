@@ -5,6 +5,7 @@ import type {Socket} from 'socket.io-client'
 export type AuthBodyType = {
   jwtFromServer: string
   userId: string
+  userOId: string
 }
 export type CallbackType = () => void
 export type LockType = {isLock: boolean; cnt: number}

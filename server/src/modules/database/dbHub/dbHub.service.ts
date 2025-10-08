@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common'
 
 import * as DTO from '@dto'
 import * as T from '@type'
+import * as TB from '../_tables'
 
 /**
  * 이곳은 거의 대부분 Schema 의 함수랑 결과를 그대로 보내주는 역할만 한다.
@@ -16,5 +17,57 @@ import * as T from '@type'
  */
 @Injectable()
 export class DBHubService {
-  constructor() {}
+  constructor(
+    private readonly chatDBService: TB.ChatDBService,
+    private readonly clubDBService: TB.ClubDBService,
+    private readonly communityDBService: TB.CommunityDBService,
+    private readonly dailyRecordDBService: TB.DailyRecordDBService,
+    private readonly docDBService: TB.DocDBService,
+    private readonly memberDBService: TB.MemberDBService,
+    private readonly userDBService: TB.UserDBService,
+    private readonly weekRecordDBService: TB.WeekRecordDBService
+  ) {}
+
+  // AREA1: User Area
+
+  async createUser(where: string, dto: DTO.CreateUserDTO) {
+    try {
+      const {user} = await this.userDBService.createUser(where, dto)
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async createUserAdmin(where: string, dto: DTO.CreateUserAdminDTO) {
+    try {
+      await this.userDBService.createUserAdmin(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readUserByIdPw(where: string, userId: string, password: string) {
+    try {
+      const {user} = await this.userDBService.readUserByIdPw(where, userId, password)
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async readUserByUserOId(where: string, userOId: string) {
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 }

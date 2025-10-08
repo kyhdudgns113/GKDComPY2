@@ -1,8 +1,8 @@
 import {DBServiceTest} from '../_db'
-import {CopyMeDBService} from './chatDB.service'
+import {ChatDBService} from './chatDB.service'
 
-export class CopyMeDBServiceTest {
+export class ChatDBServiceTest {
   private static dbService = DBServiceTest.dbService
 
-  public static copyMeDBService = new CopyMeDBService(CopyMeDBServiceTest.dbService)
+  public static chatDBService = new ChatDBService(ChatDBServiceTest.dbService)
 }

@@ -1,1 +1,9 @@
-export const httpYes = 1
+export type SignInDataType = {
+  userId: string
+  password: string
+}
+
+export type SignUpDataType = {
+  userId: string
+  password: string
+}

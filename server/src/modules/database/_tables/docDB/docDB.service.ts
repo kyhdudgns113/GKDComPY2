@@ -6,6 +6,6 @@ import {DBService} from '../_db'
 import * as T from '@type'
 
 @Injectable()
-export class ChatDBService {
+export class DocDBService {
   constructor(private readonly dbService: DBService) {}
 }

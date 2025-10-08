@@ -1,1 +1,6 @@
-export const shareYes = 1
+export type UserType = {
+  commAuth: number
+  commOId: string
+  userOId: string
+  userId: string
+}

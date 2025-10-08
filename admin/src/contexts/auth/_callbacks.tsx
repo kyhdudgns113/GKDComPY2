@@ -12,14 +12,14 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
-  refreshToken: () => Promise<void>
+  refreshToken: () => Promise<boolean>
   signIn: (userId: string, password: string) => Promise<boolean>
   signOut: () => void
   signUp: (userId: string, password: string) => Promise<boolean>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
-  refreshToken: () => Promise.resolve(),
+  refreshToken: () => Promise.resolve(false),
   signIn: () => Promise.resolve(false),
   signOut: () => {},
   signUp: () => Promise.resolve(false),
@@ -28,16 +28,18 @@ export const AuthCallbacksContext = createContext<ContextType>({
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
 
 export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setUserId} = useAuthStatesContext()
+  const {setUserId, setUserOId} = useAuthStatesContext()
 
   const navigate = useNavigate()
 
   const _writeAuthBodyObject = useCallback(
-    async (body: AuthBodyType, callback?: () => void) => {
-      await U.writeStringP('jwtFromServer', body.jwtFromServer)
-      await U.writeStringP('userId', body.userId)
+    async (authBody: AuthBodyType, callback?: () => void) => {
+      await U.writeStringP('jwtFromServer', authBody.jwtFromServer)
+      await U.writeStringP('userId', authBody.userId)
+      await U.writeStringP('userOId', authBody.userOId)
 
-      setUserId(body.userId)
+      setUserId(authBody.userId)
+      setUserOId(authBody.userOId)
 
       if (callback) {
         callback()
@@ -51,33 +53,37 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     async () => {
       const isJwt = await U.readStringP('jwtFromServer')
       if (isJwt) {
-        const url = `/client/auth/refreshToken`
+        const url = `/admin/auth/refreshToken`
         return F.getWithJwt(url)
           .then(res => res.json())
           .then(res => {
             const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
             if (ok) {
               // getWithJwt 에서 토큰 갱신을 한다.
-              const {userId} = body.user
+              const {userId, userOId} = body.user
               const authBody: AuthBodyType = {
                 jwtFromServer,
-                userId
+                userId,
+                userOId
               }
               _writeAuthBodyObject(authBody)
+              return true
             } // ::
             else {
               _writeAuthBodyObject(NV.NULL_AUTH_BODY())
               U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+              return false
             }
           })
           .catch(errObj => {
             U.alertErrors(url, errObj)
             _writeAuthBodyObject(NV.NULL_AUTH_BODY())
-            navigate('/')
+            return false
           })
       } // ::
       else {
         await _writeAuthBodyObject(NV.NULL_AUTH_BODY())
+        return Promise.resolve(false)
       }
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -85,7 +91,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const signIn = useCallback(
     async (userId: string, password: string) => {
-      const url = `/client/auth/signIn`
+      const url = `/admin/auth/signIn`
       const data: HTTP.SignInDataType = {userId, password}
 
       return F.post(url, data, '')
@@ -94,10 +100,11 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
           if (ok) {
-            const {userId} = body.user
+            const {userId, userOId} = body.user
             const authBody: AuthBodyType = {
               jwtFromServer,
-              userId
+              userId,
+              userOId
             }
             _writeAuthBodyObject(authBody)
             return true
@@ -122,21 +129,15 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const signUp = useCallback(
     async (userId: string, password: string) => {
-      const url = `/client/auth/signUp`
+      const url = `/admin/auth/signUp`
       const data: HTTP.SignUpDataType = {userId, password}
 
       return F.post(url, data, '')
         .then(res => res.json())
         .then(res => {
-          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+          const {ok, statusCode, gkdErrMsg, message} = res
 
           if (ok) {
-            const {userId} = body.user
-            const authBody: AuthBodyType = {
-              jwtFromServer,
-              userId
-            }
-            _writeAuthBodyObject(authBody)
             return true
           } // ::
           else {

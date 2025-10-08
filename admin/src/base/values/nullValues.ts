@@ -1,6 +1,10 @@
+import * as T from '@type'
+
 export const NULL_AUTH_BODY = () => {
-  return {
+  const ret: T.AuthBodyType = {
     jwtFromServer: '',
-    userId: ''
+    userId: '',
+    userOId: ''
   }
+  return ret
 }

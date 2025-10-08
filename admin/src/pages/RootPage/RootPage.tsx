@@ -1,5 +1,6 @@
 import {useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {useAuthCallbacksContext} from '@context'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -7,10 +8,22 @@ import type {DivCommonProps} from '@prop'
 type RootPageProps = DivCommonProps & {}
 
 export const RootPage: FC<RootPageProps> = ({className, style, ...props}) => {
+  const {refreshToken} = useAuthCallbacksContext()
+
   const navigate = useNavigate()
 
+  // 토큰 확인후 로그인 상태일때랑 아닐때랑 구분
   useEffect(() => {
-    navigate('/signIn')
+    refreshToken()
+      .then(res => {
+        if (res) {
+          navigate('/admin')
+        } // ::
+        else {
+          navigate('/signIn')
+        }
+      })
+      .catch(() => navigate('/signIn'))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

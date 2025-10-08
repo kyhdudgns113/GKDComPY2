@@ -1,6 +1,7 @@
 @use '../../../base/styles/values.scss' as v;
 
-div._page {
+div.SignUp_Page,
+div.SignIn_Page {
   align-items: center;
   background-color: v.$SAKURA_BG;
   color: v.$SAKURA_TEXT;

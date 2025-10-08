@@ -1,12 +1,12 @@
 import {Module} from '@nestjs/common'
-import {CopyMeDBService} from './chatDB.service'
+import {ChatDBService} from './chatDB.service'
 
 import {DBModule} from '../_db'
 
 @Module({
   imports: [DBModule],
   controllers: [],
-  providers: [CopyMeDBService],
-  exports: [CopyMeDBService]
+  providers: [ChatDBService],
+  exports: [ChatDBService]
 })
-export class CopyMeDBModule {}
+export class ChatDBModule {}

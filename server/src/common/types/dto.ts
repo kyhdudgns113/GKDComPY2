@@ -1,1 +1,10 @@
-export const dtoYes = 1
+export type CreateUserAdminDTO = {
+  userId: string
+  password: string
+}
+
+export type CreateUserDTO = {
+  commOId: string
+  userId: string
+  password: string
+}
