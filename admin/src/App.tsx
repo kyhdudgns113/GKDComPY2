@@ -13,6 +13,8 @@ function App() {
       <Route path="/" element={<P.RootPage />} />
       <Route path="/admin/*" element={<Template />}>
         <Route index element={<P.AdminPage />} />
+        <Route path="community" element={<P.CommunityPage />} />
+        <Route path="log" element={<P.LogPage />} />
         <Route path="*" element={<P.NullPage />} />
       </Route>
       <Route path="/signIn" element={<P.SignInPage />} />
