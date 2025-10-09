@@ -34,7 +34,7 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
   }, [dispatch, location.pathname])
 
   return (
-    <div className={`Template ${className}`} style={style} {...props}>
+    <div className={`Template ${className || ''}`} style={style} {...props}>
       <Header />
       <div className="Body">
         <Lefter />

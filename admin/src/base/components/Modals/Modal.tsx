@@ -30,7 +30,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
     >
       <div
         autoFocus
-        className={`flex flex-col items-center bg-white border-8 border-gkd-sakura-border rounded-3xl ${className}`}
+        className={`flex flex-col items-center bg-white border-8 border-gkd-sakura-border rounded-3xl ${className || ''}`}
         onClick={e => e.stopPropagation()}
         style={styleSize}
         tabIndex={0}

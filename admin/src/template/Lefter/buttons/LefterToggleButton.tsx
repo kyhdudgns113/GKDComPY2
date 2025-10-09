@@ -22,7 +22,7 @@ export const LefterToggleButton: FC<LefterToggleButtonProps> = ({className, styl
   return (
     <Icon
       iconName="menu"
-      className={`LefterToggle_Button  ${className}`}
+      className={`LefterToggle_Button  ${className || ''}`}
       onClick={onClickLefterToggle}
       style={style}
       {...props} // ::

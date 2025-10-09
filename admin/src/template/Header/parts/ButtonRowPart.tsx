@@ -7,7 +7,7 @@ type ButtonRowPartProps = DivCommonProps & {}
 
 export const ButtonRowPart: FC<ButtonRowPartProps> = ({className, style, ...props}) => {
   return (
-    <div className={`ButtonRow_Part ${className}`} style={style} {...props}>
+    <div className={`ButtonRow_Part ${className || ''}`} style={style} {...props}>
       <SignOutButton />
     </div>
   )

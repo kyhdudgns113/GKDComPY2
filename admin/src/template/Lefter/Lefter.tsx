@@ -15,7 +15,7 @@ export const Lefter: FC<LefterProps> = ({className, style, ...props}) => {
   const isOpen = useAppSelector(selectLefterIsOpen)
 
   return (
-    <div className={`Lefter ${className}`} style={style} {...props}>
+    <div className={`Lefter ${className || ''}`} style={style} {...props}>
       <div className={`_lefter_container ${isOpen ? '_open' : '_close'}`}>
         <CommunityRowPart />
         <LogRowPart />

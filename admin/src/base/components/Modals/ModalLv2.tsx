@@ -27,7 +27,7 @@ export const ModalLv2: FC<PropsWithChildren<ModalLv2Props>> = ({
     >
       <div
         autoFocus
-        className={`flex flex-col items-center bg-white border-8 border-gkd-sakura-border rounded-3xl ${className}`}
+        className={`flex flex-col items-center bg-white border-8 border-gkd-sakura-border rounded-3xl ${className || ''}`}
         onClick={e => e.stopPropagation()}
         tabIndex={0}
         {...props} // ::

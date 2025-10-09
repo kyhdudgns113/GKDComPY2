@@ -25,10 +25,11 @@
   .Body {
     display: flex;
     flex-direction: row;
+    height: fit-content;
 
     justify-content: center;
 
-    min-height: 900px;
+    min-height: 600px;
     position: relative;
 
     width: 100%;

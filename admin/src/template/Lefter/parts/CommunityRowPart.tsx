@@ -20,7 +20,7 @@ export const CommunityRowPart: FC<CommunityRowPartProps> = ({className, style, .
 
   return (
     <div
-      className={`CommunityRow_Part _row_part ${selectedRow === 'community' ? '_selected' : ''} ${className}`}
+      className={`CommunityRow_Part _row_part ${selectedRow === 'community' ? '_selected' : ''} ${className || ''}`}
       style={style}
       onClick={onClickRowPart}
       {...props} // ::

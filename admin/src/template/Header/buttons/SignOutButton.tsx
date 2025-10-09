@@ -20,7 +20,7 @@ export const SignOutButton: FC<SignOutButtonProps> = ({className, style, ...prop
   return (
     <Icon
       iconName="logout"
-      className={`SignOut_Button _button ${className}`}
+      className={`SignOut_Button _button ${className || ''}`}
       onClick={onClickSignOut}
       style={style}
       {...props} // ::

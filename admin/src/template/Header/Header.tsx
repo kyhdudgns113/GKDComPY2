@@ -31,7 +31,7 @@ export const Header: FC<HeaderProps> = ({className, style, ...props}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={`Header ${className}`} style={style} {...props}>
+    <div className={`Header ${className || ''}`} style={style} {...props}>
       <ButtonRowPart />
 
       <p className="_title" onClick={onClickTitle}>

@@ -20,7 +20,7 @@ export const LogRowPart: FC<LogRowPartProps> = ({className, style, ...props}) =>
 
   return (
     <div
-      className={`LogRow_Part _row_part ${selectedRow === 'log' ? '_selected' : ''} ${className}`}
+      className={`LogRow_Part _row_part ${selectedRow === 'log' ? '_selected' : ''} ${className || ''}`}
       style={style}
       onClick={onClickRowPart}
       {...props} // ::

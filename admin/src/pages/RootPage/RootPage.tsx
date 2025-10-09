@@ -27,7 +27,7 @@ export const RootPage: FC<RootPageProps> = ({className, style, ...props}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={`Root_Page ${className}`} style={style} {...props}>
+    <div className={`Root_Page ${className || ''}`} style={style} {...props}>
       <p>페이지 로딩중이에요...</p>
     </div>
   )
