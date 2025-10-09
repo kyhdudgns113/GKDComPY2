@@ -1,13 +1,162 @@
 import {Injectable} from '@nestjs/common'
 import {RowDataPacket} from 'mysql2'
-import {generateObjectId} from '@util'
 import {DBService} from '../_db'
 
+import * as DTO from '@dto'
+import * as SV from '@shareValue'
 import * as T from '@type'
+import * as U from '@util'
 
 @Injectable()
 export class CommunityDBService {
   constructor(private readonly dbService: DBService) {}
+
+  async createCommunity(where: string, dto: DTO.CreateCommunityAdminDTO) {
+    /**
+     * createCommunity
+     * - 공동체 생성 함수
+     *
+     * 입력값
+     * - commName: string
+     *   - 공동체 이름
+     *
+     * 출력값
+     * - community: T.CommunityType
+     *   - 생성된 공동체 정보
+     *
+     * 작동 순서
+     * 1. commOId 중복 체크 및 재생
+     * 2. banClubOId 중복 체크 및 재생
+     * 3. subClubOId 중복 체크 및 재생
+     * 4. banChatRoomOId 중복 체크 및 재생
+     * 5. subChatRoomOId 중복 체크 및 재생
+     * 6. 공동체 생성 뙇!!
+     * 7. 후보군 클럽 생성 뙇!!
+     * 8. 탈퇴 클럽 생성 뙇!!
+     * 9. 후보군 클럽 채팅방 생성 뙇!!
+     * 10. 탈퇴 클럽 채팅방 생성 뙇!!
+     * 11. CommunityType 형태로 반환 뙇!!
+     */
+    const {commName} = dto
+    const connection = await this.dbService.getConnection()
+
+    let commOId = U.generateObjectId()
+    let banClubOId = U.generateObjectId()
+    let subClubOId = U.generateObjectId()
+    let banChatRoomOId = U.generateObjectId()
+    let subChatRoomOId = U.generateObjectId()
+
+    try {
+      // 1. commOId 중복 체크 및 재생
+      while (true) {
+        const queryRead = 'SELECT commOId FROM communities WHERE commOId = ?'
+        const paramRead = [commOId]
+        const [resultRows] = await connection.execute(queryRead, paramRead)
+        const resultArray = resultRows as RowDataPacket[]
+        if (resultArray.length === 0) break
+        commOId = U.generateObjectId()
+      }
+
+      // 2. banClubOId 중복 체크 및 재생
+      while (true) {
+        const queryRead = 'SELECT clubOId FROM clubs WHERE clubOId = ?'
+        const paramRead = [banClubOId]
+        const [resultRows] = await connection.execute(queryRead, paramRead)
+        const resultArray = resultRows as RowDataPacket[]
+        if (resultArray.length === 0) break
+        banClubOId = U.generateObjectId()
+      }
+
+      // 3. subClubOId 중복 체크 및 재생
+      while (true) {
+        const queryRead = 'SELECT clubOId FROM clubs WHERE clubOId = ?'
+        const paramRead = [subClubOId]
+        const [resultRows] = await connection.execute(queryRead, paramRead)
+        const resultArray = resultRows as RowDataPacket[]
+        if (resultArray.length === 0) break
+        subClubOId = U.generateObjectId()
+      }
+
+      // 4. banChatRoomOId 중복 체크 및 재생
+      while (true) {
+        const queryRead = 'SELECT chatRoomOId FROM chatRooms WHERE chatRoomOId = ?'
+        const paramRead = [banChatRoomOId]
+        const [resultRows] = await connection.execute(queryRead, paramRead)
+        const resultArray = resultRows as RowDataPacket[]
+        if (resultArray.length === 0) break
+        banChatRoomOId = U.generateObjectId()
+      }
+
+      // 5. subChatRoomOId 중복 체크 및 재생
+      while (true) {
+        const queryRead = 'SELECT chatRoomOId FROM chatRooms WHERE chatRoomOId = ?'
+        const paramRead = [subChatRoomOId]
+        const [resultRows] = await connection.execute(queryRead, paramRead)
+        const resultArray = resultRows as RowDataPacket[]
+        if (resultArray.length === 0) break
+        subChatRoomOId = U.generateObjectId()
+      }
+
+      // 6. 공동체 생성 뙇!!
+      const maxUsers = SV.DEFAULT_MAX_USERS
+      const maxClubs = SV.DEFAULT_MAX_CLUBS
+      const queryComm = 'INSERT INTO communities (commOId, banClubOId, commName, maxUsers, maxClubs, subClubOId) VALUES (?, ?, ?, ?, ?, ?)'
+      const paramComm = [commOId, banClubOId, commName, maxUsers, maxClubs, subClubOId]
+      await connection.execute(queryComm, paramComm)
+
+      // 7. 후보군 클럽 생성 뙇!!
+      const subClubIdx = -1
+      const querySubClub = 'INSERT INTO clubs (clubOId, chatRoomOId, clubIdx, clubName, commOId, docOId) VALUES (?, ?, ?, ?, ?, ?)'
+      const paramSubClub = [subClubOId, subClubOId, subClubIdx, '후보군', commOId, subClubOId]
+      await connection.execute(querySubClub, paramSubClub)
+
+      // 8. 탈퇴 멤버 클럽 생성 뙇!!
+      const banClubIdx = -2
+      const queryBanClub = 'INSERT INTO clubs (clubOId, chatRoomOId, clubIdx, clubName, commOId, docOId) VALUES (?, ?, ?, ?, ?, ?)'
+      const paramBanClub = [banClubOId, banClubOId, banClubIdx, '탈퇴', commOId, banClubOId]
+      await connection.execute(queryBanClub, paramBanClub)
+
+      // 9. 후보군 클럽 채팅방 생성 뙇!!
+      const querySubChatRoom = 'INSERT INTO chatRooms (chatRoomOId, clubOId) VALUES (?, ?)'
+      const paramSubChatRoom = [subChatRoomOId, subClubOId]
+      await connection.execute(querySubChatRoom, paramSubChatRoom)
+
+      // 10. 탈퇴 클럽 채팅방 생성 뙇!!
+      const queryBanChatRoom = 'INSERT INTO chatRooms (chatRoomOId, clubOId) VALUES (?, ?)'
+      const paramBanChatRoom = [banChatRoomOId, banClubOId]
+      await connection.execute(queryBanChatRoom, paramBanChatRoom)
+
+      // 11. CommunityType 형태로 반환 뙇!!
+      const community: T.CommunityType = {
+        commOId,
+        commName,
+        maxUsers,
+        maxClubs,
+        banClubOId,
+        subClubOId,
+        clubOIdsArr: []
+      }
+      return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      if (errObj.errno === 1062) {
+        throw {
+          gkd: {duplicate: `공동체 이름 중복임. ${commName} 이미 있음`},
+          gkdErrCode: 'COMMUNITYDB_CREATE_COMMUNITY_DUPLICATE',
+          gkdErrMsg: `공동체 이름 중복임. ${commName} 이미 있음`,
+          gkdStatus: {commName},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 
   async readCommunityArr(where: string): Promise<{commArr: T.CommunityType[]}> {
     /**
@@ -39,7 +188,7 @@ export class CommunityDBService {
           c.subClubOId,
           GROUP_CONCAT(cl.clubOId ORDER BY cl.clubIdx ASC) AS clubOIds
         FROM communities c
-        LEFT JOIN clubs cl ON c.commOId = cl.commOId
+        LEFT JOIN clubs cl ON c.commOId = cl.commOId AND cl.clubIdx >= 0
         GROUP BY c.commOId, c.commName, c.maxUsers, c.maxClubs, c.banClubOId, c.subClubOId
       `
       const param: any[] = []

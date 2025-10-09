@@ -30,6 +30,17 @@ export class DBHubService {
 
   // AREA1: Community Area
 
+  async createCommunity(where: string, dto: DTO.CreateCommunityAdminDTO) {
+    try {
+      const {community} = await this.communityDBService.createCommunity(where, dto)
+      return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readCommunityArr(where: string) {
     try {
       const {commArr} = await this.communityDBService.readCommunityArr(where)
