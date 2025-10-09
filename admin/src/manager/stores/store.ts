@@ -5,6 +5,7 @@ import * as Slices from './slices'
 
 export const store = configureStore({
   reducer: {
+    Community: Slices.CommunityReducer,
     Lefter: Slices.LefterReducer,
     Test: Slices.TestReducer
   }

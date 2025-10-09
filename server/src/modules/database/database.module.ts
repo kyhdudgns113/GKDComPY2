@@ -7,10 +7,11 @@ import * as P from './ports'
   imports: [
     DBHubModule,
     // ::
-    P.AdminPortsModule
+    P.AdminPortsModule,
+    P.JwtPortModule
   ],
   controllers: [],
-  providers: [P.AdminAuthPortService],
-  exports: [P.AdminAuthPortService]
+  providers: [P.AdminAuthPortService, P.AdminCommPortService, P.JwtPortService],
+  exports: [P.AdminAuthPortService, P.AdminCommPortService, P.JwtPortService]
 })
 export class DatabaseModule {}

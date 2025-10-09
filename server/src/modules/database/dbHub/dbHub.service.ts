@@ -28,7 +28,20 @@ export class DBHubService {
     private readonly weekRecordDBService: TB.WeekRecordDBService
   ) {}
 
-  // AREA1: User Area
+  // AREA1: Community Area
+
+  async readCommunityArr(where: string) {
+    try {
+      const {commArr} = await this.communityDBService.readCommunityArr(where)
+      return {commArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA2: User Area
 
   async createUser(where: string, dto: DTO.CreateUserDTO) {
     try {

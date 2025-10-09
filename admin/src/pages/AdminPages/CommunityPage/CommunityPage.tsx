@@ -1,3 +1,7 @@
+import {useEffect} from 'react'
+
+import {useCommunityCallbacksContext} from '@context'
+
 import {CommListPart, CommInfoPart} from './parts'
 
 import type {FC} from 'react'
@@ -8,6 +12,13 @@ import './_styles/CommunityPage.scss'
 type CommunityPageProps = DivCommonProps & {}
 
 export const CommunityPage: FC<CommunityPageProps> = ({className, style, ...props}) => {
+  const {loadCommArr} = useCommunityCallbacksContext()
+
+  // commArr 불러오기
+  useEffect(() => {
+    loadCommArr()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className={`Community_Page _page ${className || ''}`} style={style} {...props}>
       {/* 1. 타이틀 */}
