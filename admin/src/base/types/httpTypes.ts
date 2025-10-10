@@ -2,6 +2,12 @@ export type AddCommunityDataType = {
   commName: string
 }
 
+export type AddCommUserDataType = {
+  commOId: string
+  userId: string
+  password: string
+}
+
 export type SignInDataType = {
   userId: string
   password: string

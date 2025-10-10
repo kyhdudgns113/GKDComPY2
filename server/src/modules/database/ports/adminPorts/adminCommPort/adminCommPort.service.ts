@@ -72,6 +72,52 @@ export class AdminCommPortService {
     }
   }
 
+  /**
+   * addCommUser
+   * - 공동체 유저 생성 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 공동체의 OId
+   * - userId: string
+   *     + 새로 만들 유저의 ID
+   * - password: string
+   *     + 새로 만들 유저의 비밀번호
+   *
+   * 출력값
+   * - community: T.CommunityType
+   *     + 생성된 공동체 정보
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 유저 생성 뙇!!
+   * 3. 공동체 읽기 뙇!!
+   * 4. 반환 뙇!!
+   */
+  async addCommUser(jwtPayload: JwtPayloadType, data: HTTP.AddCommUserDataType) {
+    const where = `/admin/community/addCommUser`
+    const {commOId, userId, password} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkUserAdmin(where, jwtPayload)
+
+      // 2. 유저 생성 뙇!!
+      const dto: DTO.CreateUserDTO = {commOId, userId, password}
+      await this.dbHubService.createUser(where, dto)
+
+      // 3. 공동체 읽기 뙇!!
+      const {community} = await this.dbHubService.readCommunityByCommOId(where, commOId)
+
+      // 4. 반환 뙇!!
+      return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // GET AREA:
 
   /**

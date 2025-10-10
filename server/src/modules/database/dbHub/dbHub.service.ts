@@ -52,6 +52,16 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readCommunityByCommOId(where: string, commOId: string) {
+    try {
+      const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
+      return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   // AREA2: User Area
 

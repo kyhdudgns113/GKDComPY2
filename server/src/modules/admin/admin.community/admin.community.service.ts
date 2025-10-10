@@ -22,6 +22,17 @@ export class AdminCommunityService {
     }
   }
 
+  async addCommUser(jwtPayload: JwtPayloadType, data: HTTP.AddCommUserDataType) {
+    try {
+      const {community} = await this.portService.addCommUser(jwtPayload, data)
+      return {ok: true, body: {community}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadCommArr(jwtPayload: JwtPayloadType) {

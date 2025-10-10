@@ -167,7 +167,6 @@ export class CommunityDBService {
      *
      * 작동 순서
      * 1. 공동체 정보들을 읽기 뙇!!
-     *     - 해당 공동체에 속한 클럽들의 clubOId 들도 가져오되, clubIdx 순으로 정렬해서 읽기 뙇!!
      * 2. CommunityType[] 형태로 변환 뙇!!
      * 3. 사전순으로 정렬 뙇!!
      * 4. 반환 뙇!!
@@ -176,19 +175,9 @@ export class CommunityDBService {
     const connection = await this.dbService.getConnection()
 
     try {
-      // 1. 공동체 정보들을 읽기 뙇!! (해당 공동체에 속한 클럽들의 clubOId들도 clubIdx 순으로 정렬해서 읽기)
+      // 1. 공동체 정보들을 읽기 뙇!!
       const query = `
-        SELECT 
-          c.commOId,
-          c.commName,
-          c.maxUsers,
-          c.maxClubs,
-          c.banClubOId,
-          c.subClubOId,
-          GROUP_CONCAT(cl.clubOId ORDER BY cl.clubIdx ASC) AS clubOIds
-        FROM communities c
-        LEFT JOIN clubs cl ON c.commOId = cl.commOId AND cl.clubIdx >= 0
-        GROUP BY c.commOId, c.commName, c.maxUsers, c.maxClubs, c.banClubOId, c.subClubOId
+        SELECT * FROM communities
       `
       const param: any[] = []
       const [rows] = await connection.query<RowDataPacket[]>(query, param)
@@ -215,6 +204,43 @@ export class CommunityDBService {
 
       // 4. 반환 뙇!!
       return {commArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async readCommunityByCommOId(where: string, commOId: string) {
+    /**
+     * readCommunityByCommOId
+     * - 해당 공동체의 정보를 읽어온다.
+     */
+
+    const connection = await this.dbService.getConnection()
+
+    try {
+      // 1. 공동체 정보 읽기(해당 공동체에 속한 클럽들의 clubOId들도 clubIdx 가 0이상인것만 크기순으로 정렬해서 읽기)
+      const queryRead = `
+        SELECT commName, maxUsers, maxClubs, banClubOId, subClubOId FROM communities 
+          WHERE commOId = ?
+      `
+      const paramRead = [commOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+
+      if (resultArray.length === 0) {
+        return {community: null}
+      }
+
+      const {commName, maxUsers, maxClubs, banClubOId, subClubOId} = resultArray[0]
+
+      const community: T.CommunityType = {commOId, commName, maxUsers, maxClubs, banClubOId, subClubOId}
+      return {community}
       // ::
     } catch (errObj) {
       // ::

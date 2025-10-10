@@ -19,6 +19,14 @@ export class AdminCommunityController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Post('/addCommUser')
+  @UseGuards(CheckAdminGuard)
+  async addCommUser(@Headers() headers: any, @Body() data: HTTP.AddCommUserDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.addCommUser(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadCommArr')
