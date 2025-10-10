@@ -10,6 +10,8 @@ import {CommAddObject, CommRowObject} from '../objects'
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import '../_styles/CommListPart.scss'
+
 type CommListPartProps = DivCommonProps & {}
 
 export const CommListPart: FC<CommListPartProps> = ({className, style, ...props}) => {
