@@ -8,6 +8,13 @@ export type AddCommUserDataType = {
   password: string
 }
 
+export type ModifyCommUserDataType = {
+  userOId: string
+  newUserId: string
+  newPassword: string
+  newCommAuth: number
+}
+
 export type SignInDataType = {
   userId: string
   password: string

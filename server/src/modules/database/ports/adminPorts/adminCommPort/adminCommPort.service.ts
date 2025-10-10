@@ -118,6 +118,56 @@ export class AdminCommPortService {
     }
   }
 
+  // PUT AREA:
+
+  /**
+   * modifyCommUser
+   * - 공동체 유저 수정 함수
+   *
+   * 입력값
+   * - userOId: string
+   *     + 수정할 유저의 OId
+   * - newUserId: string
+   *     + 유저의 새로운 ID
+   * - newPassword: string
+   *     + 유저의 새로운 비밀번호
+   * - newCommAuth: number
+   *     + 수정할 유저의 권한
+   *
+   * 출력값
+   * - user: T.UserType
+   *     + 수정된 유저 정보
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 유저 수정 뙇!!
+   * 3. 유저 읽기 뙇!!
+   * 4. 반환 뙇!!
+   */
+  async modifyCommUser(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommUserDataType) {
+    const where = `/admin/community/modifyCommUser`
+    const {userOId, newUserId, newPassword, newCommAuth} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkUserAdmin(where, jwtPayload)
+
+      // 2. 유저 수정 뙇!!
+      const dto: DTO.UpdateUserDTO = {userOId, newUserId, newPassword, newCommAuth}
+      await this.dbHubService.updateUser(where, dto)
+
+      // 3. 유저 읽기 뙇!!
+      const {user} = await this.dbHubService.readUserByUserOId(where, userOId)
+
+      // 4. 반환 뙇!!
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // GET AREA:
 
   /**

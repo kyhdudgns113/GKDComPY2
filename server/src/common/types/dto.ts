@@ -12,3 +12,10 @@ export type CreateUserDTO = {
   userId: string
   password: string
 }
+
+export type UpdateUserDTO = {
+  userOId: string
+  newUserId: string
+  newPassword: string
+  newCommAuth: number
+}

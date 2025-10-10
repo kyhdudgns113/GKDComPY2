@@ -46,7 +46,7 @@ export const ModalAddUser: FC<ModalAddUserProps> = ({className, style, ...props}
       {/* 1. 타이틀 */}
       <p className="_title_modal">유저 추가</p>
 
-      {/* 2. 유저 생성 Form (ID, PW) */}
+      {/* 2. 유저 생성 Form (ID, PW, commAuth) */}
       <form className="_form_add_user" onSubmit={onSubmit(selectedCommunity, userId, password)}>
         <div className="_label_block_form">
           <label htmlFor="userId">아이디</label>
@@ -74,8 +74,18 @@ export const ModalAddUser: FC<ModalAddUserProps> = ({className, style, ...props}
           />
         </div>
 
-        <button type="submit" className="_button_add_user">
+        <button type="submit" className="_button_form">
           추가하기
+        </button>
+
+        <button
+          type="button"
+          className="_button_form"
+          onClick={() => {
+            dispatch(closeModal())
+          }}
+        >
+          취소하기
         </button>
       </form>
     </Modal>

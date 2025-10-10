@@ -132,6 +132,44 @@
             height: 400px;
             width: 240px;
           }
+          .UserRow_Group {
+            border-color: #e8e8e8;
+            border-width: 1px;
+
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
+            &:hover {
+              background-color: #f0f0f0;
+            }
+
+            ._title_group {
+              font-size: 16px;
+              font-weight: 700;
+            }
+            ._crown_icon {
+              margin-left: 8px;
+
+              &._color_admin {
+                color: #ff0000;
+              }
+              &._color_gold {
+                color: #ffd700;
+              }
+              &._color_silver {
+                color: #c0c0c0;
+              }
+              &._color_normal {
+                color: #808080;
+              }
+            }
+          }
         }
 
         .InfoButtonRow_Object {

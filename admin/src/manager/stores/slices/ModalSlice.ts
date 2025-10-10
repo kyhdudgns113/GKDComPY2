@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {AdminStates} from '@store'
-import {MODAL_NAME_ADD_USER} from '@value'
+import {MODAL_NAME_ADD_USER, MODAL_NAME_MODIFY_USER} from '@value'
 
 // State 타입 정의
 interface ModalState {
@@ -22,15 +22,19 @@ export const ModalSlice = createSlice({
     closeModal: state => {
       state.modalName = ''
     },
-    // 열려있는 모달 설정
+    // 유저 추가 모달 열기
     openModalAddUser: state => {
       state.modalName = MODAL_NAME_ADD_USER
+    },
+    // 유저 수정 모달 열기
+    openModalModifyUser: state => {
+      state.modalName = MODAL_NAME_MODIFY_USER
     }
   }
 })
 
 // 액션 생성자 export
-export const {closeModal, openModalAddUser} = ModalSlice.actions
+export const {closeModal, openModalAddUser, openModalModifyUser} = ModalSlice.actions
 
 // Selector: 상태에서 test 값 가져오기
 export const selectModalName = (state: AdminStates) => state.Modal.modalName

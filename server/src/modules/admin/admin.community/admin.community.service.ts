@@ -33,6 +33,19 @@ export class AdminCommunityService {
     }
   }
 
+  // PUT AREA:
+
+  async modifyCommUser(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommUserDataType) {
+    try {
+      const {user} = await this.portService.modifyCommUser(jwtPayload, data)
+      return {ok: true, body: {user}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadCommArr(jwtPayload: JwtPayloadType) {

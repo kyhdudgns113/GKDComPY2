@@ -116,6 +116,16 @@ export class DBHubService {
     }
   }
 
+  async updateUser(where: string, dto: DTO.UpdateUserDTO) {
+    try {
+      await this.userDBService.updateUser(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA1: Check Auth Area
 
   async checkUserAdmin(where: string, jwtPayload: T.JwtPayloadType) {

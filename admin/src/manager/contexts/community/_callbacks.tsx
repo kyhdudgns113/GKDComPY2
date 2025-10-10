@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 import {useDispatch} from 'react-redux'
-import {modifyCommunity, setCommunityArr, setCommUserArr} from '@store'
+import {modifyCommunity, modifyCommUser, setCommunityArr, setCommUserArr} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -13,6 +13,8 @@ type ContextType = {
   addCommunity: (commName: string) => Promise<boolean>
   addCommunityUser: (commOId: string, userId: string, password: string) => Promise<boolean>
 
+  modifyCommunityUser: (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => Promise<boolean>
+
   loadCommArr: () => Promise<boolean>
   loadCommUserArr: (commOId: string) => Promise<boolean>
 }
@@ -20,6 +22,8 @@ type ContextType = {
 export const CommunityCallbacksContext = createContext<ContextType>({
   addCommunity: () => Promise.resolve(false),
   addCommunityUser: () => Promise.resolve(false),
+
+  modifyCommunityUser: () => Promise.resolve(false),
 
   loadCommArr: () => Promise.resolve(false),
   loadCommUserArr: () => Promise.resolve(false)
@@ -91,6 +95,35 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
     [dispatch]
   )
 
+  // PUT AREA:
+
+  const modifyCommunityUser = useCallback(
+    async (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => {
+      const url = `/admin/community/modifyCommUser`
+      const data: HTTP.ModifyCommUserDataType = {userOId, newUserId, newPassword, newCommAuth}
+
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {user} = body
+            dispatch(modifyCommUser(user))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch]
+  )
+
   // GET AREA:
 
   const loadCommArr = useCallback(async () => {
@@ -147,6 +180,8 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
   const value: ContextType = {
     addCommunity,
     addCommunityUser,
+
+    modifyCommunityUser,
 
     loadCommArr,
     loadCommUserArr

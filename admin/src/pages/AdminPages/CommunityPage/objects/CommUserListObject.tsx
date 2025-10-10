@@ -4,6 +4,7 @@ import {selectCommUserArr, useAppSelector} from '@store'
 import {selectSelectedCommunity} from '@store'
 
 import {AddUserButton} from '../buttons'
+import {UserRowGroup} from '../groups'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -35,7 +36,7 @@ export const CommUserListObject: FC<CommUserListObjectProps> = ({className, styl
       {/* 2. 유저 목록 */}
       <div className="_user_arr_container_object">
         {commUserArr.map((user, userIdx) => (
-          <div key={userIdx}>{user.userId}</div>
+          <UserRowGroup key={userIdx} user={user} />
         ))}
       </div>
     </div>

@@ -17,8 +17,17 @@ export const NULL_COMMUNITY = () => {
     maxUsers: 0,
     maxClubs: 0,
     banClubOId: '',
-    clubOIdsArr: [],
     subClubOId: ''
+  }
+  return ret
+}
+
+export const NULL_USER = () => {
+  const ret: ST.UserType = {
+    commAuth: 0,
+    commOId: '',
+    userOId: '',
+    userId: ''
   }
   return ret
 }

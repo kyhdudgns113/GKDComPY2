@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
+import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {AdminCommunityService} from './admin.community.service'
 
 import {CheckAdminGuard} from '@commons/guards'
@@ -24,6 +24,15 @@ export class AdminCommunityController {
   async addCommUser(@Headers() headers: any, @Body() data: HTTP.AddCommUserDataType) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.addCommUser(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // PUT AREA:
+  @Put('/modifyCommUser')
+  @UseGuards(CheckAdminGuard)
+  async modifyCommUser(@Headers() headers: any, @Body() data: HTTP.ModifyCommUserDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.modifyCommUser(jwtPayload, data)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 

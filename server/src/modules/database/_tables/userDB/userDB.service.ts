@@ -8,7 +8,7 @@ import * as HTTP from '@httpDataType'
 import * as ST from '@shareType'
 import * as T from '@type'
 import * as U from '@util'
-import {ADMIN_USER_ID, AUTH_ADMIN, AUTH_NORMAL, gkdSaltOrRounds} from '@secret'
+import {ADMIN_USER_ID, AUTH_ADMIN, AUTH_NORMAL, AUTH_SILVER, gkdSaltOrRounds} from '@secret'
 
 @Injectable()
 export class UserDBService {
@@ -54,7 +54,7 @@ export class UserDBService {
 
       // 3. 데이터베이스에 저장
       const queryInsert = `INSERT INTO users (userOId, userId, hashedPassword, commAuth, commOId) VALUES (?, ?, ?, ?, ?)`
-      const paramInsert = [userOId, userId, hashedPassword, AUTH_NORMAL, commOId]
+      const paramInsert = [userOId, userId, hashedPassword, AUTH_SILVER, commOId]
       await connection.execute(queryInsert, paramInsert)
 
       // 4. User 타입 데이터 반환
@@ -296,6 +296,91 @@ export class UserDBService {
       // ::
     } catch (errObj) {
       // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async updateUser(where: string, dto: DTO.UpdateUserDTO) {
+    /**
+     * updateUser
+     * - 유저 정보 수정 함수
+     *
+     * 입력값
+     * - userOId: string
+     *     + 수정할 유저의 OId
+     * - newUserId: string
+     *     + 유저의 새로운 ID (비어있으면 바꾸지 않음)
+     * - newPassword: string
+     *     + 유저의 새로운 비밀번호 (비어있으면 바꾸지 않음)
+     * - newCommAuth: number
+     *     + 유저의 새로운 권한
+     *
+     * 작동 순서
+     * 1. 업데이트할 필드 확인 및 쿼리 동적 생성
+     * 2. newPassword가 있으면 bcrypt 해시화
+     * 3. 데이터베이스 업데이트 실행
+     */
+
+    const {userOId, newUserId, newPassword, newCommAuth} = dto
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 업데이트할 필드 확인 및 쿼리 동적 생성
+      const updateFields: string[] = []
+      const updateParams: any[] = []
+
+      // newUserId가 비어있지 않으면 업데이트
+      if (newUserId && newUserId.trim() !== '') {
+        updateFields.push('userId = ?')
+        updateParams.push(newUserId)
+      }
+
+      // 2. newPassword가 있으면 bcrypt 해시화
+      if (newPassword && newPassword.trim() !== '') {
+        const hashedPassword = await bcrypt.hash(newPassword, gkdSaltOrRounds)
+        updateFields.push('hashedPassword = ?')
+        updateParams.push(hashedPassword)
+      }
+
+      // newCommAuth 업데이트
+      if (newCommAuth !== undefined && newCommAuth !== null) {
+        updateFields.push('commAuth = ?')
+        updateParams.push(newCommAuth)
+      }
+
+      // 업데이트할 필드가 없으면 에러
+      if (updateFields.length === 0) {
+        throw {
+          gkd: {noUpdate: '업데이트할 필드가 없어요'},
+          gkdErrCode: 'USERDB_UPDATE_USER_NO_FIELDS',
+          gkdErrMsg: '업데이트할 필드가 없어요',
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. 데이터베이스 업데이트 실행
+      const queryUpdate = `UPDATE users SET ${updateFields.join(', ')} WHERE userOId = ?`
+      updateParams.push(userOId)
+      await connection.execute(queryUpdate, updateParams)
+
+      // ::
+    } catch (errObj) {
+      // ::
+      if (errObj.errno === 1062) {
+        throw {
+          gkd: {duplicate: `userId 중복이에요`},
+          gkdErrCode: 'USERDB_UPDATE_USER_DUPLICATE',
+          gkdErrMsg: `userId 중복이에요`,
+          gkdStatus: {userOId, newUserId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
       throw errObj
       // ::
     } finally {
