@@ -1,8 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
-import type {AdminStates} from '@store' // eslint-disable-line @typescript-eslint/no-unused-vars
+import type {AdminStates} from '@store'
 
+import * as NV from '@nullValue'
 import * as ST from '@shareType'
 
 // State 타입 정의
@@ -22,11 +23,12 @@ export const communitySlice = createSlice({
   name: 'community',
   initialState,
   reducers: {
-    selectCommunity: (state, action: PayloadAction<ST.CommunityType>) => {
-      state.commOIdSelected = action.payload.commOId
-    },
     setCommunityArr: (state, action: PayloadAction<ST.CommunityType[]>) => {
       state.commArr = action.payload
+    },
+    // ::
+    selectCommunity: (state, action: PayloadAction<ST.CommunityType>) => {
+      state.commOIdSelected = action.payload.commOId
     },
     unselectCommunity: state => {
       state.commOIdSelected = ''
@@ -39,7 +41,9 @@ export const {selectCommunity, setCommunityArr, unselectCommunity} = communitySl
 
 // Selector: 상태에서 community 값 가져오기
 export const selectCommunityArr = (state: AdminStates) => state.Community.commArr
-export const selectCommOIdSeleceted = (state: AdminStates) => state.Community.commOIdSelected
+export const selectCommOIdSelected = (state: AdminStates) => state.Community.commOIdSelected
+export const selectSelectedCommunity = (state: AdminStates) =>
+  state.Community.commArr.find(comm => comm.commOId === state.Community.commOIdSelected) || NV.NULL_COMMUNITY()
 
 // 리듀서 export
 export const CommunityReducer = communitySlice.reducer

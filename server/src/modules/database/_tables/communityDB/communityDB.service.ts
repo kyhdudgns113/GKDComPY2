@@ -133,8 +133,7 @@ export class CommunityDBService {
         maxUsers,
         maxClubs,
         banClubOId,
-        subClubOId,
-        clubOIdsArr: []
+        subClubOId
       }
       return {community}
       // ::
@@ -199,15 +198,17 @@ export class CommunityDBService {
       }
 
       // 2. CommunityType[] 형태로 변환 뙇!!
-      const commArr: T.CommunityType[] = rows.map(row => ({
-        commOId: row.commOId,
-        commName: row.commName,
-        maxUsers: row.maxUsers,
-        maxClubs: row.maxClubs,
-        banClubOId: row.banClubOId,
-        subClubOId: row.subClubOId,
-        clubOIdsArr: row.clubOIds ? row.clubOIds.split(',') : []
-      }))
+      const commArr: T.CommunityType[] = rows.map(row => {
+        const elem: T.CommunityType = {
+          commOId: row.commOId,
+          commName: row.commName,
+          maxUsers: row.maxUsers,
+          maxClubs: row.maxClubs,
+          banClubOId: row.banClubOId,
+          subClubOId: row.subClubOId
+        }
+        return elem
+      })
 
       // 3. 사전순으로 정렬 뙇!!
       commArr.sort((a, b) => a.commName.localeCompare(b.commName))

@@ -35,4 +35,15 @@ export class AdminCommunityService {
       return U.getFailResponse(errObj)
     }
   }
+
+  async loadCommUserArr(jwtPayload: JwtPayloadType, commOId: string) {
+    try {
+      const {userArr} = await this.portService.loadCommUserArr(jwtPayload, commOId)
+      return {ok: true, body: {userArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import {useEffect} from 'react'
 
 import {useCommunityCallbacksContext} from '@context'
+import {useAppSelector} from '@store'
+import {selectCommOIdSelected} from '@store'
 
 import {CommListPart, CommInfoPart} from './parts'
 
@@ -14,6 +16,8 @@ type CommunityPageProps = DivCommonProps & {}
 export const CommunityPage: FC<CommunityPageProps> = ({className, style, ...props}) => {
   const {loadCommArr} = useCommunityCallbacksContext()
 
+  const commOIdSelected = useAppSelector(selectCommOIdSelected)
+
   // commArr 불러오기
   useEffect(() => {
     loadCommArr()
@@ -25,11 +29,11 @@ export const CommunityPage: FC<CommunityPageProps> = ({className, style, ...prop
       <p className="_title_page">공동체 관리</p>
 
       <div className="_page_container">
-        {/* 2. 공동체 리스트 */}
+        {/* 2. 공동체 목록 */}
         <CommListPart />
 
         {/* 3. 공동체 정보 */}
-        <CommInfoPart />
+        {commOIdSelected && <CommInfoPart />}
       </div>
     </div>
   )

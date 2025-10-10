@@ -7,6 +7,7 @@ export const store = configureStore({
   reducer: {
     Community: Slices.CommunityReducer,
     Lefter: Slices.LefterReducer,
+    Modal: Slices.ModalReducer,
     Test: Slices.TestReducer
   }
 })

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
-import type {AdminStates} from '@store' // eslint-disable-line @typescript-eslint/no-unused-vars
+import type {AdminStates} from '@store'
 
 // State 타입 정의
 interface TestState {

@@ -28,4 +28,12 @@ export class AdminCommunityController {
     const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.loadCommArr(jwtPayload)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
+
+  @Get('/loadCommUserArr/:commOId')
+  @UseGuards(CheckAdminGuard)
+  async loadCommUserArr(@Headers() headers: any, @Param('commOId') commOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.loadCommUserArr(jwtPayload, commOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
 }

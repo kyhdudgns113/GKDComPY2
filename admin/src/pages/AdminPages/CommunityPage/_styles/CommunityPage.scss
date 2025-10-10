@@ -1,3 +1,8 @@
+$Width_Page_Container: 1140px;
+$Width_CommList_Part: 300px;
+$Width_CommInfo_Part: 800px;
+$Gap_Page_Container: 40px;
+
 .Template {
   .Body {
     .Community_Page {
@@ -19,12 +24,12 @@
       ._page_container {
         display: flex;
         flex-direction: row;
-        gap: 32px;
+        gap: $Gap_Page_Container;
 
         height: fit-content;
 
         margin-top: 24px;
-        width: fit-content;
+        width: $Width_Page_Container;
       }
       .CommList_Part {
         align-items: center;
@@ -40,7 +45,7 @@
         overflow: auto;
         position: relative;
 
-        width: 300px;
+        width: $Width_CommList_Part;
 
         ._title_part {
           cursor: pointer;
@@ -54,7 +59,7 @@
           user-select: none;
           width: fit-content;
         }
-        ._icon_add_part {
+        .AddComm_Button {
           border-color: #dd2222;
           border-radius: 50%;
           border-width: 2px;
@@ -112,6 +117,9 @@
           &:hover {
             background-color: #f0f0f0;
           }
+          &._selected {
+            background-color: #e0e0e0;
+          }
         }
       }
       .CommInfo_Part {
@@ -127,19 +135,7 @@
 
         overflow: auto;
 
-        width: 800px;
-
-        ._title_part {
-          cursor: pointer;
-          font-size: 24px;
-          font-weight: 700;
-
-          margin-top: 8px;
-
-          text-align: center;
-          user-select: none;
-          width: fit-content;
-        }
+        width: $Width_CommInfo_Part;
       }
     }
   }
