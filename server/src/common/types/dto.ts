@@ -1,3 +1,9 @@
+export type CreateClubDTO = {
+  commOId: string
+  clubName: string
+  clubIdx: number
+}
+
 export type CreateCommunityAdminDTO = {
   commName: string
 }

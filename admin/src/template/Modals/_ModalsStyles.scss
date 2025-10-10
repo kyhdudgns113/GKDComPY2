@@ -5,7 +5,8 @@ div.__Modal__Common {
   flex-direction: column;
 }
 
-div.Modal_AddUser {
+div.Modal_AddUser,
+div.Modal_AddClub {
   @extend div, .__Modal__Common;
 
   gap: 16px;
@@ -24,7 +25,7 @@ div.Modal_AddUser {
     user-select: none;
   }
 
-  ._form_add_user {
+  ._form_add {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -59,8 +60,6 @@ div.Modal_AddUser {
       font-weight: 700;
 
       height: 48px;
-
-      margin-top: 16px;
 
       transition: background-color 0.2s;
 

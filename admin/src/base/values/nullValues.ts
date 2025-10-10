@@ -10,6 +10,15 @@ export const NULL_AUTH_BODY = () => {
   return ret
 }
 
+export const NULL_CLUB = () => {
+  const ret: ST.ClubType = {
+    clubName: '',
+    clubOId: '',
+    commOId: ''
+  }
+  return ret
+}
+
 export const NULL_COMMUNITY = () => {
   const ret: ST.CommunityType = {
     commName: '',

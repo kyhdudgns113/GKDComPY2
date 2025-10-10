@@ -1,0 +1,51 @@
+.Template {
+  .Body {
+    .Community_Page {
+      .CommSetting_Object {
+        ._div_row_object {
+          display: flex;
+          flex-direction: row;
+
+          p {
+            align-content: center;
+
+            border-color: #000000;
+            border-radius: 2px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+            border-right-width: 2px;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            text-align: center;
+            width: 90px;
+
+            &._top {
+              border-top-width: 2px;
+            }
+          }
+          input {
+            border-color: #000000;
+            border-radius: 2px;
+            border-bottom-width: 2px;
+            border-right-width: 2px;
+
+            font-size: 16px;
+
+            padding-left: 6px;
+            padding-right: 6px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
+            width: 160px;
+
+            &._top {
+              border-top-width: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

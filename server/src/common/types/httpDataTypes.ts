@@ -1,3 +1,8 @@
+export type AddCommClubDataType = {
+  commOId: string
+  clubName: string
+}
+
 export type AddCommunityDataType = {
   commName: string
 }

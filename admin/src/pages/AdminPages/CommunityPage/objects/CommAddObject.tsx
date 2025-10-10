@@ -42,8 +42,10 @@ export const CommAddObject: FC<CommAddObjectProps> = ({setter, className, style,
       switch (e.key) {
         case 'Enter':
           _executeAdd(commName)
+          setCommName('')
           break
         case 'Escape':
+          setCommName('')
           setter(false)
       }
     },

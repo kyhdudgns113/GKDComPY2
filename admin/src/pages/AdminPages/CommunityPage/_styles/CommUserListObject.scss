@@ -1,0 +1,83 @@
+.Template {
+  .Body {
+    .Community_Page {
+      .CommUserList_Object {
+        ._title_object {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        .AddUser_Button {
+          background-color: #f0f0f0;
+
+          border-color: #000000;
+          border-top-width: 2px;
+          border-bottom-width: 2px;
+
+          cursor: pointer;
+
+          font-size: 16px;
+
+          height: 36px;
+
+          margin-top: 8px;
+
+          width: 100%;
+
+          &:hover {
+            background-color: #e0e0e0;
+            font-size: 17px;
+            font-weight: 700;
+          }
+        }
+
+        ._user_arr_container_object {
+          display: flex;
+          flex-direction: column;
+
+          height: 400px;
+          width: 240px;
+        }
+
+        .UserRow_Group {
+          border-color: #e8e8e8;
+          border-width: 1px;
+
+          cursor: pointer;
+          display: flex;
+          flex-direction: row;
+
+          padding-left: 4px;
+          padding-right: 4px;
+          padding-top: 2px;
+          padding-bottom: 2px;
+
+          &:hover {
+            background-color: #f0f0f0;
+          }
+
+          ._title_group {
+            font-size: 16px;
+            font-weight: 700;
+          }
+          ._crown_icon {
+            margin-left: 8px;
+
+            &._color_admin {
+              color: #ff0000;
+            }
+            &._color_gold {
+              color: #ffd700;
+            }
+            &._color_silver {
+              color: #c0c0c0;
+            }
+            &._color_normal {
+              color: #808080;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,8 @@ import {UserRowGroup} from '../groups'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import '../_styles/CommUserListObject.scss'
+
 type CommUserListObjectProps = DivCommonProps & {}
 
 export const CommUserListObject: FC<CommUserListObjectProps> = ({className, style, ...props}) => {

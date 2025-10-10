@@ -19,6 +19,14 @@ export class AdminCommunityController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Post('/addCommClub')
+  @UseGuards(CheckAdminGuard)
+  async addCommClub(@Headers() headers: any, @Body() data: HTTP.AddCommClubDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.addCommClub(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Post('/addCommUser')
   @UseGuards(CheckAdminGuard)
   async addCommUser(@Headers() headers: any, @Body() data: HTTP.AddCommUserDataType) {
@@ -43,6 +51,14 @@ export class AdminCommunityController {
   async loadCommArr(@Headers() headers: any) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.loadCommArr(jwtPayload)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Get('/loadCommClubArr/:commOId')
+  @UseGuards(CheckAdminGuard)
+  async loadCommClubArr(@Headers() headers: any, @Param('commOId') commOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.loadCommClubArr(jwtPayload, commOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 

@@ -6,6 +6,8 @@ import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 import type {CommSettingType, Setter} from '@type'
 
+import '../_styles/CommSettingObject.scss'
+
 type CommSettingObjectProps = DivCommonProps & {
   setter: Setter<CommSettingType>
   val: CommSettingType

@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 import {useDispatch} from 'react-redux'
-import {modifyCommunity, modifyCommUser, setCommunityArr, setCommUserArr} from '@store'
+import {modifyCommunity, modifyCommUser, setCommunityArr, setCommUserArr, setCommClubArr} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -11,21 +11,25 @@ import * as U from '@util'
 // prettier-ignore
 type ContextType = {
   addCommunity: (commName: string) => Promise<boolean>
+  addCommunityClub: (commOId: string, clubName: string) => Promise<boolean>
   addCommunityUser: (commOId: string, userId: string, password: string) => Promise<boolean>
 
   modifyCommunityUser: (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => Promise<boolean>
 
   loadCommArr: () => Promise<boolean>
+  loadCommClubArr: (commOId: string) => Promise<boolean>
   loadCommUserArr: (commOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const CommunityCallbacksContext = createContext<ContextType>({
   addCommunity: () => Promise.resolve(false),
+  addCommunityClub: () => Promise.resolve(false),
   addCommunityUser: () => Promise.resolve(false),
 
   modifyCommunityUser: () => Promise.resolve(false),
 
   loadCommArr: () => Promise.resolve(false),
+  loadCommClubArr: () => Promise.resolve(false),
   loadCommUserArr: () => Promise.resolve(false)
 })
 
@@ -49,6 +53,32 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
           if (ok) {
             const {commArr} = body
             dispatch(setCommunityArr(commArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch]
+  )
+
+  const addCommunityClub = useCallback(
+    async (commOId: string, clubName: string) => {
+      const url = '/admin/community/addCommClub'
+      const data: HTTP.AddCommClubDataType = {commOId, clubName}
+      return F.postWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubArr} = body
+            dispatch(setCommClubArr(clubArr))
             return true
           } // ::
           else {
@@ -150,6 +180,31 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       })
   }, [dispatch])
 
+  const loadCommClubArr = useCallback(
+    async (commOId: string) => {
+      const url = `/admin/community/loadCommClubArr/${commOId}`
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubArr} = body
+            dispatch(setCommClubArr(clubArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch]
+  )
+
   const loadCommUserArr = useCallback(
     async (commOId: string) => {
       const url = `/admin/community/loadCommUserArr/${commOId}`
@@ -179,11 +234,13 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
   // prettier-ignore
   const value: ContextType = {
     addCommunity,
+    addCommunityClub,
     addCommunityUser,
 
     modifyCommunityUser,
 
     loadCommArr,
+    loadCommClubArr,
     loadCommUserArr
   }
   return <CommunityCallbacksContext.Provider value={value}>{children}</CommunityCallbacksContext.Provider>

@@ -47,7 +47,7 @@ export const ModalAddUser: FC<ModalAddUserProps> = ({className, style, ...props}
       <p className="_title_modal">유저 추가</p>
 
       {/* 2. 유저 생성 Form (ID, PW, commAuth) */}
-      <form className="_form_add_user" onSubmit={onSubmit(selectedCommunity, userId, password)}>
+      <form className="_form_add" onSubmit={onSubmit(selectedCommunity, userId, password)}>
         <div className="_label_block_form">
           <label htmlFor="userId">아이디</label>
           <input

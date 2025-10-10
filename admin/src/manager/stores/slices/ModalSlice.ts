@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {AdminStates} from '@store'
-import {MODAL_NAME_ADD_USER, MODAL_NAME_MODIFY_USER} from '@value'
+import {MODAL_NAME_ADD_CLUB, MODAL_NAME_ADD_USER, MODAL_NAME_MODIFY_CLUB, MODAL_NAME_MODIFY_USER} from '@value'
 
 // State 타입 정의
 interface ModalState {
@@ -22,9 +22,17 @@ export const ModalSlice = createSlice({
     closeModal: state => {
       state.modalName = ''
     },
+    // 클럽 추가 모달 열기
+    openModalAddClub: state => {
+      state.modalName = MODAL_NAME_ADD_CLUB
+    },
     // 유저 추가 모달 열기
     openModalAddUser: state => {
       state.modalName = MODAL_NAME_ADD_USER
+    },
+    // 클럽 수정 모달 열기
+    openModalModifyClub: state => {
+      state.modalName = MODAL_NAME_MODIFY_CLUB
     },
     // 유저 수정 모달 열기
     openModalModifyUser: state => {
@@ -34,7 +42,7 @@ export const ModalSlice = createSlice({
 })
 
 // 액션 생성자 export
-export const {closeModal, openModalAddUser, openModalModifyUser} = ModalSlice.actions
+export const {closeModal, openModalAddClub, openModalAddUser, openModalModifyClub, openModalModifyUser} = ModalSlice.actions
 
 // Selector: 상태에서 test 값 가져오기
 export const selectModalName = (state: AdminStates) => state.Modal.modalName

@@ -4,15 +4,16 @@ import {Outlet, useLocation} from 'react-router-dom'
 import {useAppDispatch, useAppSelector} from '@store'
 import {setLefterRowComm, setLefterRowLog, setLefterRowNull} from '@store'
 import {selectModalName} from '@store'
-import {MODAL_NAME_ADD_USER, MODAL_NAME_MODIFY_USER} from '@value'
 
 import {Footer} from './Footer'
 import {Header} from './Header'
 import {Lefter} from './Lefter'
-import {ModalAddUser, ModalModifyUser} from './Modals'
+import {ModalAddClub, ModalAddUser, ModalModifyUser} from './Modals'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+
+import * as V from '@value'
 
 import './_styles/Template.scss'
 
@@ -48,8 +49,9 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
       <Footer />
 
       {/* 2. 모달 모아둔곳 */}
-      {modalName === MODAL_NAME_ADD_USER && <ModalAddUser />}
-      {modalName === MODAL_NAME_MODIFY_USER && <ModalModifyUser />}
+      {modalName === V.MODAL_NAME_ADD_CLUB && <ModalAddClub />}
+      {modalName === V.MODAL_NAME_ADD_USER && <ModalAddUser />}
+      {modalName === V.MODAL_NAME_MODIFY_USER && <ModalModifyUser />}
     </div>
   )
 }

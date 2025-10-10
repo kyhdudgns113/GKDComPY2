@@ -24,12 +24,37 @@ export class DBHubService {
     private readonly communityDBService: TB.CommunityDBService,
     private readonly dailyRecordDBService: TB.DailyRecordDBService,
     private readonly docDBService: TB.DocDBService,
+
     private readonly memberDBService: TB.MemberDBService,
     private readonly userDBService: TB.UserDBService,
     private readonly weekRecordDBService: TB.WeekRecordDBService
   ) {}
 
-  // AREA1: Community Area
+  // AREA2: Club Area
+
+  async createClub(where: string, dto: DTO.CreateClubDTO) {
+    try {
+      const {club} = await this.clubDBService.createClub(where, dto)
+      return {club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readClubArrByCommOId(where: string, commOId: string) {
+    try {
+      const {clubArr} = await this.clubDBService.readClubArrByCommOId(where, commOId)
+      return {clubArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA3: Community Area
 
   async createCommunity(where: string, dto: DTO.CreateCommunityAdminDTO) {
     try {

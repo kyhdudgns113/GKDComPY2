@@ -31,6 +31,7 @@ $Gap_Page_Container: 40px;
         margin-top: 24px;
         width: $Width_Page_Container;
       }
+
       .CommList_Part {
         align-items: center;
         border-color: #000000;
@@ -47,6 +48,7 @@ $Gap_Page_Container: 40px;
 
         width: $Width_CommList_Part;
       }
+
       .CommInfo_Part {
         align-items: center;
         border-color: #000000;
@@ -57,8 +59,6 @@ $Gap_Page_Container: 40px;
         flex-direction: column;
 
         height: 600px;
-
-        overflow: auto;
 
         width: $Width_CommInfo_Part;
       }

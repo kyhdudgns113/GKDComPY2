@@ -22,6 +22,17 @@ export class AdminCommunityService {
     }
   }
 
+  async addCommClub(jwtPayload: JwtPayloadType, data: HTTP.AddCommClubDataType) {
+    try {
+      const {clubArr} = await this.portService.addCommClub(jwtPayload, data)
+      return {ok: true, body: {clubArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async addCommUser(jwtPayload: JwtPayloadType, data: HTTP.AddCommUserDataType) {
     try {
       const {community} = await this.portService.addCommUser(jwtPayload, data)
@@ -51,8 +62,18 @@ export class AdminCommunityService {
   async loadCommArr(jwtPayload: JwtPayloadType) {
     try {
       const {commArr} = await this.portService.loadCommArr(jwtPayload)
-
       return {ok: true, body: {commArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async loadCommClubArr(jwtPayload: JwtPayloadType, commOId: string) {
+    try {
+      const {clubArr} = await this.portService.loadCommClubArr(jwtPayload, commOId)
+      return {ok: true, body: {clubArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

@@ -2,7 +2,7 @@ CREATE TABLE docs (
   docOId CHAR(24) NOT NULL PRIMARY KEY,
 
   clubOId CHAR(24) NOT NULL UNIQUE,
-  contents TEXT NOT NULL,
+  contents TEXT,
 
   CONSTRAINT fk_docs_clubOId
     FOREIGN KEY (clubOId)
