@@ -1,5 +1,7 @@
 import type {FC, PropsWithChildren} from 'react'
-import type {DivCommonProps} from '../../typesAndValues'
+import type {DivCommonProps} from '@prop'
+
+import './_style.scss'
 
 export type ModalLv2Props = DivCommonProps & {
   onClose: () => void
@@ -19,7 +21,7 @@ export const ModalLv2: FC<PropsWithChildren<ModalLv2Props>> = ({
   // 외부에서 style 조절하고 싶을때 마음껏 바꿀 수 있도록 한다.
   return (
     <div
-      className="flex flex-col items-center justify-center fixed inset-0 z-102 bg-black bg-opacity-50"
+      className="MODAL_LV2"
       onClick={e => {
         e.stopPropagation()
         onClose()
@@ -27,7 +29,7 @@ export const ModalLv2: FC<PropsWithChildren<ModalLv2Props>> = ({
     >
       <div
         autoFocus
-        className={`flex flex-col items-center bg-white border-8 border-gkd-sakura-border rounded-3xl ${className || ''}`}
+        className={`MODAL_Contents ${className || ''}`}
         onClick={e => e.stopPropagation()}
         tabIndex={0}
         {...props} // ::
