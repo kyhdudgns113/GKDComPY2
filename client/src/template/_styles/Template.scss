@@ -6,6 +6,7 @@
   flex-direction: column;
 
   height: 100vh;
+
   width: 100%;
 
   .Header {
@@ -17,6 +18,49 @@
     height: fit-content;
 
     position: relative;
+
+    width: 100%;
+  }
+
+  .Body {
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 800px;
+
+    position: relative;
+
+    width: 100%;
+
+    .Lefter {
+      display: flex;
+      flex-direction: row;
+
+      height: fit-content;
+
+      left: 32px;
+      position: absolute;
+      top: 0;
+
+      width: fit-content;
+    }
+  }
+
+  .Footer {
+    align-items: center;
+
+    background-color: v.$SAKURA_TEXT;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    margin-top: auto;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
 
     width: 100%;
   }

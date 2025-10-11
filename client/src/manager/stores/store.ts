@@ -5,6 +5,7 @@ import * as Slices from './slices'
 
 export const store = configureStore({
   reducer: {
+    Template: Slices.TemplateReducer,
     Test: Slices.TestReducer
   }
 })
