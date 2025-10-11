@@ -12,6 +12,7 @@ function App() {
       <Route path="/" element={<P.RootPage />} />
 
       <Route path="/client" element={<Template />}>
+        <Route index element={<P.ClientRootPage />} />
         <Route path="*" element={<P.NullPage />} />
       </Route>
 
