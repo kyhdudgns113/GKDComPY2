@@ -1,5 +1,5 @@
 import type {CSSProperties, FC} from 'react'
-import type {SpanCommonProps} from '../../typesAndValues'
+import type {SpanCommonProps} from '@prop'
 
 export type IconProps = SpanCommonProps & {
   iconName: string
@@ -8,7 +8,7 @@ export type IconProps = SpanCommonProps & {
 
 export const Icon: FC<IconProps> = ({iconName, className, style, ...props}) => {
   return (
-    <span className={`material-symbols-outlined align-middle select-none cursor-pointer  ${className}`} style={style} {...props}>
+    <span className={`material-symbols-outlined align-middle select-none cursor-pointer  ${className || ''}`} style={style} {...props}>
       {iconName}
     </span>
   )

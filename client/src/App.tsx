@@ -1,12 +1,19 @@
+import {Route, Routes} from 'react-router-dom'
+
+import * as P from '@page'
+
 import '@styles/App.css'
+import {Template} from './template'
 
 function App() {
   return (
-    <>
-      <div>
-        <p>Hello World</p>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<P.RootPage />} />
+      <Route path="/client" element={<Template />}>
+        <Route path="*" element={<P.NullPage />} />
+      </Route>
+      <Route path="*" element={<P.NullPage />} />
+    </Routes>
   )
 }
 
