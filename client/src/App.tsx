@@ -16,7 +16,7 @@ function App() {
       </Route>
 
       <Route path="/signIn" element={<P.SignInPage />} />
-
+      <Route path="/signUp" element={<P.SignUpPage />} />
       <Route path="*" element={<P.NullPage />} />
     </Routes>
   )

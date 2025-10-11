@@ -15,14 +15,12 @@ type ContextType = {
   refreshToken: () => Promise<boolean>
   signIn: (userId: string, password: string) => Promise<boolean>
   signOut: () => void
-  signUp: (userId: string, password: string) => Promise<boolean>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
   refreshToken: () => Promise.resolve(false),
   signIn: () => Promise.resolve(false),
   signOut: () => {},
-  signUp: () => Promise.resolve(false),
 })
 
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
@@ -91,7 +89,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const signIn = useCallback(
     async (userId: string, password: string) => {
-      const url = `/admin/auth/signIn`
+      const url = `/client/auth/signIn`
       const data: HTTP.SignInDataType = {userId, password}
 
       return F.post(url, data, '')
@@ -126,38 +124,11 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     _writeAuthBodyObject(NV.NULL_AUTH_BODY())
     navigate('/')
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const signUp = useCallback(
-    async (userId: string, password: string) => {
-      const url = `/admin/auth/signUp`
-      const data: HTTP.SignUpDataType = {userId, password}
-
-      return F.post(url, data, '')
-        .then(res => res.json())
-        .then(res => {
-          const {ok, statusCode, gkdErrMsg, message} = res
-
-          if (ok) {
-            return true
-          } // ::
-          else {
-            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
-          }
-        })
-        .catch(errObj => {
-          U.alertErrors(url, errObj)
-          return false
-        })
-    },
-    [] // eslint-disable-line react-hooks/exhaustive-deps
-  )
   // prettier-ignore
   const value: ContextType = {
     refreshToken,
     signIn,
     signOut,
-    signUp,
   }
   return <AuthCallbacksContext.Provider value={value}>{children}</AuthCallbacksContext.Provider>
 }
