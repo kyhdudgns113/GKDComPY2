@@ -27,7 +27,7 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   const loadUsersCommunity = useCallback(
     async () => {
-      const url = `/client/community/loadCommunity`
+      const url = `/client/community/loadUsersCommunity`
       return F.getWithJwt(url)
         .then(res => res.json())
         .then(res => {

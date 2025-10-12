@@ -274,9 +274,9 @@ export class DBHubService {
 
       if (user.commAuth < AUTH_NORMAL) {
         throw {
-          gkd: {userErr: `일반가 아님`},
+          gkd: {userErr: `권한값이 음수임`},
           gkdErrCode: 'DBHUB_CHECK_USER_NORMAL_NOT_NORMAL',
-          gkdErrMsg: `일반가 아님`,
+          gkdErrMsg: `권한값이 음수임`,
           gkdStatus: {userOId, commAuth: user.commAuth},
           statusCode: 400,
           where
