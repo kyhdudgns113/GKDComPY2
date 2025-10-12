@@ -4,7 +4,7 @@ import {Modal} from '@component'
 import {useAuthStatesContext, useCommunityCallbacksContext} from '@context'
 import {useAppDispatch, useModalActions} from '@store'
 
-import type {FC, FormEvent} from 'react'
+import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './_style/ModalCommon.scss'
@@ -23,10 +23,12 @@ export const UserAddModal: FC<UserAddModalProps> = ({className, style, ...props}
 
   const {addCommunityUser} = useCommunityCallbacksContext()
 
-  const onSubmit = useCallback(
-    (commOId: string, userId: string, password: string) => (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      e.stopPropagation()
+  const _executeAdd = useCallback(
+    (commOId: string, userId: string, password: string) => {
+      if (!userId || !password) {
+        alert('모든 필드를 입력해주세요.')
+        return
+      }
 
       addCommunityUser(commOId, userId, password) // ::
         .then(res => {
@@ -36,13 +38,39 @@ export const UserAddModal: FC<UserAddModalProps> = ({className, style, ...props}
           }
         })
     },
-    [addCommunityUser, dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+    [addCommunityUser, closeModal, dispatch]
+  )
+
+  const onKeyDownModal = useCallback(
+    (commOId: string, userId: string, password: string) => (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        e.stopPropagation()
+
+        _executeAdd(commOId, userId, password)
+      } // ::
+      else if (e.key === 'Escape') {
+        dispatch(closeModal())
+      }
+    },
+    [_executeAdd, dispatch, closeModal]
+  )
+
+  const onSubmit = useCallback(
+    (commOId: string, userId: string, password: string) => (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      _executeAdd(commOId, userId, password)
+    },
+    [_executeAdd]
   )
 
   return (
     <Modal
       className={`UserAdd_Modal __MODAL_COMMON ${className || ''}`}
       onClose={() => dispatch(closeModal())}
+      onKeyDown={onKeyDownModal(commOId, userId, password)}
       style={style}
       {...props} // ::
     >
@@ -55,6 +83,7 @@ export const UserAddModal: FC<UserAddModalProps> = ({className, style, ...props}
         <div className="_label_block_form">
           <label htmlFor="userId">아이디</label>
           <input
+            autoFocus
             className="_input_userId_form"
             id="userId_modal"
             onChange={e => setUserId(e.currentTarget.value)}

@@ -4,7 +4,7 @@ import {Modal} from '@component'
 import {useCommunityCallbacksContext} from '@context'
 import {useAppDispatch, useModalActions, useModalStates} from '@store'
 
-import type {FC, FormEvent} from 'react'
+import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './_style/ModalCommon.scss'
@@ -22,11 +22,8 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
 
   const dispatch = useAppDispatch()
 
-  const onSubmit = useCallback(
-    (userOId: string, userId: string, password: string, commAuth: number) => (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      e.stopPropagation()
-
+  const _executeModify = useCallback(
+    (userOId: string, userId: string, password: string, commAuth: number) => {
       if ((!userId || userId.trim() === '') && !password) {
         dispatch(closeModal())
         return
@@ -40,13 +37,39 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
           }
         })
     },
-    [modifyCommunityUser, dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+    [modifyCommunityUser, dispatch, closeModal]
+  )
+
+  const onKeyDownModal = useCallback(
+    (userOId: string, userId: string, password: string, commAuth: number) => (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        e.stopPropagation()
+
+        _executeModify(userOId, userId, password, commAuth)
+      } // ::
+      else if (e.key === 'Escape') {
+        dispatch(closeModal())
+      }
+    },
+    [_executeModify, dispatch, closeModal]
+  )
+
+  const onSubmit = useCallback(
+    (userOId: string, userId: string, password: string, commAuth: number) => (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      _executeModify(userOId, userId, password, commAuth)
+    },
+    [_executeModify]
   )
 
   return (
     <Modal
       className={`UserModify_Modal __MODAL_COMMON ${className || ''}`}
       onClose={() => dispatch(closeModal())}
+      onKeyDown={onKeyDownModal(userSelected.userOId, userId, password, userSelected.commAuth)}
       style={style}
       {...props} // ::
     >
@@ -59,6 +82,7 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
         <div className="_label_block_form">
           <label htmlFor="userId">아이디</label>
           <input
+            autoFocus
             className="_input_userId_form"
             id="userId_modal"
             onChange={e => setUserId(e.currentTarget.value)}
