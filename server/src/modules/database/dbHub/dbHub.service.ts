@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common'
 import * as DTO from '@dto'
 import * as T from '@type'
 import * as TB from '../_tables'
-import {AUTH_ADMIN, AUTH_SILVER} from '@commons/secret'
+import {AUTH_ADMIN, AUTH_GOLD, AUTH_NORMAL, AUTH_SILVER} from '@secret'
 
 /**
  * 이곳은 거의 대부분 Schema 의 함수랑 결과를 그대로 보내주는 역할만 한다.
@@ -175,6 +175,108 @@ export class DBHubService {
           gkd: {userErr: `관리자가 아님`},
           gkdErrCode: 'DBHUB_CHECK_USER_ADMIN_NOT_ADMIN',
           gkdErrMsg: `관리자가 아님`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserGold(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_GOLD_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+      if (user.commAuth < AUTH_GOLD) {
+        throw {
+          gkd: {userErr: `골드가 아님`},
+          gkdErrCode: 'DBHUB_CHECK_USER_GOLD_NOT_GOLD',
+          gkdErrMsg: `골드가 아님`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserSilver(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_SILVER_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth < AUTH_SILVER) {
+        throw {
+          gkd: {userErr: `실버가 아님`},
+          gkdErrCode: 'DBHUB_CHECK_USER_SILVER_NOT_SILVER',
+          gkdErrMsg: `실버가 아님`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserNormal(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_NORMAL_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth < AUTH_NORMAL) {
+        throw {
+          gkd: {userErr: `일반가 아님`},
+          gkdErrCode: 'DBHUB_CHECK_USER_NORMAL_NOT_NORMAL',
+          gkdErrMsg: `일반가 아님`,
           gkdStatus: {userOId, commAuth: user.commAuth},
           statusCode: 400,
           where

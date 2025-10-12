@@ -8,9 +8,9 @@ import * as U from '@util'
 export class ClientCommService {
   constructor(private readonly portService: ClientCommPortService) {}
 
-  async loadCommunity(jwtPayload: JwtPayloadType, commOId: string) {
+  async loadUsersCommunity(jwtPayload: JwtPayloadType) {
     try {
-      const {community} = await this.portService.loadCommunity(jwtPayload, commOId)
+      const {community} = await this.portService.loadUsersCommunity(jwtPayload)
       return {ok: true, body: {community}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {

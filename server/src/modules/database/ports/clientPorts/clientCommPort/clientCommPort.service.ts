@@ -10,51 +10,39 @@ export class ClientCommPortService {
   constructor(private readonly dbHubService: DBHubService) {}
 
   /**
-   * loadCommunity
-   * - 공동체 정보 읽기 함수
+   * loadUsersCommunity
+   * - 공동체 유저 배열 읽기 함수
    *
    * 입력값
    * - jwtPayload: T.JwtPayloadType
    *     + 쿠키에서 읽은 JWT 토큰의 페이로드
-   * - commOId: string
-   *     + 공동체의 OId
    *
    * 출력값
    * - community: T.CommunityType
    *     + 공동체 정보
    *
    * 작동 순서
-   * 1. 권한 췍!!
-   * 2. 공동체 정보 읽기 뙇!!
-   * 3. 반환 뙇!!
+   * 1. 권한 췍!! (유저정보 가져오기)
+   * 2. 공동체 정보 뙇!!
+   * 3. 리턴 뙇!!
    */
-  async loadCommunity(jwtPayload: T.JwtPayloadType, commOId: string) {
-    const where = `/client/community/loadCommunity`
-
+  async loadUsersCommunity(jwtPayload: T.JwtPayloadType) {
+    const where = `/client/community/loadUsersCommunity`
     try {
-      // 1. 권한 췍!!
-      await this.dbHubService.checkAuth_CommRead(where, jwtPayload, commOId)
+      // 1. 권한 췍!! (유저정보 가져오기)
+      const {user} = await this.dbHubService.checkUserNormal(where, jwtPayload)
+      const {commOId} = user
 
-      // 2. 공동체 정보 읽기 뙇!!
+      // 2. 공동체 정보 뙇!!
       const {community} = await this.dbHubService.readCommunityByCommOId(where, commOId)
 
-      if (!community) {
-        throw {
-          gkd: {communityErr: `공동체가 존재하지 않음`},
-          gkdErrCode: 'ClientCommPort_loadCommunity_NoCommunity',
-          gkdErrMsg: `공동체가 존재하지 않음`,
-          gkdStatus: {commOId},
-          statusCode: 400,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 3. 반환 뙇!!
+      // 3. 리턴 뙇!!
       return {community}
       // ::
     } catch (errObj) {
       // ::
       throw errObj
+      // ::
     }
   }
 }

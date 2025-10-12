@@ -10,11 +10,11 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
-  loadCommunity: (commOId: string) => Promise<boolean>
+  loadUsersCommunity: () => Promise<boolean>
 }
 // prettier-ignore
 export const CommunityCallbacksContext = createContext<ContextType>({
-  loadCommunity: () => Promise.resolve(false),
+  loadUsersCommunity: () => Promise.resolve(false),
 })
 
 export const useCommunityCallbacksContext = () => useContext(CommunityCallbacksContext)
@@ -25,9 +25,9 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   // GET AREA:
 
-  const loadCommunity = useCallback(
-    async (commOId: string) => {
-      const url = `/client/community/loadCommunity/${commOId}`
+  const loadUsersCommunity = useCallback(
+    async () => {
+      const url = `/client/community/loadCommunity`
       return F.getWithJwt(url)
         .then(res => res.json())
         .then(res => {
@@ -52,7 +52,7 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   // prettier-ignore
   const value: ContextType = {
-    loadCommunity,
+    loadUsersCommunity,
   }
   return <CommunityCallbacksContext.Provider value={value}>{children}</CommunityCallbacksContext.Provider>
 }

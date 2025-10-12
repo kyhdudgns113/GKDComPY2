@@ -6,11 +6,13 @@ import {CheckJwtValidationGuard} from '@guard'
 export class ClientCommController {
   constructor(private readonly clientServuce: ClientCommService) {}
 
-  @Get('/loadCommunity/:commOId')
+  // GET AREA:
+
+  @Get('/loadUsersCommunity')
   @UseGuards(CheckJwtValidationGuard)
-  async loadCommunity(@Headers() headers: any, @Param('commOId') commOId: string) {
+  async loadUsersCommunity(@Headers() headers: any) {
     const {jwtFromServer, jwtPayload} = headers
-    const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.loadCommunity(jwtPayload, commOId)
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.loadUsersCommunity(jwtPayload)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }
