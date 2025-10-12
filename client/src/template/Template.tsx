@@ -2,20 +2,26 @@ import {useEffect} from 'react'
 import {Outlet, useNavigate} from 'react-router-dom'
 
 import {useAuthCallbacksContext} from '@context'
+import {useModalStates} from '@store'
 
 import {Footer} from './Footer'
 import {Header} from './Header'
 import {Lefter} from './Lefter'
+import {UserAddModal} from './Modals'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './_styles/Template.scss'
 
+import * as V from '@value'
+
 type TemplateProps = DivCommonProps & {}
 
 export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
   const {refreshToken} = useAuthCallbacksContext()
+
+  const {modalName} = useModalStates()
 
   const navigate = useNavigate()
 
@@ -43,6 +49,9 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
 
       {/* 3. 템플릿 푸터 */}
       <Footer />
+
+      {/* 4. 모달 모아둔곳 */}
+      {modalName === V.MODAL_NAME_ADD_USER && <UserAddModal />}
     </div>
   )
 }

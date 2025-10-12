@@ -26,7 +26,7 @@ export const AuthCallbacksContext = createContext<ContextType>({
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
 
 export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setCommAuth, setUserId, setUserOId} = useAuthStatesContext()
+  const {setCommAuth, setCommOId, setUserId, setUserOId} = useAuthStatesContext()
 
   const navigate = useNavigate()
 
@@ -34,10 +34,12 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     async (authBody: AuthBodyType, callback?: () => void) => {
       await U.writeStringP('jwtFromServer', authBody.jwtFromServer)
       await U.writeStringP('commAuth', authBody.commAuth.toString())
+      await U.writeStringP('commOId', authBody.commOId)
       await U.writeStringP('userId', authBody.userId)
       await U.writeStringP('userOId', authBody.userOId)
 
       setCommAuth(authBody.commAuth)
+      setCommOId(authBody.commOId)
       setUserId(authBody.userId)
       setUserOId(authBody.userOId)
 
@@ -60,10 +62,11 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
             if (ok) {
               // getWithJwt 에서 토큰 갱신을 한다.
-              const {commAuth, userId, userOId} = body.user
+              const {commAuth, commOId, userId, userOId} = body.user
               const authBody: AuthBodyType = {
                 jwtFromServer,
                 commAuth,
+                commOId,
                 userId,
                 userOId
               }
@@ -101,10 +104,11 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
           if (ok) {
-            const {commAuth, userId, userOId} = body.user
+            const {commAuth, commOId, userId, userOId} = body.user
             const authBody: AuthBodyType = {
               jwtFromServer,
               commAuth,
+              commOId,
               userId,
               userOId
             }

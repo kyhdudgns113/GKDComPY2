@@ -9,13 +9,60 @@ import * as T from '@type'
 export class ClientCommPortService {
   constructor(private readonly dbHubService: DBHubService) {}
 
+  // POST AREA:
+
+  /**
+   * addCommUser
+   * - 공동체 유저 생성 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 공동체의 OId
+   * - userId: string
+   *     + 새로 만들 유저의 ID
+   * - password: string
+   *     + 새로 만들 유저의 비밀번호
+   *
+   * 출력값
+   * - userArr: T.UserType[]
+   *     + 갱신된 공동체 유저들의 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 유저 생성 뙇!!
+   * 3. 공동체 유저 배열 읽기 뙇!!
+   * 4. 리턴턴 뙇!!
+   */
+  async addCommUser(jwtPayload: T.JwtPayloadType, data: HTTP.AddCommUserDataType) {
+    const where = `/client/community/addCommUser`
+    const {commOId, userId, password} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_CommWrite(where, jwtPayload, commOId)
+
+      // 2. 유저 생성 뙇!!
+      const dto: DTO.CreateUserDTO = {commOId, userId, password}
+      await this.dbHubService.createUser(where, dto)
+
+      // 3. 공동체 유저 배열 읽기 뙇!!
+      const {userArr} = await this.dbHubService.readUserArrByCommOId(where, commOId)
+
+      // 4. 리턴턴 뙇!!
+      return {userArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
+
+  // GET AREA:
+
   /**
    * loadUsersCommunity
    * - 공동체 유저 배열 읽기 함수
-   *
-   * 입력값
-   * - jwtPayload: T.JwtPayloadType
-   *     + 쿠키에서 읽은 JWT 토큰의 페이로드
    *
    * 출력값
    * - clubArr: T.ClubType[]

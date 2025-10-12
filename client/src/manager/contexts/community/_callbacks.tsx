@@ -6,14 +6,19 @@ import {communitySlice} from '@store'
 import type {FC, PropsWithChildren} from 'react'
 
 import * as F from '@fetch'
+import * as HTTP from '@httpType'
 import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
+  addCommunityUser: (commOId: string, userId: string, password: string) => Promise<boolean>
+
   loadUsersCommunity: () => Promise<boolean>
 }
 // prettier-ignore
 export const CommunityCallbacksContext = createContext<ContextType>({
+  addCommunityUser: () => Promise.resolve(false),
+
   loadUsersCommunity: () => Promise.resolve(false),
 })
 
@@ -22,6 +27,34 @@ export const useCommunityCallbacksContext = () => useContext(CommunityCallbacksC
 export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useDispatch()
   const {setClubArr, setCommunity, setUserArr} = communitySlice.actions
+
+  // POST AREA:
+
+  const addCommunityUser = useCallback(
+    async (commOId: string, userId: string, password: string) => {
+      const url = `/client/community/addCommUser`
+      const data: HTTP.AddCommUserDataType = {commOId, userId, password}
+      return F.postWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {userArr} = body
+            dispatch(setUserArr(userArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   // GET AREA:
 
@@ -54,6 +87,8 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   // prettier-ignore
   const value: ContextType = {
+    addCommunityUser,
+
     loadUsersCommunity,
   }
   return <CommunityCallbacksContext.Provider value={value}>{children}</CommunityCallbacksContext.Provider>

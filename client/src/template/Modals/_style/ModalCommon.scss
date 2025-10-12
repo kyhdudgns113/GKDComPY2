@@ -1,0 +1,61 @@
+@use '../../../base/styles/values.scss' as v;
+
+.MODAL_Contents.__MODAL_COMMON {
+  ._title_modal {
+    color: v.$SAKURA_TEXT;
+
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  ._form_modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    ._label_block_form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      input {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        padding: 8px 16px;
+      }
+    }
+
+    ._button_row_form {
+      display: flex;
+      flex-direction: row;
+
+      justify-content: space-between;
+
+      button._button_form {
+        background-color: v.$SAKURA_BG;
+        border-radius: 8px;
+        color: v.$SAKURA_TEXT_DEEP;
+        cursor: pointer;
+
+        font-size: 18px;
+        font-weight: 700;
+
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: v.$SAKURA_BG_DEEP_50;
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
