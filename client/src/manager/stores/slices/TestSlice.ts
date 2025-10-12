@@ -1,7 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
-import type {AdminStates} from '@store'
 
 // State 타입 정의
 interface TestState {
@@ -32,12 +31,3 @@ export const testSlice = createSlice({
     }
   }
 })
-
-// 액션 생성자 export
-export const {incCnt, decCnt, setCnt} = testSlice.actions
-
-// Selector: 상태에서 test 값 가져오기
-export const selectTestCnt = (state: AdminStates) => state.Test.cnt
-
-// 리듀서 export
-export const TestReducer = testSlice.reducer

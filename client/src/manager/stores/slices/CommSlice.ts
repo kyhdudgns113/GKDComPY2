@@ -1,19 +1,23 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
-import type {AdminStates} from '@store'
+// import type {AdminStates} from '@store'
 
 import * as ST from '@shareType'
 import * as NV from '@nullValue'
 
 // State 타입 정의
 interface CommunityState {
+  clubArr: ST.ClubType[]
   community: ST.CommunityType
+  userArr: ST.UserType[]
 }
 
 // 초기 상태
 const initialState: CommunityState = {
-  community: NV.NULL_COMMUNITY()
+  clubArr: [],
+  community: NV.NULL_COMMUNITY(),
+  userArr: []
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -21,19 +25,18 @@ export const communitySlice = createSlice({
   name: 'community',
   initialState,
   reducers: {
+    // clubArr 설정
+    setClubArr: (state, action: PayloadAction<ST.ClubType[]>) => {
+      state.clubArr = action.payload
+    },
     // community 설정
     setCommunity: (state, action: PayloadAction<ST.CommunityType>) => {
       state.community = action.payload
+    },
+    // userArr 설정
+    setUserArr: (state, action: PayloadAction<ST.UserType[]>) => {
+      state.userArr = action.payload
     }
     // ::
   }
 })
-
-// 액션 생성자 export
-export const {setCommunity} = communitySlice.actions
-
-// Selector: 상태에서 community 값 가져오기
-export const selectCommunity = (state: AdminStates) => state.Community.community
-
-// 리듀서 export
-export const CommunityReducer = communitySlice.reducer
