@@ -11,6 +11,17 @@ export class ClientCommService {
 
   // POST AREA:
 
+  async addCommClub(jwtPayload: JwtPayloadType, data: HTTP.AddCommClubDataType) {
+    try {
+      const {clubArr} = await this.portService.addCommClub(jwtPayload, data)
+      return {ok: true, body: {clubArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async addCommUser(jwtPayload: JwtPayloadType, data: HTTP.AddCommUserDataType) {
     try {
       const {userArr} = await this.portService.addCommUser(jwtPayload, data)

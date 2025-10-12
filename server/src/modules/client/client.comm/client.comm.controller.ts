@@ -10,6 +10,14 @@ export class ClientCommController {
 
   // POST AREA:
 
+  @Post('/addCommClub')
+  @UseGuards(CheckJwtValidationGuard)
+  async addCommClub(@Headers() headers: any, @Body() data: HTTP.AddCommClubDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.addCommClub(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Post('/addCommUser')
   @UseGuards(CheckJwtValidationGuard)
   async addCommUser(@Headers() headers: any, @Body() data: HTTP.AddCommUserDataType) {

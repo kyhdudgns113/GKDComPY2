@@ -11,6 +11,7 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
+  addCommunityClub: (commOId: string, clubName: string) => Promise<boolean>
   addCommunityUser: (commOId: string, userId: string, password: string) => Promise<boolean>
 
   modifyCommunityUser: (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => Promise<boolean>,
@@ -19,6 +20,7 @@ type ContextType = {
 }
 // prettier-ignore
 export const CommunityCallbacksContext = createContext<ContextType>({
+  addCommunityClub: () => Promise.resolve(false),
   addCommunityUser: () => Promise.resolve(false),
 
   modifyCommunityUser: () => Promise.resolve(false),
@@ -33,6 +35,32 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
   const {setClubArr, setCommunity, setUserArr} = useCommunityActions()
 
   // POST AREA:
+
+  const addCommunityClub = useCallback(
+    async (commOId: string, clubName: string) => {
+      const url = `/client/community/addCommClub`
+      const data: HTTP.AddCommClubDataType = {commOId, clubName}
+      return F.postWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubArr} = body
+            dispatch(setClubArr(clubArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   const addCommunityUser = useCallback(
     async (commOId: string, userId: string, password: string) => {
@@ -119,6 +147,7 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   // prettier-ignore
   const value: ContextType = {
+    addCommunityClub,
     addCommunityUser,
 
     modifyCommunityUser,

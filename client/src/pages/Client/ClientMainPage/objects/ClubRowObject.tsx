@@ -8,7 +8,7 @@ type ClubRowObjectProps = DivCommonProps & {
 
 export const ClubRowObject: FC<ClubRowObjectProps> = ({club, className, style, ...props}) => {
   return (
-    <div className={`ClubRow_Object ${className || ''}`} style={style} {...props}>
+    <div className={`ClubRow_Object __ROW_COMMON ${className || ''}`} style={style} {...props}>
       <p className="_title_object">{club.clubName}</p>
     </div>
   )
