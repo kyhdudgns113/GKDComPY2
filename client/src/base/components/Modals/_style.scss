@@ -1,6 +1,6 @@
 $SAKURA_BORDER: #ffc0cb;
 
-div.MODAL_Container {
+.MODAL_Container {
   // 외부 배경 (Backdrop)
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
@@ -13,7 +13,7 @@ div.MODAL_Container {
   z-index: 100;
 
   // 내부 컨텐츠
-  > div.MODAL_Contents {
+  > .MODAL_Contents {
     align-items: center;
     background-color: white;
     border: 8px solid $SAKURA_BORDER;
@@ -26,7 +26,7 @@ div.MODAL_Container {
 }
 
 // ModalLv2용 (z-index만 다름)
-div.MODAL_LV2 {
-  @extend div, .MODAL_Container;
+.MODAL_LV2 {
+  @extend .MODAL_Container;
   z-index: 102;
 }

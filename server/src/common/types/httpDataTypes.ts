@@ -13,6 +13,11 @@ export type AddCommUserDataType = {
   password: string
 }
 
+export type ModifyCommClubDataType = {
+  clubOId: string
+  newClubName: string
+}
+
 export type ModifyCommUserDataType = {
   userOId: string
   newUserId: string

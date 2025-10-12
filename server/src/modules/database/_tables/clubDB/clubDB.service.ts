@@ -191,4 +191,55 @@ export class ClubDBService {
       connection.release()
     }
   }
+  async readClubByClubOId(where: string, clubOId: string) {
+    /**
+     * readClubByClubOId
+     * - 해당 클럽의 정보를 읽어온다.
+     */
+
+    const connection = await this.dbService.getConnection()
+    try {
+      const queryRead = 'SELECT * FROM clubs WHERE clubOId = ?'
+      const paramRead = [clubOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+      if (resultArray.length === 0) {
+        return {club: null}
+      }
+
+      const club: T.ClubType = {
+        clubOId: resultArray[0].clubOId,
+        clubName: resultArray[0].clubName,
+        commOId: resultArray[0].commOId
+      }
+      return {club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async updateClub(where: string, dto: DTO.UpdateClubDTO) {
+    const {clubOId, newClubName} = dto
+
+    const connection = await this.dbService.getConnection()
+    try {
+      const queryUpdate = 'UPDATE clubs SET clubName = ? WHERE clubOId = ?'
+      const paramUpdate = [newClubName, clubOId]
+      await connection.execute(queryUpdate, paramUpdate)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 }

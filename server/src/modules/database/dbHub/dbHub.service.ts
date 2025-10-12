@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common'
 import * as DTO from '@dto'
 import * as T from '@type'
 import * as TB from '../_tables'
-import {AUTH_ADMIN} from '@commons/secret'
+import {AUTH_ADMIN, AUTH_GOLD, AUTH_NORMAL, AUTH_SILVER} from '@secret'
 
 /**
  * 이곳은 거의 대부분 Schema 의 함수랑 결과를 그대로 보내주는 역할만 한다.
@@ -47,6 +47,26 @@ export class DBHubService {
     try {
       const {clubArr} = await this.clubDBService.readClubArrByCommOId(where, commOId)
       return {clubArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async readClubByClubOId(where: string, clubOId: string) {
+    try {
+      const {club} = await this.clubDBService.readClubByClubOId(where, clubOId)
+      return {club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateClub(where: string, dto: DTO.UpdateClubDTO) {
+    try {
+      await this.clubDBService.updateClub(where, dto)
       // ::
     } catch (errObj) {
       // ::
@@ -182,6 +202,366 @@ export class DBHubService {
       }
 
       return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserGold(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_GOLD_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+      if (user.commAuth < AUTH_GOLD) {
+        throw {
+          gkd: {userErr: `골드가 아님`},
+          gkdErrCode: 'DBHUB_CHECK_USER_GOLD_NOT_GOLD',
+          gkdErrMsg: `골드가 아님`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserSilver(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_SILVER_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth < AUTH_SILVER) {
+        throw {
+          gkd: {userErr: `실버가 아님`},
+          gkdErrCode: 'DBHUB_CHECK_USER_SILVER_NOT_SILVER',
+          gkdErrMsg: `실버가 아님`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkUserNormal(where: string, jwtPayload: T.JwtPayloadType) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_NORMAL_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth < AUTH_NORMAL) {
+        throw {
+          gkd: {userErr: `권한값이 음수임`},
+          gkdErrCode: 'DBHUB_CHECK_USER_NORMAL_NOT_NORMAL',
+          gkdErrMsg: `권한값이 음수임`,
+          gkdStatus: {userOId, commAuth: user.commAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_ClubRead(where: string, jwtPayload: T.JwtPayloadType, clubOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, clubOId)
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === club.commOId && user.commAuth >= AUTH_NORMAL)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
+  async checkAuth_ClubWrite(where: string, jwtPayload: T.JwtPayloadType, clubOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_USER_WRITE',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, clubOId)
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_CLUB_WRITE',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === club.commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CLUB_AUTH_NO_AUTHORITY_WRITE',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
+
+  async checkAuth_CommRead(where: string, jwtPayload: T.JwtPayloadType, commOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
+      if (!community) {
+        throw {
+          gkd: {communityErr: `공동체가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_COMMUNITY',
+          gkdErrMsg: `공동체가 존재하지 않음`,
+          gkdStatus: {commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && user.commOId !== commOId) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkAuth_CommWrite(where: string, jwtPayload: T.JwtPayloadType, commOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
+      if (!community) {
+        throw {
+          gkd: {communityErr: `공동체가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_COMM_AUTH_NO_COMMUNITY',
+          gkdErrMsg: `공동체가 존재하지 않음`,
+          gkdStatus: {commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_UserWrite(where: string, jwtPayload: T.JwtPayloadType, _userOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {user: _user} = await this.userDBService.readUserByUserOId(where, _userOId)
+      if (!_user) {
+        throw {
+          gkd: {userErr: `타겟 유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_USER',
+          gkdErrMsg: `타겟 유저가 DB 에 없음`,
+          gkdStatus: {_userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = _user
+      const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
+      if (!community) {
+        throw {
+          gkd: {communityErr: `공동체가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_COMMUNITY',
+          gkdErrMsg: `공동체가 존재하지 않음`,
+          gkdStatus: {commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const isAdmin = user.commAuth === AUTH_ADMIN
+      const isSameComm = user.commOId === commOId
+      const isUserGold = user.commAuth >= AUTH_GOLD
+      const isUserSame = user.userOId === _user.userOId
+
+      if (user.commAuth !== AUTH_ADMIN && !(isSameComm && (isUserGold || isUserSame))) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {payloadUser: user, targetUser: _user, targetUserCommunity: community}
       // ::
     } catch (errObj) {
       // ::

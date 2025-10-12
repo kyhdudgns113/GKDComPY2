@@ -1,0 +1,85 @@
+@use '../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .Lefter {
+      ._container_lefter {
+        background-color: v.$SAKURA_BG;
+
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 8px;
+        border-width: 2px;
+
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+
+        height: 600px;
+
+        padding-top: 12px;
+
+        transition: box-shadow 0.4s ease, opacity 0.7s ease, transform 0.7s ease;
+
+        &:hover {
+          box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        &._close {
+          opacity: 0;
+          transform: translateX(-200px);
+          pointer-events: none;
+          width: 0px;
+        }
+
+        &._open {
+          opacity: 1;
+          transform: translateX(0);
+          width: 220px;
+        }
+
+        ._row {
+          align-items: center;
+          color: v.$SAKURA_TEXT;
+          cursor: pointer;
+
+          display: flex;
+          flex-direction: row;
+
+          font-size: 20px;
+          font-weight: 700;
+
+          padding-left: 8px;
+          padding-top: 4px;
+          padding-bottom: 4px;
+
+          width: 100%;
+
+          &:hover {
+            background-color: v.$SAKURA_BG_30;
+          }
+        }
+      }
+
+      .LefterToggle_Button {
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 50%;
+        border-width: 2px;
+
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+
+        color: v.$SAKURA_TEXT;
+        font-size: 22px;
+        height: fit-content;
+
+        margin-left: 16px;
+
+        padding: 4px;
+
+        transition: box-shadow 0.4s ease;
+
+        &:hover {
+          background-color: v.$SAKURA_BG_30;
+          box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
+  }
+}

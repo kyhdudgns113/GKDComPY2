@@ -19,6 +19,11 @@ export type CreateUserDTO = {
   password: string
 }
 
+export type UpdateClubDTO = {
+  clubOId: string
+  newClubName: string
+}
+
 export type UpdateUserDTO = {
   userOId: string
   newUserId: string

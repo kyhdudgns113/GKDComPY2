@@ -1,0 +1,20 @@
+.Template {
+  .Body {
+    .ClientRoot_Page {
+      > ._container_page {
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+
+        height: 700px;
+
+        width: 700px;
+      }
+
+      ._title_page {
+        font-size: 24px;
+        font-weight: 400;
+      }
+    }
+  }
+}

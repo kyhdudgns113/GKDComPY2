@@ -5,7 +5,10 @@ import * as Slices from './slices'
 
 export const store = configureStore({
   reducer: {
-    Test: Slices.TestReducer
+    Community: Slices.communitySlice.reducer,
+    Modal: Slices.modalSlice.reducer,
+    Template: Slices.templateSlice.reducer,
+    Test: Slices.testSlice.reducer
   }
 })
 
@@ -14,3 +17,13 @@ export type AdminDispatchs = typeof store.dispatch
 
 export const useAppDispatch = useDispatch.withTypes<AdminDispatchs>()
 export const useAppSelector = useSelector.withTypes<AdminStates>()
+
+export const useCommunityActions = () => Slices.communitySlice.actions
+export const useModalActions = () => Slices.modalSlice.actions
+export const useTemplateActions = () => Slices.templateSlice.actions
+export const useTestActions = () => Slices.testSlice.actions
+
+export const useCommunityStates = () => useAppSelector(store.getState).Community
+export const useModalStates = () => useAppSelector(store.getState).Modal
+export const useTemplateStates = () => useAppSelector(store.getState).Template
+export const useTestStates = () => useAppSelector(store.getState).Test

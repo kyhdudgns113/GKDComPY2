@@ -1,1 +1,4 @@
+export * from './CommSlice'
+export * from './ModalSlice'
+export * from './TemplateSlice'
 export * from './TestSlice'
