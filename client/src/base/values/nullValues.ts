@@ -1,9 +1,11 @@
 import * as ST from '@shareType'
 import * as T from '@type'
+import {AUTH_NORMAL} from '@secret'
 
 export const NULL_AUTH_BODY = () => {
   const ret: T.AuthBodyType = {
     jwtFromServer: '',
+    commAuth: AUTH_NORMAL,
     userId: '',
     userOId: ''
   }
@@ -33,7 +35,7 @@ export const NULL_COMMUNITY = () => {
 
 export const NULL_USER = () => {
   const ret: ST.UserType = {
-    commAuth: 0,
+    commAuth: AUTH_NORMAL,
     commOId: '',
     userOId: '',
     userId: ''

@@ -11,12 +11,12 @@ import '@styles/index.css'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <AuthProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <AuthProvider>
         <CommunityProvider>
           <App />
         </CommunityProvider>
-      </Provider>
-    </AuthProvider>
+      </AuthProvider>
+    </Provider>
   </BrowserRouter>
 )

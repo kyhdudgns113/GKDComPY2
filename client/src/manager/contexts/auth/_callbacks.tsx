@@ -26,16 +26,18 @@ export const AuthCallbacksContext = createContext<ContextType>({
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
 
 export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setUserId, setUserOId} = useAuthStatesContext()
+  const {setCommAuth, setUserId, setUserOId} = useAuthStatesContext()
 
   const navigate = useNavigate()
 
   const _writeAuthBodyObject = useCallback(
     async (authBody: AuthBodyType, callback?: () => void) => {
       await U.writeStringP('jwtFromServer', authBody.jwtFromServer)
+      await U.writeStringP('commAuth', authBody.commAuth.toString())
       await U.writeStringP('userId', authBody.userId)
       await U.writeStringP('userOId', authBody.userOId)
 
+      setCommAuth(authBody.commAuth)
       setUserId(authBody.userId)
       setUserOId(authBody.userOId)
 
@@ -58,9 +60,10 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
             if (ok) {
               // getWithJwt 에서 토큰 갱신을 한다.
-              const {userId, userOId} = body.user
+              const {commAuth, userId, userOId} = body.user
               const authBody: AuthBodyType = {
                 jwtFromServer,
+                commAuth,
                 userId,
                 userOId
               }
@@ -98,9 +101,10 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
           if (ok) {
-            const {userId, userOId} = body.user
+            const {commAuth, userId, userOId} = body.user
             const authBody: AuthBodyType = {
               jwtFromServer,
+              commAuth,
               userId,
               userOId
             }

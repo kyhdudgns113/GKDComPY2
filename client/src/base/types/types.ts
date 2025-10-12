@@ -4,6 +4,7 @@ import type {Socket} from 'socket.io-client'
 
 export type AuthBodyType = {
   jwtFromServer: string
+  commAuth: number
   userId: string
   userOId: string
 }
