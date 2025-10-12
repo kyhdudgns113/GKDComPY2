@@ -70,7 +70,7 @@
         .UserList_Part {
           @extend .__PART_COMMON;
 
-          width: 250px;
+          width: 220px;
 
           ._container_arr_part {
             display: flex;
@@ -84,7 +84,7 @@
         .ClubList_Part {
           @extend .__PART_COMMON;
 
-          width: 250px;
+          width: 220px;
 
           ._container_arr_part {
             display: flex;
@@ -98,7 +98,7 @@
         .MemberList_Part {
           @extend .__PART_COMMON;
 
-          width: 300px;
+          min-width: 500px;
 
           ._container_arr_part {
             display: flex;
