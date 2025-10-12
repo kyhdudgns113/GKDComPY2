@@ -11,8 +11,9 @@ function App() {
     <Routes>
       <Route path="/" element={<P.RootPage />} />
 
-      <Route path="/client" element={<Template />}>
+      <Route path="/client/*" element={<Template />}>
         <Route index element={<P.ClientRootPage />} />
+        <Route path="main" element={<P.ClientMainPage />} />
         <Route path="*" element={<P.NullPage />} />
       </Route>
 

@@ -6,6 +6,7 @@ import * as M from './modules'
 @Module({
   imports: [
     M.AdminModule, // ::
+    M.ClientModule,
     M.DatabaseModule
   ],
   controllers: [AppController],

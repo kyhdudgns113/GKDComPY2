@@ -51,7 +51,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     async () => {
       const isJwt = await U.readStringP('jwtFromServer')
       if (isJwt) {
-        const url = `/admin/auth/refreshToken`
+        const url = `/client/auth/refreshToken`
         return F.getWithJwt(url)
           .then(res => res.json())
           .then(res => {

@@ -9,7 +9,7 @@ interface TemplateState {
 
 // 초기 상태
 const initialState: TemplateState = {
-  isLefterOpen: false
+  isLefterOpen: true
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)

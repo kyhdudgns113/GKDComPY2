@@ -8,10 +8,23 @@ import * as P from './ports'
     DBHubModule,
     // ::
     P.AdminPortsModule,
+    P.ClientPortsModule,
     P.JwtPortModule
   ],
   controllers: [],
-  providers: [P.AdminAuthPortService, P.AdminCommPortService, P.JwtPortService],
-  exports: [P.AdminAuthPortService, P.AdminCommPortService, P.JwtPortService]
+  providers: [
+    P.AdminAuthPortService, // ::
+    P.AdminCommPortService,
+    P.ClientAuthPortService,
+    P.ClientCommPortService,
+    P.JwtPortService
+  ],
+  exports: [
+    P.AdminAuthPortService, // ::
+    P.AdminCommPortService,
+    P.ClientAuthPortService,
+    P.ClientCommPortService,
+    P.JwtPortService
+  ]
 })
 export class DatabaseModule {}
