@@ -13,7 +13,7 @@ import './_style/UserModifyModal.scss'
 type UserModifyModalProps = DivCommonProps & {}
 
 export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...props}) => {
-  const {closeModal} = useModalActions()
+  const {closeModal, unselectModifyUser} = useModalActions()
   const {userSelected} = useModalStates()
   const {modifyCommunityUser} = useCommunityCallbacksContext()
 
@@ -39,6 +39,11 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
     },
     [modifyCommunityUser, dispatch, closeModal]
   )
+
+  const onClose = useCallback(() => {
+    dispatch(closeModal())
+    dispatch(unselectModifyUser())
+  }, [dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onKeyDownModal = useCallback(
     (userOId: string, userId: string, password: string, commAuth: number) => (e: KeyboardEvent<HTMLDivElement>) => {
@@ -68,7 +73,7 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
   return (
     <Modal
       className={`UserModify_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={() => dispatch(closeModal())}
+      onClose={onClose}
       onKeyDown={onKeyDownModal(userSelected.userOId, userId, password, userSelected.commAuth)}
       style={style}
       {...props} // ::
@@ -112,7 +117,7 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
           </button>
 
           {/* 2-4. 취소하기 */}
-          <button type="button" className="_button_form" onClick={() => dispatch(closeModal())}>
+          <button type="button" className="_button_form" onClick={onClose}>
             취소하기
           </button>
         </div>

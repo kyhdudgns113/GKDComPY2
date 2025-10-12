@@ -28,6 +28,14 @@ export class ClientCommController {
 
   // PUT AREA:
 
+  @Put('/modifyCommClub')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyCommClub(@Headers() headers: any, @Body() data: HTTP.ModifyCommClubDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.modifyCommClub(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Put('/modifyCommUser')
   @UseGuards(CheckJwtValidationGuard)
   async modifyCommUser(@Headers() headers: any, @Body() data: HTTP.ModifyCommUserDataType) {

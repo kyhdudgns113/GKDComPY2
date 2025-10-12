@@ -8,12 +8,14 @@ import * as V from '@value'
 
 // State 타입 정의
 interface ModalState {
+  clubSelected: ST.ClubType
   modalName: string
   userSelected: ST.UserType
 }
 
 // 초기 상태
 const initialState: ModalState = {
+  clubSelected: NV.NULL_CLUB(),
   modalName: '',
   userSelected: NV.NULL_USER()
 }
@@ -53,10 +55,19 @@ export const modalSlice = createSlice({
       state.modalName = V.MODAL_NAME_MODIFY_USER
     },
     // AREA2: 정보 영역
-    // 수정할 유저 선택
+    // 선택: 수정할 클럽
+    selectModifyClub: (state, action: PayloadAction<ST.ClubType>) => {
+      state.clubSelected = action.payload
+    },
+    // 선택: 수정할 유저
     selectModifyUser: (state, action: PayloadAction<ST.UserType>) => {
       state.userSelected = action.payload
     },
+    // 해제: 수정할 클럽
+    unselectModifyClub: state => {
+      state.clubSelected = NV.NULL_CLUB()
+    },
+    // 해제: 수정할 유저
     unselectModifyUser: state => {
       state.userSelected = NV.NULL_USER()
     }

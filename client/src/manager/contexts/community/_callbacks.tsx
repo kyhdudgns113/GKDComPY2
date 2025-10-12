@@ -14,6 +14,7 @@ type ContextType = {
   addCommunityClub: (commOId: string, clubName: string) => Promise<boolean>
   addCommunityUser: (commOId: string, userId: string, password: string) => Promise<boolean>
 
+  modifyCommunityClub: (clubOId: string, newClubName: string) => Promise<boolean>,
   modifyCommunityUser: (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => Promise<boolean>,
 
   loadUsersCommunity: () => Promise<boolean>
@@ -23,6 +24,7 @@ export const CommunityCallbacksContext = createContext<ContextType>({
   addCommunityClub: () => Promise.resolve(false),
   addCommunityUser: () => Promise.resolve(false),
 
+  modifyCommunityClub: () => Promise.resolve(false),
   modifyCommunityUser: () => Promise.resolve(false),
 
   loadUsersCommunity: () => Promise.resolve(false),
@@ -90,6 +92,32 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
   // PUT AREA:
 
+  const modifyCommunityClub = useCallback(
+    async (clubOId: string, newClubName: string) => {
+      const url = `/client/community/modifyCommClub`
+      const data: HTTP.ModifyCommClubDataType = {clubOId, newClubName}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubArr} = body
+            dispatch(setClubArr(clubArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   const modifyCommunityUser = useCallback(
     async (userOId: string, newUserId: string, newPassword: string, newCommAuth: number) => {
       const url = `/client/community/modifyCommUser`
@@ -150,6 +178,7 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
     addCommunityClub,
     addCommunityUser,
 
+    modifyCommunityClub,
     modifyCommunityUser,
 
     loadUsersCommunity,

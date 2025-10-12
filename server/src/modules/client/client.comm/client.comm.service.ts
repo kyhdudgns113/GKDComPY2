@@ -35,6 +35,17 @@ export class ClientCommService {
 
   // PUT AREA:
 
+  async modifyCommClub(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommClubDataType) {
+    try {
+      const {clubArr} = await this.portService.modifyCommClub(jwtPayload, data)
+      return {ok: true, body: {clubArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async modifyCommUser(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommUserDataType) {
     try {
       const {userArr} = await this.portService.modifyCommUser(jwtPayload, data)

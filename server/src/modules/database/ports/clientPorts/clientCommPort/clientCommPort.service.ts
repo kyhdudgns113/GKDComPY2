@@ -110,6 +110,52 @@ export class ClientCommPortService {
   // PUT AREA:
 
   /**
+   * modifyCommClub
+   * - 공동체 클럽 수정 함수
+   *
+   * 입력값
+   * - clubOId: string
+   *     + 수정할 클럽의 OId
+   * - newClubName: string
+   *     + 클럽의 새로운 이름
+   *
+   * 출력값
+   * - clubArr: T.ClubType[]
+   *     + 수정된 이후 공동체에 속한 클럽들의 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 클럽 수정 뙇!!
+   * 3. 공동체에 속한 클럽 배열 읽기 뙇!!
+   * 4. 반환 뙇!!
+   */
+  async modifyCommClub(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyCommClubDataType) {
+    const where = `/client/community/modifyCommClub`
+    const {clubOId, newClubName} = data
+
+    try {
+      // 1. 권한 췍!!
+      const {club} = await this.dbHubService.checkAuth_ClubWrite(where, jwtPayload, clubOId)
+      const {commOId} = club
+
+      // 2. 클럽 수정 뙇!!
+      const dto: DTO.UpdateClubDTO = {clubOId, newClubName}
+      await this.dbHubService.updateClub(where, dto)
+
+      // 3. 공동체에 속한 클럽 배열 읽기 뙇!!
+      const {clubArr} = await this.dbHubService.readClubArrByCommOId(where, commOId)
+
+      // 4. 반환 뙇!!
+      return {clubArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
+
+  /**
    * modifyCommUser
    * - 공동체 유저 수정 함수
    *
