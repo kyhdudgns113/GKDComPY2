@@ -7,7 +7,7 @@ import {useModalStates} from '@store'
 import {Footer} from './Footer'
 import {Header} from './Header'
 import {Lefter} from './Lefter'
-import {UserAddModal} from './Modals'
+import {UserAddModal, UserModifyModal} from './Modals'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -52,6 +52,7 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
 
       {/* 4. 모달 모아둔곳 */}
       {modalName === V.MODAL_NAME_ADD_USER && <UserAddModal />}
+      {modalName === V.MODAL_NAME_MODIFY_USER && <UserModifyModal />}
     </div>
   )
 }

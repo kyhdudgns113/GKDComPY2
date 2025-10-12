@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
+import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {ClientCommService} from './client.comm.service'
 import {CheckJwtValidationGuard} from '@guard'
 
@@ -15,6 +15,16 @@ export class ClientCommController {
   async addCommUser(@Headers() headers: any, @Body() data: HTTP.AddCommUserDataType) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.addCommUser(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // PUT AREA:
+
+  @Put('/modifyCommUser')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyCommUser(@Headers() headers: any, @Body() data: HTTP.ModifyCommUserDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientServuce.modifyCommUser(jwtPayload, data)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 

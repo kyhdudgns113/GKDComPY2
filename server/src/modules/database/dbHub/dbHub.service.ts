@@ -338,7 +338,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async checkAuth_CommWrite(where: string, jwtPayload: T.JwtPayloadType, commOId: string) {
     const {userOId} = jwtPayload
 
@@ -380,6 +379,72 @@ export class DBHubService {
       }
 
       return {user, community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_UserWrite(where: string, jwtPayload: T.JwtPayloadType, _userOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {user: _user} = await this.userDBService.readUserByUserOId(where, _userOId)
+      if (!_user) {
+        throw {
+          gkd: {userErr: `타겟 유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_USER',
+          gkdErrMsg: `타겟 유저가 DB 에 없음`,
+          gkdStatus: {_userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = _user
+      const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
+      if (!community) {
+        throw {
+          gkd: {communityErr: `공동체가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_COMMUNITY',
+          gkdErrMsg: `공동체가 존재하지 않음`,
+          gkdStatus: {commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const isAdmin = user.commAuth === AUTH_ADMIN
+      const isSameComm = user.commOId === commOId
+      const isUserGold = user.commAuth >= AUTH_GOLD
+      const isUserSame = user.userOId === _user.userOId
+
+      if (user.commAuth !== AUTH_ADMIN && !(isSameComm && (isUserGold || isUserSame))) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_USER_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {payloadUser: user, targetUser: _user, targetUserCommunity: community}
       // ::
     } catch (errObj) {
       // ::

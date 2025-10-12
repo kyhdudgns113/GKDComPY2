@@ -58,6 +58,47 @@ export class ClientCommPortService {
     }
   }
 
+  // PUT AREA:
+
+  /**
+   * modifyCommUser
+   * - 공동체 유저 수정 함수
+   *
+   * 입력값
+   * - userOId: string
+   *     + 수정할 유저의 OId
+   * - newUserId: string
+   *     + 유저의 새로운 ID
+   * - newPassword: string
+   *     + 유저의 새로운 비밀번호
+   * - newCommAuth: number
+   *     + 유저의 새로운 권한값
+   */
+  async modifyCommUser(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyCommUserDataType) {
+    const where = `/client/community/modifyCommUser`
+    const {userOId, newUserId, newPassword, newCommAuth} = data
+
+    try {
+      // 1. 권한 췍!!
+      const {targetUserCommunity: community} = await this.dbHubService.checkAuth_UserWrite(where, jwtPayload, userOId)
+
+      // 2. 유저 수정 뙇!!
+      const dto: DTO.UpdateUserDTO = {userOId, newUserId, newPassword, newCommAuth}
+      await this.dbHubService.updateUser(where, dto)
+
+      // 3. 공동체 유저 배열 읽기 뙇!!
+      const {userArr} = await this.dbHubService.readUserArrByCommOId(where, community.commOId)
+
+      // 4. 리턴턴 뙇!!
+      return {userArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
+
   // GET AREA:
 
   /**

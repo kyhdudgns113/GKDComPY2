@@ -22,6 +22,19 @@ export class ClientCommService {
     }
   }
 
+  // PUT AREA:
+
+  async modifyCommUser(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommUserDataType) {
+    try {
+      const {userArr} = await this.portService.modifyCommUser(jwtPayload, data)
+      return {ok: true, body: {userArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadUsersCommunity(jwtPayload: JwtPayloadType) {
