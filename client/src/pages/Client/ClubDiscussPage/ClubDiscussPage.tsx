@@ -1,4 +1,4 @@
-import {useTemplateStates} from '@store'
+import {useClubStates} from '@store'
 
 import {ClubChatRoomSubPage, ClubDocSubPage} from './subpages'
 
@@ -10,7 +10,7 @@ import './_style/ClubDiscussPage.scss'
 type ClubDiscussPageProps = DivCommonProps & {}
 
 export const ClubDiscussPage: FC<ClubDiscussPageProps> = ({className, style, ...props}) => {
-  const {clubOpened} = useTemplateStates()
+  const {clubOpened} = useClubStates()
 
   return (
     <div className={`ClubDiscuss_Page CliengPages ${className || ''}`} style={style} {...props}>

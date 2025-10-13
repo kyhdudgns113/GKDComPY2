@@ -1,3 +1,4 @@
+export * from './ClubSlice'
 export * from './CommSlice'
 export * from './ModalSlice'
 export * from './TemplateSlice'

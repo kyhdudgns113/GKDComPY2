@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
 
-import {useAppDispatch, useTemplateActions, useCommunityStates} from '@store'
+import {useAppDispatch, useCommunityStates, useClubActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -14,7 +14,7 @@ export const useUrlEffectsContext = () => useContext(UrlEffectsContext)
 
 export const UrlEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   const {clubArr} = useCommunityStates()
-  const {setClubOpened, resetClubOpened} = useTemplateActions()
+  const {setClubOpened, resetClubOpened} = useClubActions()
 
   const dispatch = useAppDispatch()
   const location = useLocation()
