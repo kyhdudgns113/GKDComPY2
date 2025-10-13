@@ -1,2 +1,5 @@
 export * from './ClientMainPage'
 export * from './ClientRootPage'
+export * from './ClubDiscussPage'
+export * from './ClubMemberPage'
+export * from './ClubRecordPage'

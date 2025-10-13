@@ -18,9 +18,9 @@ function App() {
 
         <Route path="entireMember" element={<P.NullPage />} />
 
-        <Route path="club/discuss/:clubOId" element={<P.NullPage />} />
-        <Route path="club/member/:clubOId" element={<P.NullPage />} />
-        <Route path="club/record/:clubOId" element={<P.NullPage />} />
+        <Route path="club/discuss/:clubOId" element={<P.ClubDiscussPage />} />
+        <Route path="club/member/:clubOId" element={<P.ClubMemberPage />} />
+        <Route path="club/record/:clubOId" element={<P.ClubRecordPage />} />
 
         <Route path="*" element={<P.NullPage />} />
       </Route>
