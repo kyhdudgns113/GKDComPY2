@@ -1,0 +1,33 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ClubChatRoom_SubPage {
+  ._title_subpage {
+    color: v.$SAKURA_TEXT;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    margin-top: 8px;
+
+    text-align: center;
+    user-select: none;
+  }
+
+  .ChatArr_Part {
+    background-color: v.$SAKURA_BG_20;
+
+    border-color: v.$SAKURA_BORDER;
+    border-bottom-width: 2px;
+    border-top-width: 2px;
+
+    height: 480px;
+
+    margin-top: 8px;
+
+    overflow: auto;
+  }
+
+  .ChatInput_Part {
+    height: 100px;
+  }
+}

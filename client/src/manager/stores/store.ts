@@ -5,6 +5,7 @@ import * as Slices from './slices'
 
 export const store = configureStore({
   reducer: {
+    Chat: Slices.chatSlice.reducer,
     Club: Slices.clubSlice.reducer,
     Community: Slices.communitySlice.reducer,
     Modal: Slices.modalSlice.reducer,
@@ -19,14 +20,20 @@ export type AdminDispatchs = typeof store.dispatch
 export const useAppDispatch = useDispatch.withTypes<AdminDispatchs>()
 export const useAppSelector = useSelector.withTypes<AdminStates>()
 
-export const useClubActions = () => Slices.clubSlice.actions
-export const useCommunityActions = () => Slices.communitySlice.actions
-export const useModalActions = () => Slices.modalSlice.actions
-export const useTemplateActions = () => Slices.templateSlice.actions
-export const useTestActions = () => Slices.testSlice.actions
+// AREA1: States
 
+export const useChatStates = () => useAppSelector(store.getState).Chat
 export const useClubStates = () => useAppSelector(store.getState).Club
 export const useCommunityStates = () => useAppSelector(store.getState).Community
 export const useModalStates = () => useAppSelector(store.getState).Modal
 export const useTemplateStates = () => useAppSelector(store.getState).Template
 export const useTestStates = () => useAppSelector(store.getState).Test
+
+// AREA2: Actions
+
+export const useChatActions = () => Slices.chatSlice.actions
+export const useClubActions = () => Slices.clubSlice.actions
+export const useCommunityActions = () => Slices.communitySlice.actions
+export const useModalActions = () => Slices.modalSlice.actions
+export const useTemplateActions = () => Slices.templateSlice.actions
+export const useTestActions = () => Slices.testSlice.actions

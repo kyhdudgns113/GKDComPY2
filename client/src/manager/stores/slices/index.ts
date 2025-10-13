@@ -1,3 +1,4 @@
+export * from './ChatSlice'
 export * from './ClubSlice'
 export * from './CommSlice'
 export * from './ModalSlice'

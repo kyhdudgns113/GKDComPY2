@@ -44,7 +44,10 @@
 
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 
-      height: 600px;
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
 
       transition: box-shadow 0.4s ease;
 
@@ -52,15 +55,6 @@
 
       &:hover {
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
-      }
-
-      ._title_subpage {
-        color: v.$SAKURA_TEXT;
-
-        font-size: 24px;
-        font-weight: 700;
-
-        text-align: center;
       }
     }
   }

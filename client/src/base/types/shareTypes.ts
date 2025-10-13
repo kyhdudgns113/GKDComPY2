@@ -1,3 +1,12 @@
+export type ChatType = {
+  chatIdx: number
+  clubOId: string
+  contents: string
+  createdAt: string
+  userId: string
+  userOId: string
+}
+
 export type ClubType = {
   /**
    * 기존에 있던 다음 property 들은 사용하지 않는다

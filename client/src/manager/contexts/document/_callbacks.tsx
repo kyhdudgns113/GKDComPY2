@@ -19,7 +19,7 @@ type ContextType = {
 export const DocumentCallbacksContext = createContext<ContextType>({
   modifyClubDocument: () => Promise.resolve(false),
 
-  loadClubDocument: () => Promise.resolve(false),
+  loadClubDocument: () => Promise.resolve(false)
 })
 
 export const useDocumentCallbacksContext = () => useContext(DocumentCallbacksContext)
@@ -83,7 +83,7 @@ export const DocumentCallbacksProvider: FC<PropsWithChildren> = ({children}) => 
   // prettier-ignore
   const value: ContextType = {
     modifyClubDocument,
-    
+
     loadClubDocument,
   }
   return <DocumentCallbacksContext.Provider value={value}>{children}</DocumentCallbacksContext.Provider>

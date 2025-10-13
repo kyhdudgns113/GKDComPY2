@@ -30,6 +30,19 @@ export class DBHubService {
     private readonly weekRecordDBService: TB.WeekRecordDBService
   ) {}
 
+  // AREA1: Chat Area
+
+  async readChatArrByClubOId(where: string, clubOId: string, lastChatIdx: number) {
+    try {
+      const {chatArr} = await this.chatDBService.readChatArrByClubOId(where, clubOId, lastChatIdx)
+      return {chatArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA2: Club Area
 
   async createClub(where: string, dto: DTO.CreateClubDTO) {

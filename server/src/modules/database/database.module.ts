@@ -16,6 +16,7 @@ import * as P from './ports'
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientChatPortService,
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
@@ -25,6 +26,7 @@ import * as P from './ports'
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientChatPortService,
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
