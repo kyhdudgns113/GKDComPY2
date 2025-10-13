@@ -1,0 +1,60 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ClubDiscuss_Page {
+  ._title_page {
+    color: v.$SAKURA_TEXT;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    text-align: center;
+  }
+
+  ._container_page {
+    display: flex;
+    flex-direction: row;
+
+    gap: 120px;
+
+    width: fit-content;
+
+    .ClubDoc_SubPage {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 10px;
+      border-width: 2px;
+
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+      width: 700px;
+
+      ._title_subpage {
+        color: v.$SAKURA_TEXT;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        text-align: center;
+      }
+    }
+
+    .ClubChatRoom_SubPage {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 10px;
+      border-width: 2px;
+
+      height: 600px;
+
+      width: 320px;
+
+      ._title_subpage {
+        color: v.$SAKURA_TEXT;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        text-align: center;
+      }
+    }
+  }
+}
