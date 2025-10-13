@@ -24,6 +24,11 @@ export type UpdateClubDTO = {
   newClubName: string
 }
 
+export type UpdateDocumentDTO = {
+  clubOId: string
+  contents: string
+}
+
 export type UpdateUserDTO = {
   userOId: string
   newUserId: string

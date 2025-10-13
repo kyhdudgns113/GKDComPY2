@@ -1,3 +1,5 @@
 export * from './clientAuthPort'
+export * from './clientClubPort'
 export * from './clientCommPort'
+export * from './clientDocPort'
 export * from './clientPorts.module'

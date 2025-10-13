@@ -1,0 +1,109 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ClubDoc_SubPage {
+  ._title_subpage {
+    color: v.$SAKURA_TEXT;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    margin-top: 8px;
+
+    text-align: center;
+    user-select: none;
+  }
+
+  ._button_row_subpage {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    position: absolute;
+    right: 12px;
+    top: 12px;
+
+    .DocEdit_Button,
+    .DocLoad_Button {
+      background-color: v.$SAKURA_BG_20;
+
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 8px;
+      border-width: 2px;
+
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+      color: v.$SAKURA_TEXT;
+      cursor: pointer;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      transition: box-shadow 0.4s ease, background-color 0.4s ease;
+
+      user-select: none;
+
+      &:hover {
+        background-color: v.$SAKURA_BG_70;
+
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+
+  .DocumentContent_Part {
+    border-color: v.$SAKURA_BORDER;
+    border-radius: 10px;
+    border-width: 2px;
+
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+
+    height: fit-content;
+
+    margin-top: 16px;
+
+    padding-right: 4px;
+
+    transition: box-shadow 0.4s ease;
+
+    width: fit-content;
+
+    &:hover {
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus-within {
+      background-color: v.$SAKURA_BG_10;
+    }
+
+    ._textarea_container {
+      height: fit-content;
+
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      width: fit-content;
+
+      ._textarea_contents {
+        cursor: default;
+
+        height: 550px !important;
+
+        outline: none;
+        overflow-y: auto;
+
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        resize: none;
+
+        width: 660px;
+      }
+    }
+  }
+}

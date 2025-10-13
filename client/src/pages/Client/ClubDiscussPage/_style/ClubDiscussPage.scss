@@ -1,20 +1,13 @@
 @use '../../../../base/styles/values.scss' as v;
 
 .ClubDiscuss_Page {
-  ._title_page {
-    color: v.$SAKURA_TEXT;
-
-    font-size: 28px;
-    font-weight: 700;
-
-    text-align: center;
-  }
-
   ._container_page {
     display: flex;
     flex-direction: row;
 
     gap: 120px;
+
+    margin-top: 24px;
 
     width: fit-content;
 
@@ -23,18 +16,24 @@
       border-radius: 10px;
       border-width: 2px;
 
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+
       display: flex;
       flex-direction: column;
-      height: 600px;
-      width: 700px;
+      height: fit-content;
 
-      ._title_subpage {
-        color: v.$SAKURA_TEXT;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 16px;
 
-        font-size: 24px;
-        font-weight: 700;
+      position: relative;
 
-        text-align: center;
+      transition: box-shadow 0.4s ease;
+
+      width: fit-content;
+
+      &:hover {
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
       }
     }
 

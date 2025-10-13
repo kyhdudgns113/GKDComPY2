@@ -21,6 +21,12 @@ export type CommunityType = {
   subClubOId: string // 후보군 더미클럽
 }
 
+export type DocumentType = {
+  documentOId: string
+  clubOId: string
+  contents: string
+}
+
 export type UserType = {
   commAuth: number
   commOId: string

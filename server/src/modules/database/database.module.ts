@@ -16,14 +16,18 @@ import * as P from './ports'
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientClubPortService,
     P.ClientCommPortService,
+    P.ClientDocPortService,
     P.JwtPortService
   ],
   exports: [
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientClubPortService,
     P.ClientCommPortService,
+    P.ClientDocPortService,
     P.JwtPortService
   ]
 })

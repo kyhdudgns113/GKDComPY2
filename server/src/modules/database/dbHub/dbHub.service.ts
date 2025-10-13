@@ -108,6 +108,29 @@ export class DBHubService {
     }
   }
 
+  // AREA5: Document Area
+
+  async readDocumentByClubOId(where: string, clubOId: string) {
+    try {
+      const {document, contents} = await this.docDBService.readDocumentByClubOId(where, clubOId)
+      return {document, contents}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateDocument(where: string, dto: DTO.UpdateDocumentDTO) {
+    try {
+      await this.docDBService.updateDocument(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA2: User Area
 
   async createUser(where: string, dto: DTO.CreateUserDTO) {
