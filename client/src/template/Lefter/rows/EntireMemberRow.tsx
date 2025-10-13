@@ -11,7 +11,7 @@ export const EntireMemberRow: FC<EntireMemberRowProps> = ({className, style, ...
 
   const onClickRow = useCallback((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    navigate('/client/entire')
+    navigate('/client/entireMember')
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
