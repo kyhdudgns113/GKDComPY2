@@ -7,6 +7,17 @@ export type ChatMessageType = {
   content: string
 }
 
+export type ChatRoomConnectType = {
+  chatRoomOId: string
+  jwtFromClient: string
+  userOId: string
+}
+
+export type ChatRoomDisconnectType = {
+  chatRoomOId: string
+  userOId: string
+}
+
 export type SocketRequestValidationType = {
   jwtFromClient: string
 }
@@ -17,6 +28,10 @@ export type UserConnectType = {
 }
 
 // AREA2: 서버가 전송할때 쓰는 타입
+
+export type ChatRoomOpenedType = {
+  chatRoomOId: string
+}
 
 export type NewChatType = ST.ChatType
 

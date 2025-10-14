@@ -4,7 +4,7 @@ import {Icon} from '@component'
 import {useChatCallbacksContext, useSocketStatesContext} from '@context'
 import {useChatStates} from '@store'
 
-import type {ChangeEvent, FC, MouseEvent} from 'react'
+import type {ChangeEvent, FC, KeyboardEvent, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 import type {SocketType} from '@type'
 
@@ -19,6 +19,24 @@ export const ChatInputPart: FC<ChatInputPartProps> = ({className, style, ...prop
 
   const [contents, setContents] = useState<string>('')
 
+  const _executeChat = useCallback(
+    (socket: SocketType, chatRoomOId: string, contents: string) => {
+      if (!socket || !chatRoomOId) {
+        alert('소켓 또는 채팅방 OId가 없습니다.')
+        return
+      }
+
+      if (contents.trim() === '') {
+        setContents('')
+        return
+      }
+
+      chatMessage(socket, chatRoomOId, contents)
+      setContents('')
+    },
+    [chatMessage]
+  )
+
   const onChangeInput = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(e.currentTarget.value)
   }, [])
@@ -26,16 +44,25 @@ export const ChatInputPart: FC<ChatInputPartProps> = ({className, style, ...prop
   const onClickSend = useCallback(
     (socket: SocketType, chatRoomOId: string, contents: string) => (e: MouseEvent<HTMLSpanElement>) => {
       e.stopPropagation()
-      chatMessage(socket, chatRoomOId, contents)
-      setContents('')
+      _executeChat(socket, chatRoomOId, contents)
     },
-    [chatMessage]
+    [_executeChat]
+  )
+
+  const onKeyDownInput = useCallback(
+    (socket: SocketType, chatRoomOId: string, contents: string) => (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        _executeChat(socket, chatRoomOId, contents)
+      } // ::
+    },
+    [_executeChat]
   )
 
   return (
     <div className={`ChatInput_Part ${className || ''}`} style={style} {...props}>
       <div className="_container_input">
-        <textarea className="_input_chat" onChange={onChangeInput} value={contents} />
+        <textarea className="_input_chat" onChange={onChangeInput} onKeyDown={onKeyDownInput(socket, chatRoomOId, contents)} value={contents} />
       </div>
       <Icon iconName="send" className="_button_send" onClick={onClickSend(socket, chatRoomOId, contents)} />
     </div>

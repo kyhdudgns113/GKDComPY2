@@ -23,13 +23,13 @@ export const useAppSelector = useSelector.withTypes<AdminStates>()
 
 // AREA1: States
 
-export const useChatStates = () => useAppSelector(store.getState).Chat
-export const useClubStates = () => useAppSelector(store.getState).Club
-export const useCommunityStates = () => useAppSelector(store.getState).Community
-export const useDocumentStates = () => useAppSelector(store.getState).Document
-export const useModalStates = () => useAppSelector(store.getState).Modal
-export const useTemplateStates = () => useAppSelector(store.getState).Template
-export const useTestStates = () => useAppSelector(store.getState).Test
+export const useChatStates = () => useAppSelector(state => state.Chat)
+export const useClubStates = () => useAppSelector(state => state.Club)
+export const useCommunityStates = () => useAppSelector(state => state.Community)
+export const useDocumentStates = () => useAppSelector(state => state.Document)
+export const useModalStates = () => useAppSelector(state => state.Modal)
+export const useTemplateStates = () => useAppSelector(state => state.Template)
+export const useTestStates = () => useAppSelector(state => state.Test)
 
 // AREA2: Actions
 

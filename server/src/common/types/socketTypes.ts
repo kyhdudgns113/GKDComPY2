@@ -1,4 +1,11 @@
+import * as ST from '@shareType'
+
 // AREA1: 클라이언트가 전송할때 쓰는 타입
+
+export type ChatMessageType = {
+  chatRoomOId: string
+  content: string
+}
 
 export type ChatRoomConnectType = {
   chatRoomOId: string
@@ -25,6 +32,8 @@ export type UserConnectType = {
 export type ChatRoomOpenedType = {
   chatRoomOId: string
 }
+
+export type NewChatType = ST.ChatType
 
 export type SocketResponseValidationType = {
   jwtFromServer: string

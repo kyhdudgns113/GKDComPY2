@@ -1,7 +1,7 @@
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux'
-import {AuthProvider, ClubProvider, CommunityProvider, DocumentProvider, SocketProvider, UrlProvider} from '@context'
+import {AuthProvider, ChatProvider, ClubProvider, CommunityProvider, DocumentProvider, SocketProvider, UrlProvider} from '@context'
 
 import {store} from '@store'
 
@@ -13,17 +13,19 @@ createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
       <UrlProvider>
-        <AuthProvider>
-          <SocketProvider>
+        <SocketProvider>
+          <AuthProvider>
             <CommunityProvider>
               <ClubProvider>
-                <DocumentProvider>
-                  <App />
-                </DocumentProvider>
+                <ChatProvider>
+                  <DocumentProvider>
+                    <App />
+                  </DocumentProvider>
+                </ChatProvider>
               </ClubProvider>
             </CommunityProvider>
-          </SocketProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </SocketProvider>
       </UrlProvider>
     </Provider>
   </BrowserRouter>
