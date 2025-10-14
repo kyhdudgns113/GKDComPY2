@@ -347,6 +347,131 @@ export class DBHubService {
     }
   }
 
+  async checkAuth_ChatRoomRead(where: string, jwtPayload: T.JwtPayloadType, chatRoomOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      if (!chatRoom) {
+        throw {
+          gkd: {chatRoomErr: `채팅방이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CHAT_ROOM',
+          gkdErrMsg: `채팅방이 존재하지 않음`,
+          gkdStatus: {chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, chatRoom.clubOId)
+
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: chatRoom.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = club
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === commOId && user.commAuth >= AUTH_NORMAL)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, chatRoom}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkAuth_ChatRoomWrite(where: string, jwtPayload: T.JwtPayloadType, chatRoomOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      if (!chatRoom) {
+        throw {
+          gkd: {chatRoomErr: `채팅방이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CHAT_ROOM',
+          gkdErrMsg: `채팅방이 존재하지 않음`,
+          gkdStatus: {chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, chatRoom.clubOId)
+
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: chatRoom.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = club
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, chatRoom}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async checkAuth_ClubRead(where: string, jwtPayload: T.JwtPayloadType, clubOId: string) {
     const {userOId} = jwtPayload
 

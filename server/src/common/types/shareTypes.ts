@@ -7,6 +7,11 @@ export type ChatType = {
   userOId: string
 }
 
+export type ChatRoomType = {
+  chatRoomOId: string
+  clubOId: string
+}
+
 export type ClubType = {
   /**
    * 기존에 있던 다음 property 들은 사용하지 않는다

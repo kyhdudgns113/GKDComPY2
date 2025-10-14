@@ -3,6 +3,7 @@ import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 import {DBService} from '../_db'
 
+import * as ST from '@shareType'
 import * as T from '@type'
 
 @Injectable()
@@ -108,6 +109,33 @@ export class ChatDBService {
       })) as T.ChatType[]
 
       return {chatArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async readChatRoomByChatRoomOId(where: string, chatRoomOId: string) {
+    const connection = await this.dbService.getConnection()
+    try {
+      const queryRead = `SELECT chatRoomOId, clubOId FROM chatRooms WHERE chatRoomOId = ?`
+      const paramRead = [chatRoomOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+      if (resultArray.length === 0) {
+        return {chatRoom: null}
+      }
+
+      const chatRoom: ST.ChatRoomType = {
+        chatRoomOId: resultArray[0].chatRoomOId,
+        clubOId: resultArray[0].clubOId
+      }
+      return {chatRoom}
       // ::
     } catch (errObj) {
       // ::

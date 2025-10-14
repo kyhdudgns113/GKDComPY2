@@ -61,6 +61,32 @@ export class GKDJwtService {
       return {ok: false, body: {}, errObj}
     }
   }
+  /**
+   * Socket 에서 사용하는 JWT 인증
+   */
+  async requestValidationSocket(jwtFromClient: string) {
+    try {
+      const {jwt} = decodeJwtFromClient(jwtFromClient, jwtHeaderLenBase)
+      const extractedPayload = (await this.jwtService.verifyAsync(jwt)) as JwtPayloadType
+
+      const {userId, userOId} = extractedPayload
+
+      const jwtPayload: JwtPayloadType = {
+        userId,
+        userOId
+      }
+      const newHeader = generateRandomString(jwtHeaderLenVali)
+      const newJwt = await this.jwtService.signAsync(jwtPayload)
+
+      const {jwtFromServer} = encodeJwtFromServer(newHeader, newJwt)
+
+      return {ok: true, body: {jwtFromServer}, errObj: {}}
+      // ::
+    } catch (errObj) {
+      // ::
+      return {ok: false, body: {jwtFromServer: ''}, errObj}
+    }
+  }
   resetUOIdToHeaderToUrl(userOId: string, header: string) {
     delete this.uOIdToHeaderToUrl[userOId][header]
   }

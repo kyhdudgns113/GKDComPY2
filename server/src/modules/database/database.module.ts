@@ -9,7 +9,8 @@ import * as P from './ports'
     // ::
     P.AdminPortsModule,
     P.ClientPortsModule,
-    P.JwtPortModule
+    P.JwtPortModule,
+    P.SocketPortModule
   ],
   controllers: [],
   providers: [
@@ -20,7 +21,8 @@ import * as P from './ports'
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
-    P.JwtPortService
+    P.JwtPortService,
+    P.SocketPortService
   ],
   exports: [
     P.AdminAuthPortService, // ::
@@ -30,7 +32,8 @@ import * as P from './ports'
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
-    P.JwtPortService
+    P.JwtPortService,
+    P.SocketPortService
   ]
 })
 export class DatabaseModule {}

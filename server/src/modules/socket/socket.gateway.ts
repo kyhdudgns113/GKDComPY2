@@ -2,13 +2,12 @@ import {Server, Socket} from 'socket.io'
 import {UseGuards} from '@nestjs/common'
 import {SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect} from '@nestjs/websockets'
 
-import {GKDJwtService} from '@modules/gkdJwt'
+import {CheckSocketJwtGuard} from '@guard'
 import {SendSocketClientMessage, SendSocketRoomMessage} from '@util'
 
-import {SocketInfoService} from './socket.info.service'
+import {SocketGatewayService} from './socket.gateway.service'
 
-import * as T from '@type'
-import * as ST from '@socketType'
+import * as SCK from '@socketType'
 
 /**
  * SocketGateway
@@ -17,15 +16,65 @@ import * as ST from '@socketType'
  */
 @WebSocketGateway({cors: true})
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly socketInfoService: SocketInfoService) {}
+  constructor(private readonly gatewayService: SocketGatewayService) {}
+
+  // AREA1: Base Area
 
   @WebSocketServer()
   server: Server
 
   handleConnection(client: Socket) {
-    console.log('Client connected')
+    // DO NOTHING:
   }
   handleDisconnect(client: Socket) {
-    console.log('Client disconnected')
+    /**
+     * 에러처리는 gatewayService 에서 한다.
+     */
+    this.gatewayService.handleDisconnect(client)
+  }
+
+  // AREA2: GKDoubleJWT Validation Area
+
+  @SubscribeMessage('request validation')
+  @SendSocketClientMessage('response validation')
+  async requestValidation(client: Socket, _payload: SCK.SocketRequestValidationType) {
+    /**
+     * 에러처리는 gatewayService 에서 한다.
+     */
+    const {payload} = await this.gatewayService.requestValidation(client, _payload)
+    return {client, payload}
+  }
+
+  // AREA3: User Service Area
+
+  @SubscribeMessage('user connect')
+  @UseGuards(CheckSocketJwtGuard)
+  userConnect(client: Socket, payload: SCK.UserConnectType) {
+    /**
+     * 에러처리는 gatewayService 에서 한다.
+     */
+    this.gatewayService.userConnect(client, payload)
+    // ::
+  }
+
+  // AREA4: Chat Room Service Area
+
+  @SubscribeMessage('chatRoom connect')
+  @SendSocketRoomMessage('chatRoom opened')
+  async chatRoomConnect(client: Socket, _payload: SCK.ChatRoomConnectType) {
+    /**
+     * 에러처리는 gatewayService 에서 한다.
+     */
+    const {server, roomId, payload} = await this.gatewayService.chatRoomConnect(this.server, client, _payload)
+    return {server, roomId, payload}
+  }
+
+  @SubscribeMessage('chatRoom disconnect')
+  async chatRoomDisconnect(client: Socket, _payload: SCK.ChatRoomDisconnectType) {
+    /**
+     * 에러처리는 gatewayService 에서 한다.
+     */
+    await this.gatewayService.chatRoomDisconnect(this.server, client, _payload)
+    // ::
   }
 }
