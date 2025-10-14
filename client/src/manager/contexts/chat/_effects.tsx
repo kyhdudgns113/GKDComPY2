@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect} from 'react'
 
-import {useAuthStatesContext, useChatCallbacksContext, useSocketCallbacksContext, useSocketStatesContext} from '@context'
+import {useAuthStatesContext, useChatCallbacksContext, useChatStatesContext, useSocketCallbacksContext, useSocketStatesContext} from '@context'
 import {decodeJwtFromServer, encodeJwtFromClient, jwtHeaderLenBase} from '@secret'
 import {useAppDispatch, useChatActions, useChatStates, useClubStates} from '@store'
 
@@ -18,12 +18,14 @@ export const ChatEffectsContext = createContext<ContextType>({})
 export const useChatEffectsContext = () => useContext(ChatEffectsContext)
 
 export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {userOId, socketValidated} = useAuthStatesContext()
   const {clubOpened} = useClubStates()
-
-  const {loadClubChatArr} = useChatCallbacksContext()
-  const {chatRoomOId, chatQueue} = useChatStates()
+  const {chatRoomOId, chatArr, chatQueue} = useChatStates()
   const {popChatQueueToArr, pushChatQueue, resetChatArr, resetChatRoomOId, resetChatQueue, setChatRoomOId} = useChatActions()
+
+  const {userOId, socketValidated} = useAuthStatesContext()
+
+  const {chatArrDivRef, goToBottom, setGoToBottom} = useChatStatesContext()
+  const {loadClubChatArr} = useChatCallbacksContext()
 
   const {socket} = useSocketStatesContext()
   const {onSocket, emitSocket} = useSocketCallbacksContext()
@@ -93,8 +95,24 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   useEffect(() => {
     if (chatQueue.length > 0) {
       dispatch(popChatQueueToArr())
+
+      if (chatArrDivRef.current) {
+        const {clientHeight, scrollHeight, scrollTop} = chatArrDivRef.current
+        if (scrollTop + clientHeight >= scrollHeight) {
+          setGoToBottom(true)
+        }
+      }
     }
   }, [chatQueue, dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 채팅방 스크롤 맨 밑으로 내리기
+  useEffect(() => {
+    if (chatArrDivRef.current && goToBottom) {
+      const scrollHeight = chatArrDivRef.current.scrollHeight
+      chatArrDivRef.current.scrollTo({top: scrollHeight, behavior: 'smooth'})
+      setGoToBottom(false)
+    }
+  }, [chatArr, goToBottom]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <ChatEffectsContext.Provider value={{}}>{children}</ChatEffectsContext.Provider>
 }
