@@ -1,3 +1,5 @@
+import * as ST from '@shareType'
+
 // AREA1: 클라이언트가 전송할때 쓰는 타입
 
 export type ChatMessageType = {
@@ -15,6 +17,8 @@ export type UserConnectType = {
 }
 
 // AREA2: 서버가 전송할때 쓰는 타입
+
+export type NewChatType = ST.ChatType
 
 export type SocketResponseValidationType = {
   jwtFromServer: string

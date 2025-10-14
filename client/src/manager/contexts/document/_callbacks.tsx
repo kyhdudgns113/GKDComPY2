@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useClubActions, useAppDispatch} from '@store'
+import {useAppDispatch, useDocumentActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -25,7 +25,7 @@ export const DocumentCallbacksContext = createContext<ContextType>({
 export const useDocumentCallbacksContext = () => useContext(DocumentCallbacksContext)
 
 export const DocumentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setClubDocContents} = useClubActions()
+  const {setDocContents} = useDocumentActions()
   const dispatch = useAppDispatch()
 
   // PUT AREA:
@@ -63,7 +63,7 @@ export const DocumentCallbacksProvider: FC<PropsWithChildren> = ({children}) => 
 
           if (ok) {
             const {contents} = body
-            dispatch(setClubDocContents(contents))
+            dispatch(setDocContents(contents))
             U.writeJwtFromServer(jwtFromServer)
             return true
           } // ::

@@ -1,6 +1,7 @@
 export * from './ChatSlice'
 export * from './ClubSlice'
 export * from './CommSlice'
+export * from './DocSlice'
 export * from './ModalSlice'
 export * from './TemplateSlice'
 export * from './TestSlice'

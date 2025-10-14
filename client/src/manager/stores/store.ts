@@ -8,6 +8,7 @@ export const store = configureStore({
     Chat: Slices.chatSlice.reducer,
     Club: Slices.clubSlice.reducer,
     Community: Slices.communitySlice.reducer,
+    Document: Slices.docSlice.reducer,
     Modal: Slices.modalSlice.reducer,
     Template: Slices.templateSlice.reducer,
     Test: Slices.testSlice.reducer
@@ -25,6 +26,7 @@ export const useAppSelector = useSelector.withTypes<AdminStates>()
 export const useChatStates = () => useAppSelector(store.getState).Chat
 export const useClubStates = () => useAppSelector(store.getState).Club
 export const useCommunityStates = () => useAppSelector(store.getState).Community
+export const useDocumentStates = () => useAppSelector(store.getState).Document
 export const useModalStates = () => useAppSelector(store.getState).Modal
 export const useTemplateStates = () => useAppSelector(store.getState).Template
 export const useTestStates = () => useAppSelector(store.getState).Test
@@ -34,6 +36,7 @@ export const useTestStates = () => useAppSelector(store.getState).Test
 export const useChatActions = () => Slices.chatSlice.actions
 export const useClubActions = () => Slices.clubSlice.actions
 export const useCommunityActions = () => Slices.communitySlice.actions
+export const useDocumentActions = () => Slices.docSlice.actions
 export const useModalActions = () => Slices.modalSlice.actions
 export const useTemplateActions = () => Slices.templateSlice.actions
 export const useTestActions = () => Slices.testSlice.actions

@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 
-import {useClubStates} from '@store'
+import {useDocumentStates} from '@store'
 
 import {DocEditButton, DocLoadButton} from '../buttons'
 import {DocumentContentPart} from '../parts'
@@ -14,14 +14,14 @@ import '../_style/ClubDocSubPage.scss'
 type ClubDocSubPageProps = DivCommonProps & {club: ClubType}
 
 export const ClubDocSubPage: FC<ClubDocSubPageProps> = ({club, className, style, ...props}) => {
-  const {clubDocContents} = useClubStates()
+  const {docContents} = useDocumentStates()
 
-  const [contents, setContents] = useState<string>(clubDocContents)
+  const [contents, setContents] = useState<string>(docContents)
 
   // 초기화: contents 를 문서 초기 내용으로
   useEffect(() => {
-    setContents(clubDocContents)
-  }, [clubDocContents])
+    setContents(docContents)
+  }, [docContents])
 
   return (
     <div className={`ClubDoc_SubPage ${className || ''}`} style={style} {...props}>
