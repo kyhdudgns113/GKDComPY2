@@ -2,6 +2,7 @@ import {useEffect} from 'react'
 import {useAuthStatesContext, useChatStatesContext} from '@context'
 import {useChatStates} from '@store'
 
+import {ChatPrevLoadButton} from '../buttons'
 import {ChatMyObject, ChatOtherObject} from '../objects'
 
 import type {FC} from 'react'
@@ -13,6 +14,8 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
   const {chatArr} = useChatStates()
   const {userOId} = useAuthStatesContext()
   const {chatArrDivRef} = useChatStatesContext()
+
+  const isLoadButton = chatArr.length > 0 && chatArr[0].chatIdx > 0
 
   let lastUserOId = ''
   let lastDateValue = new Date(0).valueOf()
@@ -40,6 +43,8 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
 
   return (
     <div className={`ChatArr_Part ${className || ''}`} style={style} {...props} ref={chatArrDivRef}>
+      {isLoadButton && <ChatPrevLoadButton />}
+
       {chatArr.map((chat, idx) => {
         const chatDate = new Date(chat.date)
 

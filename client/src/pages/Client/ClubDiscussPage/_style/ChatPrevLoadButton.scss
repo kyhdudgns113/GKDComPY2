@@ -1,0 +1,26 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ChatPrevLoad_Button {
+  background-color: #aaaaaad0;
+  border-color: #888888;
+  border-width: 2px;
+
+  cursor: pointer;
+
+  font-weight: 500;
+
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  text-align: center;
+  transition: background-color 0.2s ease, font-weight 0.2s ease;
+
+  user-select: none;
+
+  width: 100%;
+
+  &:hover {
+    background-color: #888888d0;
+    font-weight: 700;
+  }
+}

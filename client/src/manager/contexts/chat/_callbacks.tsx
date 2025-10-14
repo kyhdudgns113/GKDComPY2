@@ -27,7 +27,7 @@ export const useChatCallbacksContext = () => useContext(ChatCallbacksContext)
 
 export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
-  const {setChatArr} = useChatActions()
+  const {setChatArr, pushFrontChatArr} = useChatActions()
 
   const {emitSocket} = useSocketCallbacksContext()
 
@@ -43,7 +43,12 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
           if (ok) {
             const {chatArr} = body
-            dispatch(setChatArr(chatArr))
+            if (lastChatIdx === -1) {
+              dispatch(setChatArr(chatArr))
+            } // ::
+            else {
+              dispatch(pushFrontChatArr(chatArr))
+            }
             return true
           } // ::
           else {
