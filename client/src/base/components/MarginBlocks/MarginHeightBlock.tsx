@@ -1,5 +1,5 @@
 import type {CSSProperties, FC} from 'react'
-import type {DivCommonProps} from '../../typesAndValues/props'
+import type {DivCommonProps} from '@prop'
 
 type MarginHeightBlockProps = DivCommonProps & {
   height: string

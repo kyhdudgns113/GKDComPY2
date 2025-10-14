@@ -21,6 +21,7 @@ export type ClubType = {
    *
    * 위 속성들은 필요할때 불러오던가 사용하지 말던가 하자
    */
+  chatRoomOId: string
   clubName: string
   clubOId: string
   commOId: string

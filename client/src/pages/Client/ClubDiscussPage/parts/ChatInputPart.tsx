@@ -1,6 +1,8 @@
 import {useCallback, useState} from 'react'
+
 import {Icon} from '@component'
-import {useAuthStatesContext, useChatCallbacksContext, useSocketStatesContext} from '@context'
+import {useChatCallbacksContext, useSocketStatesContext} from '@context'
+import {useChatStates} from '@store'
 
 import type {ChangeEvent, FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -11,7 +13,7 @@ import '../_style/ChatInputPart.scss'
 type ChatInputPartProps = DivCommonProps & {}
 
 export const ChatInputPart: FC<ChatInputPartProps> = ({className, style, ...props}) => {
-  const {userId, userOId} = useAuthStatesContext()
+  const {chatRoomOId} = useChatStates()
   const {socket} = useSocketStatesContext()
   const {chatMessage} = useChatCallbacksContext()
 
@@ -22,9 +24,9 @@ export const ChatInputPart: FC<ChatInputPartProps> = ({className, style, ...prop
   }, [])
 
   const onClickSend = useCallback(
-    (socket: SocketType, userOId: string, userId: string, contents: string) => (e: MouseEvent<HTMLSpanElement>) => {
+    (socket: SocketType, chatRoomOId: string, contents: string) => (e: MouseEvent<HTMLSpanElement>) => {
       e.stopPropagation()
-      chatMessage(socket, userOId, userId, contents)
+      chatMessage(socket, chatRoomOId, contents)
       setContents('')
     },
     [chatMessage]
@@ -35,7 +37,7 @@ export const ChatInputPart: FC<ChatInputPartProps> = ({className, style, ...prop
       <div className="_container_input">
         <textarea className="_input_chat" onChange={onChangeInput} value={contents} />
       </div>
-      <Icon iconName="send" className="_button_send" onClick={onClickSend(socket, userOId, userId, contents)} />
+      <Icon iconName="send" className="_button_send" onClick={onClickSend(socket, chatRoomOId, contents)} />
     </div>
   )
 }

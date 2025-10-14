@@ -7,12 +7,14 @@ import * as ST from '@shareType'
 // State 타입 정의
 interface ChatState {
   chatArr: ST.ChatType[]
+  chatRoomOId: string
   chatQueue: ST.ChatType[]
 }
 
 // 초기 상태
 const initialState: ChatState = {
   chatArr: [],
+  chatRoomOId: '',
   chatQueue: []
 }
 
@@ -28,6 +30,15 @@ export const chatSlice = createSlice({
     // 이전 채팅 불러올때
     pushFrontChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
       state.chatArr = [...action.payload, ...state.chatArr]
+    },
+    // ::
+    // 채팅방 OId 설정
+    setChatRoomOId: (state, action: PayloadAction<string>) => {
+      state.chatRoomOId = action.payload
+    },
+    // 채팅방 OId 리셋
+    resetChatRoomOId: state => {
+      state.chatRoomOId = ''
     },
     // ::
     // 채팅 실시간으로 수신될때

@@ -6,6 +6,7 @@ export const NULL_AUTH_BODY = () => {
   const ret: T.AuthBodyType = {
     jwtFromServer: '',
     commAuth: AUTH_NORMAL,
+    commOId: '',
     userId: '',
     userOId: ''
   }
@@ -14,6 +15,7 @@ export const NULL_AUTH_BODY = () => {
 
 export const NULL_CLUB = () => {
   const ret: ST.ClubType = {
+    chatRoomOId: '',
     clubName: '',
     clubOId: '',
     commOId: ''

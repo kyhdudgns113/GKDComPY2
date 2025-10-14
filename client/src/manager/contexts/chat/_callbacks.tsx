@@ -1,18 +1,20 @@
 import {createContext, useCallback, useContext} from 'react'
 
+import {useSocketCallbacksContext} from '@context'
 import {useAppDispatch, useChatActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
 import * as F from '@fetch'
-import * as U from '@util'
+import * as SCK from '@socketType'
 import * as T from '@type'
+import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
   loadClubChatArr: (clubOId: string, lastChatIdx: number) => Promise<boolean>
 
-  chatMessage: (socket: T.SocketType, userOId: string, userId: string, contents: string) => void
+  chatMessage: (socket: T.SocketType, chatRoomOId: string, content: string) => void
 }
 // prettier-ignore
 export const ChatCallbacksContext = createContext<ContextType>({
@@ -26,6 +28,8 @@ export const useChatCallbacksContext = () => useContext(ChatCallbacksContext)
 export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
   const {setChatArr} = useChatActions()
+
+  const {emitSocket} = useSocketCallbacksContext()
 
   // GET AREA:
 
@@ -57,9 +61,10 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // SOCKET AREA:
 
-  const chatMessage = useCallback((socket: T.SocketType, userOId: string, userId: string, contents: string) => {
-    socket?.emit('chatMessage', {userOId, userId, contents})
-  }, [])
+  const chatMessage = useCallback((socket: T.SocketType, chatRoomOId: string, content: string) => {
+    const payload: SCK.ChatMessageType = {chatRoomOId, content}
+    emitSocket(socket, 'chat message', payload)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // prettier-ignore
   const value: ContextType = {
