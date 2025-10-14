@@ -38,11 +38,15 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('request validation')
   @SendSocketClientMessage('response validation')
   async requestValidation(client: Socket, _payload: SCK.SocketRequestValidationType) {
-    /**
-     * 에러처리는 gatewayService 에서 한다.
-     */
-    const {payload} = await this.gatewayService.requestValidation(client, _payload)
-    return {client, payload}
+    try {
+      const {payload} = await this.gatewayService.requestValidation(client, _payload)
+      return {client, payload}
+      // ::
+    } catch (errObj) {
+      /**
+       * 에러처리는 gatewayService 에서 한다.
+       */
+    }
   }
 
   // AREA3: User Service Area
@@ -50,31 +54,56 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('user connect')
   @UseGuards(CheckSocketJwtGuard)
   userConnect(client: Socket, payload: SCK.UserConnectType) {
-    /**
-     * 에러처리는 gatewayService 에서 한다.
-     */
-    this.gatewayService.userConnect(client, payload)
-    // ::
+    try {
+      this.gatewayService.userConnect(client, payload)
+      // ::
+    } catch (errObj) {
+      /**
+       * 에러처리는 gatewayService 에서 한다.
+       */
+    }
   }
 
   // AREA4: Chat Room Service Area
 
+  @SubscribeMessage('chat message')
+  @SendSocketRoomMessage('chat message')
+  async chatMessage(client: Socket, _payload: SCK.ChatMessageType) {
+    try {
+      const {server, roomId, payload} = await this.gatewayService.chatMessage(this.server, client, _payload)
+      return {server, roomId, payload}
+      // ::
+    } catch (errObj) {
+      /**
+       * 에러처리는 gatewayService 에서 한다.
+       */
+    }
+  }
+
   @SubscribeMessage('chatRoom connect')
   @SendSocketRoomMessage('chatRoom opened')
   async chatRoomConnect(client: Socket, _payload: SCK.ChatRoomConnectType) {
-    /**
-     * 에러처리는 gatewayService 에서 한다.
-     */
-    const {server, roomId, payload} = await this.gatewayService.chatRoomConnect(this.server, client, _payload)
-    return {server, roomId, payload}
+    try {
+      const {server, roomId, payload} = await this.gatewayService.chatRoomConnect(this.server, client, _payload)
+      return {server, roomId, payload}
+      // ::
+    } catch (errObj) {
+      /**
+       * 에러처리는 gatewayService 에서 한다.
+       */
+    }
   }
 
   @SubscribeMessage('chatRoom disconnect')
   async chatRoomDisconnect(client: Socket, _payload: SCK.ChatRoomDisconnectType) {
-    /**
-     * 에러처리는 gatewayService 에서 한다.
-     */
-    await this.gatewayService.chatRoomDisconnect(this.server, client, _payload)
+    try {
+      await this.gatewayService.chatRoomDisconnect(this.server, client, _payload)
+      // ::
+    } catch (errObj) {
+      /**
+       * 에러처리는 gatewayService 에서 한다.
+       */
+    }
     // ::
   }
 }

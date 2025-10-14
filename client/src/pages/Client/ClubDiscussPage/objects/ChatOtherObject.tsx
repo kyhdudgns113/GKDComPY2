@@ -8,7 +8,7 @@ export const ChatOtherObject: FC<ChatOtherObjectProps> = ({chat, isSameArea, cla
   return (
     <div className={`ChatOther_Object ${isSameArea ? '_sameArea' : ''} ${className || ''}`} style={style} {...props}>
       {!isSameArea && <div className="_user_name_object">{chat.userId}</div>}
-      {chat.contents}
+      {chat.content}
     </div>
   )
 }

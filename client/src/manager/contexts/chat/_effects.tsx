@@ -78,9 +78,9 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
       onSocket(socket, 'chat message', (payload: SCK.NewChatType) => {
         const chatBlock: ST.ChatType = {
           chatIdx: payload.chatIdx,
-          clubOId: payload.clubOId,
-          contents: payload.contents,
-          createdAt: payload.createdAt,
+          chatRoomOId: payload.chatRoomOId,
+          content: payload.content,
+          date: new Date(payload.date),
           userId: payload.userId,
           userOId: payload.userOId
         }

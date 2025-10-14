@@ -3,6 +3,7 @@ import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 import {DBService} from '../_db'
 
+import * as DTO from '@dto'
 import * as ST from '@shareType'
 import * as T from '@type'
 
@@ -10,7 +11,36 @@ import * as T from '@type'
 export class ChatDBService {
   constructor(private readonly dbService: DBService) {}
 
-  // GET AREA:
+  async createChat(where: string, dto: DTO.CreateChatDTO) {
+    const connection = await this.dbService.getConnection()
+    const {chatIdx, chatRoomOId, userId, userOId, content} = dto
+    try {
+      const date = new Date()
+
+      const query = 'INSERT INTO chats (chatIdx, chatRoomOId, date, userId, userOId, content) VALUES (?, ?, ?, ?, ?, ?)'
+      const param = [chatIdx, chatRoomOId, date, userId, userOId, content]
+      await connection.execute(query, param)
+
+      const chat: T.ChatType = {
+        chatIdx,
+        chatRoomOId,
+        date,
+        userId,
+        userOId,
+        content
+      }
+
+      return {chat}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 
   async readChatArrByClubOId(where: string, clubOId: string, lastChatIdx: number) {
     const connection = await this.dbService.getConnection()
@@ -34,7 +64,9 @@ export class ChatDBService {
      */
     try {
       // 1. clubOId로 chatRoomOId 찾기
-      const [chatRoomRows] = await connection.query<RowDataPacket[]>(`SELECT chatRoomOId FROM chatRooms WHERE clubOId = ?`, [clubOId])
+      const queryRoom = `SELECT chatRoomOId, numChat FROM chatRooms WHERE clubOId = ?`
+      const paramRoom = [clubOId]
+      const [chatRoomRows] = await connection.execute<RowDataPacket[]>(queryRoom, paramRoom)
 
       if (!chatRoomRows || chatRoomRows.length === 0) {
         throw {
@@ -96,14 +128,14 @@ export class ChatDBService {
         } as T.ErrorObjType
       }
 
-      const [chatRows] = await connection.query<RowDataPacket[]>(query, params)
+      const [chatRows] = await connection.execute<RowDataPacket[]>(query, params)
 
       // 3. 결과를 ChatType 형식으로 변환 (DESC로 가져왔으므로 역순으로)
       const chatArr = (chatRows || []).reverse().map(row => ({
         chatIdx: row.chatIdx,
-        clubOId: clubOId,
-        contents: row.content,
-        createdAt: row.date,
+        chatRoomOId,
+        content: row.content,
+        date: row.date,
         userId: row.userId,
         userOId: row.userOId
       })) as T.ChatType[]
@@ -123,7 +155,7 @@ export class ChatDBService {
   async readChatRoomByChatRoomOId(where: string, chatRoomOId: string) {
     const connection = await this.dbService.getConnection()
     try {
-      const queryRead = `SELECT chatRoomOId, clubOId FROM chatRooms WHERE chatRoomOId = ?`
+      const queryRead = `SELECT chatRoomOId, clubOId, numChat FROM chatRooms WHERE chatRoomOId = ?`
       const paramRead = [chatRoomOId]
       const [resultRows] = await connection.execute(queryRead, paramRead)
       const resultArray = resultRows as RowDataPacket[]
@@ -133,7 +165,8 @@ export class ChatDBService {
 
       const chatRoom: ST.ChatRoomType = {
         chatRoomOId: resultArray[0].chatRoomOId,
-        clubOId: resultArray[0].clubOId
+        clubOId: resultArray[0].clubOId,
+        numChat: resultArray[0].numChat
       }
       return {chatRoom}
       // ::

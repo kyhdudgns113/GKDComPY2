@@ -1,8 +1,8 @@
 export type ChatType = {
   chatIdx: number
-  clubOId: string
-  contents: string
-  createdAt: string
+  chatRoomOId: string
+  content: string
+  date: Date
   userId: string
   userOId: string
 }
@@ -10,6 +10,7 @@ export type ChatType = {
 export type ChatRoomType = {
   chatRoomOId: string
   clubOId: string
+  numChat?: number // 서버에서 채팅 갯수 읽어올때 사용
 }
 
 export type ClubType = {

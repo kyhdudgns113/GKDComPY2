@@ -32,10 +32,32 @@ export class DBHubService {
 
   // AREA1: Chat Area
 
+  async createChat(where: string, dto: DTO.CreateChatDTO) {
+    try {
+      const {chat} = await this.chatDBService.createChat(where, dto)
+      return {chat}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readChatArrByClubOId(where: string, clubOId: string, lastChatIdx: number) {
     try {
       const {chatArr} = await this.chatDBService.readChatArrByClubOId(where, clubOId, lastChatIdx)
       return {chatArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readChatRoomByChatRoomOId(where: string, chatRoomOId: string) {
+    try {
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      return {chatRoom}
       // ::
     } catch (errObj) {
       // ::

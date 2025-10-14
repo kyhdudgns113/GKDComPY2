@@ -88,6 +88,31 @@ export class SocketGatewayService {
 
   // AREA4: Chat Room Service Area
 
+  async chatMessage(server: Server, client: Socket, _payload: SCK.ChatMessageType) {
+    const {chatRoomOId, content} = _payload
+
+    try {
+      const userOId = this.infoService.readSocketsUserOId(client)
+
+      const {chat, user} = await this.portService.chatMessage(userOId, chatRoomOId, content)
+
+      const roomId = _payload.chatRoomOId
+      const {chatIdx, date} = chat
+      const {userId} = user
+      const payload: SCK.NewChatType = {chatIdx, chatRoomOId, date, userId, userOId, content}
+
+      return {server, roomId, payload}
+      // ::
+    } catch (errObj) {
+      // ::
+      console.log(`\n[SocketGatewayService] chatMessage 에러 발생: ${errObj}`)
+      Object.keys(errObj).forEach(key => {
+        console.log(`   ${key}: ${errObj[key]}`)
+      })
+      throw errObj
+    }
+  }
+
   async chatRoomConnect(server: Server, client: Socket, _payload: SCK.ChatRoomConnectType) {
     const {chatRoomOId, jwtFromClient, userOId} = _payload
 

@@ -1,3 +1,11 @@
+export type CreateChatDTO = {
+  chatIdx: number
+  chatRoomOId: string
+  content: string
+  userId: string
+  userOId: string
+}
+
 export type CreateClubDTO = {
   commOId: string
   clubName: string

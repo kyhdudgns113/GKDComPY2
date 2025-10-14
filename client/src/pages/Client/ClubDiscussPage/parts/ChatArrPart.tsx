@@ -19,7 +19,7 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
   return (
     <div className={`ChatArr_Part ${className || ''}`} style={style} {...props}>
       {chatArr.map((chat, idx) => {
-        const chatDate = new Date(chat.createdAt)
+        const chatDate = new Date(chat.date)
 
         const isSameUserWithLast = chat.userOId === lastUserOId
         const isSameMinute = chatDate.getMinutes() === lastMinute
