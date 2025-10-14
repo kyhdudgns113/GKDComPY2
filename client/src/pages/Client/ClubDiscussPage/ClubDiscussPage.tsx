@@ -1,5 +1,3 @@
-import {useEffect} from 'react'
-import {useDocumentCallbacksContext, useChatCallbacksContext} from '@context'
 import {useClubStates} from '@store'
 
 import {ClubChatRoomSubPage, ClubDocSubPage} from './subpages'
@@ -13,18 +11,6 @@ type ClubDiscussPageProps = DivCommonProps & {}
 
 export const ClubDiscussPage: FC<ClubDiscussPageProps> = ({className, style, ...props}) => {
   const {clubOpened} = useClubStates()
-  const {loadClubDocument} = useDocumentCallbacksContext()
-  const {loadClubChatArr} = useChatCallbacksContext()
-
-  // 초기화: 문서 내용 불러오기
-  useEffect(() => {
-    if (!clubOpened || clubOpened.clubOId === '') {
-      return
-    }
-
-    loadClubChatArr(clubOpened.clubOId, -1)
-    loadClubDocument(clubOpened.clubOId)
-  }, [clubOpened, loadClubChatArr, loadClubDocument])
 
   return (
     <div className={`ClubDiscuss_Page CliengPages ${className || ''}`} style={style} {...props}>

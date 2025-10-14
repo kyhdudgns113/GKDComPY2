@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect} from 'react'
 
-import {useSocketCallbacksContext, useSocketStatesContext} from '@context'
-import {useAppDispatch, useChatActions, useChatStates} from '@store'
+import {useChatCallbacksContext, useSocketCallbacksContext, useSocketStatesContext} from '@context'
+import {useAppDispatch, useChatActions, useChatStates, useClubStates} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -16,13 +16,30 @@ export const ChatEffectsContext = createContext<ContextType>({})
 export const useChatEffectsContext = () => useContext(ChatEffectsContext)
 
 export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
+  const {clubOpened} = useClubStates()
+  const {loadClubChatArr} = useChatCallbacksContext()
   const {chatQueue} = useChatStates()
-  const {popChatQueueToArr, pushChatQueue} = useChatActions()
+  const {popChatQueueToArr, pushChatQueue, resetChatArr, resetChatRoomOId, resetChatQueue} = useChatActions()
 
   const {socket} = useSocketStatesContext()
   const {onSocket} = useSocketCallbacksContext()
 
   const dispatch = useAppDispatch()
+
+  // 초기화: 문서 내용 불러오기
+  useEffect(() => {
+    if (!clubOpened || clubOpened.clubOId === '') {
+      return
+    }
+
+    loadClubChatArr(clubOpened.clubOId, -1)
+
+    return () => {
+      dispatch(resetChatArr())
+      dispatch(resetChatRoomOId())
+      dispatch(resetChatQueue())
+    }
+  }, [clubOpened, loadClubChatArr]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 소켓 수신: chat message
   useEffect(() => {

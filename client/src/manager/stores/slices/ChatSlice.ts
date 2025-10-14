@@ -31,6 +31,10 @@ export const chatSlice = createSlice({
     pushFrontChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
       state.chatArr = [...action.payload, ...state.chatArr]
     },
+    // 채팅 배열 그냥 없앨때
+    resetChatArr: state => {
+      state.chatArr = []
+    },
     // ::
     // 채팅방 OId 설정
     setChatRoomOId: (state, action: PayloadAction<string>) => {
@@ -52,6 +56,10 @@ export const chatSlice = createSlice({
         state.chatArr = [...chatQueue, ...state.chatArr]
         state.chatQueue = []
       }
+    },
+    // 채팅 큐 그냥 없앨때
+    resetChatQueue: state => {
+      state.chatQueue = []
     }
   }
 })
