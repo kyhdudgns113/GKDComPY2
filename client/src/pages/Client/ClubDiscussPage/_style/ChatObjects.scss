@@ -1,3 +1,5 @@
+@use '../../../../base/styles/values.scss' as v;
+
 .__Common_Chat_Object_Styles {
   display: flex;
   flex-direction: column;
@@ -9,12 +11,17 @@
   width: fit-content;
 
   ._content_container {
-    border-color: #cccccc;
+    border-radius: 8px;
+    border-width: 2px;
 
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    cursor: default;
+
+    max-width: 240px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
     width: fit-content;
   }
@@ -26,14 +33,30 @@
   margin-left: auto;
 
   ._content_container {
-    background-color: oklch(0.98 0.2 85);
+    border-color: oklch(0.7 0.05 205);
+    background-color: oklch(0.98 0.05 205);
+
+    margin-right: 6px;
   }
 }
 
 .ChatOther_Object {
   @extend .__Common_Chat_Object_Styles;
 
+  ._user_name_object {
+    cursor: default;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 2px;
+    margin-left: 4px;
+  }
+
   ._content_container {
+    border-color: #888888;
     background-color: white;
+
+    margin-left: 10px;
   }
 }

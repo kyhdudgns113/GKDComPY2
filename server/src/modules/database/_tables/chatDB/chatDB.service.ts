@@ -73,8 +73,6 @@ export class ChatDBService {
       const paramRoom = [clubOId]
       const [chatRoomRows] = await connection.execute<RowDataPacket[]>(queryRoom, paramRoom)
 
-      console.log(`  [ChatDBService] lastIdx: ${lastChatIdx}`)
-
       if (!chatRoomRows || chatRoomRows.length === 0) {
         throw {
           gkd: {invalid: 'clubOId 가 존재하지 않는다'},
@@ -137,8 +135,8 @@ export class ChatDBService {
 
       const [chatRows] = await connection.execute<RowDataPacket[]>(query, params)
 
-      // 3. 결과를 ChatType 형식으로 변환 (ASC로 가져왔으므로 역순으로)
-      const chatArr = (chatRows || []).map(row => ({
+      // 3. 결과를 ChatType 형식으로 변환 (DESC로 가져왔으므로 역순으로)
+      const chatArr = (chatRows || []).reverse().map(row => ({
         chatIdx: row.chatIdx,
         chatRoomOId,
         content: row.content,
