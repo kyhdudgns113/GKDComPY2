@@ -6,14 +6,19 @@ import type {FC, PropsWithChildren} from 'react'
 
 import * as F from '@fetch'
 import * as U from '@util'
+import * as T from '@type'
 
 // prettier-ignore
 type ContextType = {
   loadClubChatArr: (clubOId: string, lastChatIdx: number) => Promise<boolean>
+
+  chatMessage: (socket: T.SocketType, userOId: string, userId: string, contents: string) => void
 }
 // prettier-ignore
 export const ChatCallbacksContext = createContext<ContextType>({
   loadClubChatArr: () => Promise.resolve(false),
+
+  chatMessage: () => {},
 })
 
 export const useChatCallbacksContext = () => useContext(ChatCallbacksContext)
@@ -21,6 +26,8 @@ export const useChatCallbacksContext = () => useContext(ChatCallbacksContext)
 export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
   const {setChatArr} = useChatActions()
+
+  // GET AREA:
 
   const loadClubChatArr = useCallback(
     async (clubOId: string, lastChatIdx: number) => {
@@ -47,9 +54,18 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     },
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
+
+  // SOCKET AREA:
+
+  const chatMessage = useCallback((socket: T.SocketType, userOId: string, userId: string, contents: string) => {
+    socket?.emit('chatMessage', {userOId, userId, contents})
+  }, [])
+
   // prettier-ignore
   const value: ContextType = {
     loadClubChatArr,
+
+    chatMessage,
   }
   return <ChatCallbacksContext.Provider value={value}>{children}</ChatCallbacksContext.Provider>
 }
