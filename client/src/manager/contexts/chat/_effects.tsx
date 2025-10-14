@@ -30,7 +30,7 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   const dispatch = useAppDispatch()
 
-  // 초기화: 문서 내용 불러오기
+  // 초기화: 채팅 내용 불러오기
   useEffect(() => {
     if (!clubOpened || clubOpened.clubOId === '') {
       return

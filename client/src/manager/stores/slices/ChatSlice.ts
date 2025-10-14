@@ -53,7 +53,7 @@ export const chatSlice = createSlice({
     popChatQueueToArr: state => {
       const chatQueue = state.chatQueue
       if (chatQueue.length > 0) {
-        state.chatArr = [...chatQueue, ...state.chatArr]
+        state.chatArr = [...state.chatArr, ...chatQueue]
         state.chatQueue = []
       }
     },

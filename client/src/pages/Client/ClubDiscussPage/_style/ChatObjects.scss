@@ -1,0 +1,39 @@
+.__Common_Chat_Object_Styles {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 14px;
+
+  margin-top: 8px;
+
+  width: fit-content;
+
+  ._content_container {
+    border-color: #cccccc;
+
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    width: fit-content;
+  }
+}
+
+.ChatMy_Object {
+  @extend .__Common_Chat_Object_Styles;
+
+  margin-left: auto;
+
+  ._content_container {
+    background-color: oklch(0.98 0.2 85);
+  }
+}
+
+.ChatOther_Object {
+  @extend .__Common_Chat_Object_Styles;
+
+  ._content_container {
+    background-color: white;
+  }
+}

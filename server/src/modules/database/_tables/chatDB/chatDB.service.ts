@@ -30,6 +30,11 @@ export class ChatDBService {
         content
       }
 
+      // 2. 채팅방 메시지 개수 늘리기
+      const queryUpdateNumChat = 'UPDATE chatRooms SET numChat = numChat + 1 WHERE chatRoomOId = ?'
+      const paramUpdateNumChat = [chatRoomOId]
+      await connection.execute(queryUpdateNumChat, paramUpdateNumChat)
+
       return {chat}
       // ::
     } catch (errObj) {
@@ -68,6 +73,8 @@ export class ChatDBService {
       const paramRoom = [clubOId]
       const [chatRoomRows] = await connection.execute<RowDataPacket[]>(queryRoom, paramRoom)
 
+      console.log(`  [ChatDBService] lastIdx: ${lastChatIdx}`)
+
       if (!chatRoomRows || chatRoomRows.length === 0) {
         throw {
           gkd: {invalid: 'clubOId 가 존재하지 않는다'},
@@ -86,7 +93,7 @@ export class ChatDBService {
       let params: any[]
 
       if (lastChatIdx === -1) {
-        // 마지막 10개 읽기
+        // 마지막 10개 읽기 (가장 큰 인덱스부터)
         query = `
           SELECT 
             c.chatIdx, 
@@ -130,8 +137,8 @@ export class ChatDBService {
 
       const [chatRows] = await connection.execute<RowDataPacket[]>(query, params)
 
-      // 3. 결과를 ChatType 형식으로 변환 (DESC로 가져왔으므로 역순으로)
-      const chatArr = (chatRows || []).reverse().map(row => ({
+      // 3. 결과를 ChatType 형식으로 변환 (ASC로 가져왔으므로 역순으로)
+      const chatArr = (chatRows || []).map(row => ({
         chatIdx: row.chatIdx,
         chatRoomOId,
         content: row.content,
