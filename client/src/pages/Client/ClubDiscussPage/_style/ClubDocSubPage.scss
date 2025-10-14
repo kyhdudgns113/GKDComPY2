@@ -23,13 +23,13 @@
 
     .DocEdit_Button,
     .DocLoad_Button {
-      background-color: v.$SAKURA_BG_20;
+      background-color: v.$SAKURA_BG_10;
 
       border-color: v.$SAKURA_BORDER;
       border-radius: 8px;
       border-width: 2px;
 
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 
       color: v.$SAKURA_TEXT;
       cursor: pointer;
@@ -49,7 +49,7 @@
       &:hover {
         background-color: v.$SAKURA_BG_70;
 
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
       }
     }
   }
@@ -67,7 +67,7 @@
 
     padding-right: 4px;
 
-    transition: box-shadow 0.4s ease;
+    transition: background-color 0.2s ease, box-shadow 0.4s ease;
 
     width: fit-content;
 

@@ -1,0 +1,68 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ChatInput_Part {
+  display: flex;
+  flex-direction: row;
+
+  height: fit-content;
+
+  ._container_input {
+    height: 90px;
+
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    width: 85%;
+
+    textarea._input_chat {
+      cursor: default;
+
+      border-color: transparent;
+      border-radius: 8px;
+      border-width: 2px;
+
+      height: 100%;
+
+      outline: none;
+      overflow-y: auto;
+
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      resize: none;
+
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+
+      width: 100%;
+
+      &:focus {
+        background-color: v.$SAKURA_BG_10;
+        border-color: v.$SAKURA_BORDER_50;
+      }
+      &:hover {
+        border-color: v.$SAKURA_BORDER_50;
+      }
+    }
+  }
+
+  ._button_send {
+    border-color: v.$SAKURA_BORDER;
+
+    border-left-width: 2px;
+
+    align-content: center;
+    text-align: center;
+
+    width: 15%;
+
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: v.$SAKURA_BG_10;
+    }
+  }
+}

@@ -14,7 +14,7 @@
   }
 
   .ChatArr_Part {
-    background-color: v.$SAKURA_BG_20;
+    background-color: v.$SAKURA_BG;
 
     border-color: v.$SAKURA_BORDER;
     border-bottom-width: 2px;
@@ -25,9 +25,5 @@
     margin-top: 8px;
 
     overflow: auto;
-  }
-
-  .ChatInput_Part {
-    height: 100px;
   }
 }
