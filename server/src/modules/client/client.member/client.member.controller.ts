@@ -11,6 +11,14 @@ export class ClientMemberController {
 
   // POST AREA:
 
+  @Post('/addClubMember')
+  @UseGuards(CheckJwtValidationGuard)
+  async addClubMember(@Headers() headers: any, @Body() data: HTTP.AddClubMemberDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.addClubMember(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadClubMemberArr/:clubOId')

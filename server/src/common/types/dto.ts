@@ -12,6 +12,14 @@ export type CreateClubDTO = {
   clubIdx: number
 }
 
+export type CreateClubMemberDTO = {
+  commOId: string
+  clubOId: string
+  memName: string
+  batterPower: number
+  pitcherPower: number
+}
+
 export type CreateCommunityAdminDTO = {
   commName: string
 }

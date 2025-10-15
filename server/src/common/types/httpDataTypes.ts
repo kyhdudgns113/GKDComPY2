@@ -1,3 +1,11 @@
+export type AddClubMemberDataType = {
+  clubOId: string
+  commOId: string
+  memName: string
+  batterPower: number
+  pitcherPower: number
+}
+
 export type AddCommClubDataType = {
   commOId: string
   clubName: string

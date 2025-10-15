@@ -166,7 +166,18 @@ export class DBHubService {
     }
   }
 
-  // AREA6: Member Area
+  // AREA1: Member Area
+
+  async createClubMember(where: string, dto: DTO.CreateClubMemberDTO) {
+    try {
+      const {member} = await this.memberDBService.createClubMember(where, dto)
+      return {member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async readClubMemberArrByClubOId(where: string, clubOId: string) {
     try {

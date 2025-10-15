@@ -46,10 +46,6 @@ export const modalSlice = createSlice({
     openModalModifyClub: state => {
       state.modalName = V.MODAL_NAME_MODIFY_CLUB
     },
-    // 멤버 수정 모달 열기
-    openModalModifyMember: state => {
-      state.modalName = V.MODAL_NAME_MODIFY_MEMBER
-    },
     // 유저 수정 모달 열기
     openModalModifyUser: state => {
       state.modalName = V.MODAL_NAME_MODIFY_USER

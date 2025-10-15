@@ -14,6 +14,19 @@ export class ClientMemberService {
     private readonly portService: ClientMemberPortService
   ) {}
 
+  // POST AREA:
+
+  async addClubMember(jwtPayload: JwtPayloadType, data: HTTP.AddClubMemberDataType) {
+    try {
+      const {clubMemberArr} = await this.portService.addClubMember(jwtPayload, data)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadClubMemberArr(jwtPayload: JwtPayloadType, clubOId: string) {

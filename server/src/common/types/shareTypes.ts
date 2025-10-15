@@ -1,4 +1,5 @@
 export type CardType = {
+  memOId: string
   name: string | null // DB 에 null 로 저장되었을 수 있다.
   posIdx: number
   skillIdxs: number[]
