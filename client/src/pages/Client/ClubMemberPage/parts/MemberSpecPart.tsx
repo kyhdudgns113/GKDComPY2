@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react'
 
-import {Icon} from '@component'
 import {useMemberStates} from '@store'
+
+import {CloseInfoButton, DeleteMemberButton, MoveMemberButton} from '../buttons'
+import {MemberCommentObj, MemberRecentRecordObj, MemberValueObject} from '../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -27,24 +29,28 @@ export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...pr
 
   return (
     <div className={`MemberSpec_Part ${className || ''}`} style={style} {...props}>
-      {/* 1. 헤더: 타이틀, 버튼들 */}
+      {/* 1. 헤더: 타이틀, 삭제, 이동, 닫기 버튼 */}
       <div className="_header_part">
-        {/* 1-1. 타이틀 */}
         <p className="_title_part"> {memName} </p>
-
-        {/* 1-2. 삭제 버튼 */}
-        <Icon iconName="cancel" />
-
-        {/* 1-3. 멤버 이동 버튼 */}
-        <Icon iconName="delivery_truck_speed" />
-
-        {/* 1-4. 닫기 버튼 */}
-        <div className="_close_button">닫기</div>
+        <DeleteMemberButton />
+        <MoveMemberButton />
+        <CloseInfoButton />
       </div>
 
-      {/* 2, 바디: 스펙 입력, 저장 및 취소버튼 */}
+      {/* 2. 멤버 코멘트 */}
+      <MemberCommentObj />
 
-      {/*  */}
+      {/* 3. 설정창: 이름, 타자, 투수, 왕관 */}
+      <MemberValueObject />
+
+      {/* 4. 최근 기록 */}
+      <MemberRecentRecordObj />
+
+      {/* 5. 푸터: 수정, 취소 버튼 */}
+      <div className="_footer_part">
+        <div>수정</div>
+        <div>취소</div>
+      </div>
     </div>
   )
 }

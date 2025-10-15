@@ -11,8 +11,14 @@
     width: 400px;
 
     ._header_part {
+      align-items: center;
       display: flex;
       flex-direction: row;
+
+      padding-top: 4px;
+      padding-bottom: 4px;
+      padding-left: 8px;
+      padding-right: 4px;
 
       width: 100%;
 
@@ -22,6 +28,19 @@
 
         user-select: none;
       }
+    }
+
+    ._footer_part {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+
+      margin-top: auto;
+      margin-left: auto;
+      margin-right: 16px;
+      margin-bottom: 8px;
+
+      width: fit-content;
     }
   }
 }

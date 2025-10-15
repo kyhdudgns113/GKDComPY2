@@ -8,7 +8,7 @@ type SilverCrownProps = ImageCommonProps & {}
 export const SilverCrown: FC<SilverCrownProps> = ({className, style, ...props}) => {
   const styleCrown: CSSProperties = {
     ...style,
-    color: 'oklch(0.925 0.016 270.8)'
+    color: 'oklch(0.82 0.015 270)'
   }
 
   return <Crown className={`_silver_crown ${className || ''}`} style={styleCrown} {...props} />
