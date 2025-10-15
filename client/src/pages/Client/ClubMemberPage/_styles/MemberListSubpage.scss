@@ -7,13 +7,20 @@
   height: fit-content;
   width: fit-content;
 
-  ._title_subpage {
-    color: v.$SAKURA_TEXT;
-    font-size: 24px;
-    font-weight: 700;
+  ._header_member_list {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
 
-    margin-top: 8px;
+    ._title_subpage {
+      color: v.$SAKURA_TEXT;
+      font-size: 24px;
+      font-weight: 700;
 
-    user-select: none;
+      margin-left: 4px;
+
+      text-align: center;
+      user-select: none;
+    }
   }
 }

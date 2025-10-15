@@ -25,7 +25,7 @@ export const AddMemberButton: FC<AddMemberButtonProps> = ({className, style, ...
 
   return (
     <Icon
-      iconName="add"
+      iconName="person_add"
       className={`AddMember_Button ${className || ''}`}
       onClick={onClickButton}
       style={style}
