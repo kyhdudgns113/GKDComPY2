@@ -1,7 +1,45 @@
+@use '../../../../base/styles/values.scss' as v;
+
 .Template {
   .Body {
     .ClubMember_Page {
       .MemberRecentRecord_Object {
+        align-items: center;
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+
+        // margin-top: 12px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 8px;
+
+        ._title_object {
+          color: v.$SAKURA_TEXT;
+
+          font-size: 20px;
+          font-weight: 700;
+        }
+        ._contents_object {
+          align-content: center;
+          border-color: v.$SAKURA_BORDER;
+          border-radius: 8px;
+          border-width: 2px;
+
+          color: v.$SAKURA_TEXT;
+
+          height: 330px;
+
+          font-size: 18px;
+          font-weight: 700;
+
+          margin-top: 8px;
+
+          text-align: center;
+
+          width: 100%;
+        }
       }
     }
   }

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 
 import {useMemberStates} from '@store'
 
-import {CloseInfoButton, DeleteMemberButton, MoveMemberButton} from '../buttons'
+import {CancelInfoButton, CloseInfoButton, DeleteMemberButton, MoveMemberButton, SaveInfoButton} from '../buttons'
 import {MemberCommentObj, MemberRecentRecordObj, MemberValueObject} from '../objects'
 
 import type {FC} from 'react'
@@ -48,8 +48,8 @@ export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...pr
 
       {/* 5. 푸터: 수정, 취소 버튼 */}
       <div className="_footer_part">
-        <div>수정</div>
-        <div>취소</div>
+        <SaveInfoButton />
+        <CancelInfoButton />
       </div>
     </div>
   )
