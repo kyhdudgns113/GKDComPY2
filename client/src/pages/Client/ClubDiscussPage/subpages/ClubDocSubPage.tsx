@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 
-import {useDocumentStates} from '@store'
+import {useDocumentStates, useDocumentActions, useAppDispatch, useClubStates} from '@store'
+import {useDocumentCallbacksContext} from '@context'
 
 import {DocEditButton, DocLoadButton} from '../buttons'
 import {DocumentContentPart} from '../parts'
@@ -15,8 +16,26 @@ type ClubDocSubPageProps = DivCommonProps & {club: ClubType}
 
 export const ClubDocSubPage: FC<ClubDocSubPageProps> = ({club, className, style, ...props}) => {
   const {docContents} = useDocumentStates()
+  const {clubOpened} = useClubStates()
+  const {loadClubDocument} = useDocumentCallbacksContext()
+  const {resetDocContents} = useDocumentActions()
 
   const [contents, setContents] = useState<string>(docContents)
+
+  const dispatch = useAppDispatch()
+
+  // 초기화: 문서 내용 불러오기
+  useEffect(() => {
+    if (!clubOpened || clubOpened.clubOId === '') {
+      return
+    }
+
+    loadClubDocument(clubOpened.clubOId)
+
+    return () => {
+      dispatch(resetDocContents())
+    }
+  }, [clubOpened, loadClubDocument, dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 초기화: contents 를 문서 초기 내용으로
   useEffect(() => {

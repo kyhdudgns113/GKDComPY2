@@ -1,8 +1,8 @@
 import {createContext, useContext, useEffect} from 'react'
 
-import {useAuthStatesContext, useChatCallbacksContext, useChatStatesContext, useSocketCallbacksContext, useSocketStatesContext} from '@context'
+import {useAuthStatesContext, useChatStatesContext, useSocketCallbacksContext, useSocketStatesContext} from '@context'
 import {decodeJwtFromServer, encodeJwtFromClient, jwtHeaderLenBase} from '@secret'
-import {useAppDispatch, useChatActions, useChatStates, useClubStates} from '@store'
+import {useAppDispatch, useChatActions, useChatStates} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -18,35 +18,19 @@ export const ChatEffectsContext = createContext<ContextType>({})
 export const useChatEffectsContext = () => useContext(ChatEffectsContext)
 
 export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {clubOpened} = useClubStates()
   const {chatRoomOId, chatArr, chatQueue} = useChatStates()
-  const {popChatQueueToArr, pushChatQueue, resetChatArr, resetChatRoomOId, resetChatQueue, setChatRoomOId} = useChatActions()
+  const {popChatQueueToArr, pushChatQueue} = useChatActions()
 
   const {userOId, socketValidated} = useAuthStatesContext()
 
   const {chatArrDivRef, goToBottom, setGoToBottom} = useChatStatesContext()
-  const {loadClubChatArr} = useChatCallbacksContext()
 
   const {socket} = useSocketStatesContext()
   const {onSocket, emitSocket} = useSocketCallbacksContext()
 
   const dispatch = useAppDispatch()
 
-  // 초기화: 채팅 내용 불러오기
-  useEffect(() => {
-    if (!clubOpened || clubOpened.clubOId === '') {
-      return
-    }
-
-    loadClubChatArr(clubOpened.clubOId, -1)
-    dispatch(setChatRoomOId(clubOpened.chatRoomOId))
-
-    return () => {
-      dispatch(resetChatArr())
-      dispatch(resetChatRoomOId())
-      dispatch(resetChatQueue())
-    }
-  }, [clubOpened, dispatch, loadClubChatArr]) // eslint-disable-line react-hooks/exhaustive-deps
+  // 채팅 목록 읽어오는건 ClubChatRoomSubPage 에서 한다. (이거 로딩할때 불러오는게 맞다)
 
   // 소켓 송신: [chatRoom connect, chatRoom disconnect]: 채팅방 옮길때
   useEffect(() => {
