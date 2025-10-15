@@ -88,7 +88,7 @@ export class MemberDBService {
       Array.from({length: 25}, (_, i) => {
         member.deck.push({
           memOId,
-          name: '',
+          cardName: '',
           posIdx: i,
           skillIdxs: [0, 1, 2],
           skillLevels: [0, 0, 0]
@@ -176,7 +176,7 @@ export class MemberDBService {
           const member = memberMap.get(memOId)!
           member.deck.push({
             memOId,
-            name: row.cardName || '',
+            cardName: row.cardName || '',
             posIdx: row.posIdx,
             skillIdxs: [row.skillIdx0, row.skillIdx1, row.skillIdx2],
             skillLevels: [row.skillLevel0, row.skillLevel1, row.skillLevel2]

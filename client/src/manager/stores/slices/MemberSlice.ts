@@ -3,15 +3,18 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 import * as ST from '@shareType'
+import * as NV from '@nullValue'
 
 // State 타입 정의
 interface MemberState {
   clubMemberArr: ST.MemberType[]
+  clubMemberOpened: ST.MemberType
 }
 
 // 초기 상태
 const initialState: MemberState = {
-  clubMemberArr: []
+  clubMemberArr: [],
+  clubMemberOpened: NV.NULL_MEMBER()
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -26,6 +29,15 @@ export const memberSlice = createSlice({
     // 클럽 멤버 배열 설정
     setClubMemberArr: (state, action: PayloadAction<ST.MemberType[]>) => {
       state.clubMemberArr = action.payload
+    },
+    // ::
+    // clubMemberOpened 설정
+    setClubMemberOpened: (state, action: PayloadAction<ST.MemberType>) => {
+      state.clubMemberOpened = action.payload
+    },
+    // clubMemberOpened 해제
+    unselectClubMemberOpened: state => {
+      state.clubMemberOpened = NV.NULL_MEMBER()
     }
   }
 })

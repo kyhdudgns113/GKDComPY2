@@ -32,7 +32,7 @@
         &._open {
           opacity: 1;
           transform: translateX(0);
-          width: 270px;
+          width: 250px;
         }
 
         ._row {
@@ -109,6 +109,7 @@
       }
 
       .LefterToggle_Button {
+        background-color: white;
         border-color: v.$SAKURA_BORDER;
         border-radius: 50%;
         border-width: 2px;

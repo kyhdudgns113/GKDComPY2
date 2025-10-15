@@ -1,10 +1,13 @@
+import {useCallback} from 'react'
+
 import {CircleInfo} from '@component'
-import {useMemberStates} from '@store'
+import {useAppDispatch, useMemberActions, useMemberStates} from '@store'
 
 import {GoldCrown, SilverCrown} from '../components'
 
-import type {FC} from 'react'
+import type {FC, MouseEvent} from 'react'
 import type {TableCommonProps} from '@prop'
+import type {MemberType} from '@shareType'
 
 import * as SV from '@shareValue'
 
@@ -14,6 +17,17 @@ type MemberTablePartProps = TableCommonProps & {}
 
 export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...props}) => {
   const {clubMemberArr} = useMemberStates()
+  const {setClubMemberOpened} = useMemberActions()
+
+  const dispatch = useAppDispatch()
+
+  const onClickIcon = useCallback(
+    (member: MemberType) => (e: MouseEvent<HTMLImageElement>) => {
+      e.stopPropagation()
+      dispatch(setClubMemberOpened(member))
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   return (
     <table className={`MemberTable_Part ${className || ''}`} style={style} {...props}>
@@ -46,7 +60,7 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
               <td className="_td_batterPower">{member.batterPower.toLocaleString()}</td>
               <td className="_td_pitcherPower">{member.pitcherPower.toLocaleString()}</td>
               <td className="_td_info">
-                <CircleInfo />
+                <CircleInfo onClick={onClickIcon(member)} />
               </td>
             </tr>
           )
