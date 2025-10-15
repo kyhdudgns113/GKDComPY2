@@ -38,6 +38,12 @@ export type ModifyCommUserDataType = {
   newCommAuth: number
 }
 
+export type MoveClubMemberDataType = {
+  prevClubOId: string
+  clubOId: string
+  memOId: string
+}
+
 export type SaveClubMemberInfoDataType = {
   clubOId: string
   memOId: string

@@ -28,7 +28,7 @@ export const MemberDelModal: FC<MemberDelModalProps> = ({className, style, ...pr
         }
       })
     },
-    [removeClubMember, closeModal, dispatch]
+    [removeClubMember, dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onKeyDownModal = useCallback(
@@ -43,12 +43,12 @@ export const MemberDelModal: FC<MemberDelModalProps> = ({className, style, ...pr
         dispatch(closeModal())
       }
     },
-    [_executeDelete, dispatch, closeModal]
+    [_executeDelete, dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onClickDelete = useCallback(() => {
     _executeDelete(clubMemberOpened.clubOId, clubMemberOpened.memOId)
-  }, [_executeDelete, clubMemberOpened])
+  }, [_executeDelete, clubMemberOpened]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Modal
@@ -75,7 +75,7 @@ export const MemberDelModal: FC<MemberDelModalProps> = ({className, style, ...pr
           삭제하기
         </button>
 
-        <button type="button" className="_button_form _button_cancel" onClick={() => dispatch(closeModal())}>
+        <button type="button" className="_button_form _button_cancel" onClick={() => dispatch(closeModal())} autoFocus>
           취소하기
         </button>
       </div>

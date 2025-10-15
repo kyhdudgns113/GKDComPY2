@@ -210,6 +210,16 @@ export class DBHubService {
     }
   }
 
+  async updateMemberClubOId(where: string, dto: DTO.UpdateMemberClubOIdDTO) {
+    try {
+      await this.memberDBService.updateMemberClubOId(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async deleteClubMember(where: string, memOId: string) {
     try {
       await this.memberDBService.deleteClubMember(where, memOId)

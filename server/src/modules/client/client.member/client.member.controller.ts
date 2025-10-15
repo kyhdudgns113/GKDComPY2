@@ -21,6 +21,14 @@ export class ClientMemberController {
 
   // PUT AREA:
 
+  @Put('/moveClubMember')
+  @UseGuards(CheckJwtValidationGuard)
+  async moveClubMember(@Headers() headers: any, @Body() data: HTTP.MoveClubMemberDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.moveClubMember(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Put('/saveClubMemberInfo')
   @UseGuards(CheckJwtValidationGuard)
   async saveClubMemberInfo(@Headers() headers: any, @Body() data: HTTP.SaveClubMemberInfoDataType) {

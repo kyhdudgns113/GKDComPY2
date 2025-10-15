@@ -29,6 +29,17 @@ export class ClientMemberService {
 
   // PUT AREA:
 
+  async moveClubMember(jwtPayload: JwtPayloadType, data: HTTP.MoveClubMemberDataType) {
+    try {
+      const {clubMemberArr} = await this.portService.moveClubMember(jwtPayload, data)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async saveClubMemberInfo(jwtPayload: JwtPayloadType, data: HTTP.SaveClubMemberInfoDataType) {
     try {
       const {clubMemberArr} = await this.portService.saveClubMemberInfo(jwtPayload, data)

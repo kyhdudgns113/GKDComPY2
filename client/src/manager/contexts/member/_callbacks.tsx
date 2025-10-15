@@ -13,6 +13,7 @@ import * as U from '@util'
 type ContextType = {
   addClubMember: (commOId: string, clubOId: string, memName: string, batterPower: number, pitcherPower: number) => Promise<boolean>
 
+  moveClubMember: (prevClubOId: string, clubOId: string, memOId: string) => Promise<boolean>
   saveClubMemberInfo: (member: ST.MemberType) => Promise<boolean>
 
   loadClubMemberArr: (clubOId: string) => Promise<boolean>
@@ -23,6 +24,7 @@ type ContextType = {
 export const MemberCallbacksContext = createContext<ContextType>({
   addClubMember: () => Promise.resolve(false),
 
+  moveClubMember: () => Promise.resolve(false),
   saveClubMemberInfo: () => Promise.resolve(false),
 
   loadClubMemberArr: () => Promise.resolve(false),
@@ -62,6 +64,33 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // PUT AREA:
+
+  const moveClubMember = useCallback(
+    async (prevClubOId: string, clubOId: string, memOId: string) => {
+      const url = `/client/member/moveClubMember`
+      const data: HTTP.MoveClubMemberDataType = {prevClubOId, clubOId, memOId}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubMemberArr} = body
+            dispatch(setClubMemberArr(clubMemberArr))
+            dispatch(unselectClubMemberOpened())
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   const saveClubMemberInfo = useCallback(
     async (member: ST.MemberType) => {
@@ -148,6 +177,7 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const value: ContextType = {
     addClubMember,
 
+    moveClubMember,
     saveClubMemberInfo,
 
     loadClubMemberArr,

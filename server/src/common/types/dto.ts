@@ -45,6 +45,11 @@ export type UpdateDocumentDTO = {
   contents: string
 }
 
+export type UpdateMemberClubOIdDTO = {
+  memOId: string
+  newClubOId: string
+}
+
 export type UpdateMemberInfoDTO = {
   memOId: string
   memName: string

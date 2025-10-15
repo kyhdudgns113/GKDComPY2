@@ -62,6 +62,70 @@ export class ClientMemberPortService {
   // PUT AREA:
 
   /**
+   * moveClubMember
+   * - 멤버를 다른 클럽으로 이동시키는 함수
+   *
+   * 입력값
+   * - clubOId: string
+   *     + 새로운 클럽의 OId (이동할 목적지)
+   * - memOId: string
+   *     + 이동할 멤버의 OId
+   *
+   * 출력값
+   * - clubMemberArr: T.MemberType[]
+   *     + 새로운 클럽의 멤버들 배열
+   *
+   * 작동 순서
+   * 1. 멤버 존재하는지 뙇!!
+   * 2. 기존 클럽에 대한 쓰기 권한 췍!! (멤버를 빼는 권한)
+   * 3. 새로운 클럽에 대한 쓰기 권한 췍!! (멤버를 받는 권한)
+   * 4. 멤버의 clubOId 업데이트 뙇!!
+   * 5. 기존 클럽의 갱신된 멤버 배열 읽기 뙇!!
+   * 6. 리턴 뙇!!
+   */
+  async moveClubMember(jwtPayload: T.JwtPayloadType, data: HTTP.MoveClubMemberDataType) {
+    const where = `/client/member/moveClubMember`
+    const {prevClubOId, clubOId, memOId} = data
+
+    try {
+      // 1. 멤버 존재하는지 뙇!!
+      const {member} = await this.dbHubService.readClubMemberByMemOId(where, memOId)
+      if (!member) {
+        throw {
+          gkd: {memberErr: `멤버OId 의 멤버가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_MOVE_CLUB_MEMBER_NO_MEMBER',
+          gkdErrMsg: `멤버OId 의 멤버가 존재하지 않음`,
+          gkdStatus: {memOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const oldClubOId = member.clubOId
+
+      // 2. 기존 클럽에 대한 쓰기 권한 췍!! (멤버를 빼는 권한)
+      await this.dbHubService.checkAuth_ClubWrite(where, jwtPayload, oldClubOId)
+
+      // 3. 새로운 클럽에 대한 쓰기 권한 췍!! (멤버를 받는 권한)
+      await this.dbHubService.checkAuth_ClubWrite(where, jwtPayload, clubOId)
+
+      // 4. 멤버의 clubOId 업데이트 뙇!!
+      const dto: DTO.UpdateMemberClubOIdDTO = {memOId, newClubOId: clubOId}
+      await this.dbHubService.updateMemberClubOId(where, dto)
+
+      // 5. 기존 클럽의 갱신된 멤버 배열 읽기 뙇!!
+      const {clubMemberArr} = await this.dbHubService.readClubMemberArrByClubOId(where, prevClubOId)
+
+      // 6. 리턴 뙇!!
+      return {clubMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
    * saveClubMemberInfo
    * - 클럽 멤버 정보 저장 함수
    *

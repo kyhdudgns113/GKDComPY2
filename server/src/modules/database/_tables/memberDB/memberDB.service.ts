@@ -334,6 +334,46 @@ export class MemberDBService {
     }
   }
 
+  async updateMemberClubOId(where: string, dto: DTO.UpdateMemberClubOIdDTO) {
+    /**
+     * updateMemberClubOId
+     * - 멤버의 클럽을 변경한다 (클럽 이동)
+     *
+     * 입력값
+     * - dto: DTO.UpdateMemberClubOIdDTO
+     *     + memOId: string (멤버의 OId)
+     *     + newClubOId: string (새로운 클럽의 OId)
+     *
+     * 출력값
+     * - success: boolean
+     *     + 업데이트 성공 여부
+     *
+     * 작동 순서
+     * 1. 멤버의 clubOId 업데이트 쿼리 뙇!!
+     * 2. 리턴 뙇!!
+     */
+    const connection = await this.dbService.getConnection()
+    const {memOId, newClubOId} = dto
+
+    try {
+      // 1. 멤버의 clubOId 업데이트 쿼리 뙇!!
+      const query = `UPDATE members SET clubOId = ? WHERE memOId = ?`
+      const param = [newClubOId, memOId]
+      await connection.execute(query, param)
+
+      // 2. 리턴 뙇!!
+      return {success: true}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
   async deleteClubMember(where: string, memOId: string) {
     /**
      * deleteClubMember

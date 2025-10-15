@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import {useMemberStates} from '@store'
 
 import {CancelInfoButton, CloseInfoButton, DeleteMemberButton, MoveMemberButton, SaveInfoButton} from '../buttons'
-import {MemberCommentObj, MemberRecentRecordObj, MemberValueObject} from '../objects'
+import {MemberCommentObj, MemberMoveObj, MemberRecentRecordObj, MemberValueObject} from '../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -15,6 +15,7 @@ type MemberSpecPartProps = DivCommonProps & {}
 export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...props}) => {
   const {clubMemberArr, clubMemberOpened} = useMemberStates()
 
+  const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false)
   const [memName, setMemName] = useState<string>('')
 
   // 초기화: memName
@@ -33,8 +34,9 @@ export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...pr
       <div className="_header_part">
         <p className="_title_part"> {memName} </p>
         <DeleteMemberButton />
-        <MoveMemberButton />
+        <MoveMemberButton setter={setIsMoveOpen} />
         <CloseInfoButton />
+        <MemberMoveObj className={isMoveOpen ? '_visible' : ''} />
       </div>
 
       {/* 2. 멤버 코멘트 */}
