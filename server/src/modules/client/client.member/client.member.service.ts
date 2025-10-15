@@ -27,6 +27,19 @@ export class ClientMemberService {
     }
   }
 
+  // PUT AREA:
+
+  async saveClubMemberInfo(jwtPayload: JwtPayloadType, data: HTTP.SaveClubMemberInfoDataType) {
+    try {
+      const {clubMemberArr} = await this.portService.saveClubMemberInfo(jwtPayload, data)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadClubMemberArr(jwtPayload: JwtPayloadType, clubOId: string) {

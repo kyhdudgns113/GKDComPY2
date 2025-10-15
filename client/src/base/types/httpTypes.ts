@@ -38,6 +38,16 @@ export type ModifyCommUserDataType = {
   newCommAuth: number
 }
 
+export type SaveClubMemberInfoDataType = {
+  clubOId: string
+  memOId: string
+  memName: string
+  batterPower: number
+  pitcherPower: number
+  memberComment: string
+  position: number
+}
+
 export type SignInDataType = {
   userId: string
   password: string

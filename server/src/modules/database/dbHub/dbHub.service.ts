@@ -189,6 +189,26 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readClubMemberByMemOId(where: string, memOId: string) {
+    try {
+      const {member} = await this.memberDBService.readClubMemberByMemOId(where, memOId)
+      return {member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateClubMemberInfo(where: string, dto: DTO.UpdateMemberInfoDTO) {
+    try {
+      await this.memberDBService.updateClubMemberInfo(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   // AREA2: User Area
 

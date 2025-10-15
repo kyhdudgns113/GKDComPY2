@@ -6,17 +6,22 @@ import type {FC, PropsWithChildren} from 'react'
 
 import * as HTTP from '@httpType'
 import * as F from '@fetch'
+import * as ST from '@shareType'
 import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
   addClubMember: (commOId: string, clubOId: string, memName: string, batterPower: number, pitcherPower: number) => Promise<boolean>
-  
+
+  saveClubMemberInfo: (member: ST.MemberType) => Promise<boolean>
+
   loadClubMemberArr: (clubOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const MemberCallbacksContext = createContext<ContextType>({
   addClubMember: () => Promise.resolve(false),
+
+  saveClubMemberInfo: () => Promise.resolve(false),
 
   loadClubMemberArr: () => Promise.resolve(false),
 })
@@ -52,6 +57,37 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // PUT AREA:
+
+  const saveClubMemberInfo = useCallback(
+    async (member: ST.MemberType) => {
+      const url = `/client/member/saveClubMemberInfo`
+
+      const {clubOId, memOId, memName, batterPower, pitcherPower, memberComment, position} = member
+
+      const data: HTTP.SaveClubMemberInfoDataType = {clubOId, memOId, memName, batterPower, pitcherPower, memberComment, position}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubMemberArr} = body
+            dispatch(setClubMemberArr(clubMemberArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // GET AREA:
 
   const loadClubMemberArr = useCallback(async (clubOId: string) => {
@@ -79,6 +115,8 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   // prettier-ignore
   const value: ContextType = {
     addClubMember,
+
+    saveClubMemberInfo,
 
     loadClubMemberArr,
   }

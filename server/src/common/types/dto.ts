@@ -45,6 +45,15 @@ export type UpdateDocumentDTO = {
   contents: string
 }
 
+export type UpdateMemberInfoDTO = {
+  memOId: string
+  memName: string
+  batterPower: number
+  pitcherPower: number
+  memberComment: string
+  position: number
+}
+
 export type UpdateUserDTO = {
   userOId: string
   newUserId: string
