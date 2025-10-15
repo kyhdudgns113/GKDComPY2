@@ -38,6 +38,7 @@
       "@secret": ["src/base/secret"],
       "@shareType": ["src/base/types/shareTypes"],
       "@shareValue": ["src/base/values/shareValues"],
+      "@skill": ["src/base/values/skillNames"],
       "@socketType": ["src/base/types/socketTypes"],
 
       "@store": ["src/manager/stores"],

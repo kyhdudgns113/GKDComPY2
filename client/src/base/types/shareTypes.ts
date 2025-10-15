@@ -1,3 +1,10 @@
+export type CardType = {
+  name: string | null // DB 에 null 로 저장되었을 수 있다.
+  posIdx: number
+  skillIdxs: number[]
+  skillLevels: number[]
+}
+
 export type ChatType = {
   chatIdx: number
   chatRoomOId: string
@@ -41,6 +48,19 @@ export type DocumentType = {
   documentOId: string
   clubOId: string
   contents: string
+}
+
+export type MemberType = {
+  batterPower: number
+  clubOId: string
+  commOId: string
+  deck: CardType[]
+  lastRecorded: number | null
+  memberComment: string
+  memOId: string
+  memName: string
+  position: number
+  pitcherPower: number
 }
 
 export type UserType = {
