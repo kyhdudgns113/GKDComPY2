@@ -1,0 +1,25 @@
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .MemberList_Subpage {
+        .AddMember_Button {
+          background-color: #cccccc;
+          border-color: #000000;
+          border-radius: 50%;
+          border-width: 2px;
+
+          cursor: pointer;
+
+          height: fit-content;
+
+          margin-left: 8px;
+          margin-top: 8px;
+
+          user-select: none;
+
+          width: fit-content;
+        }
+      }
+    }
+  }
+}

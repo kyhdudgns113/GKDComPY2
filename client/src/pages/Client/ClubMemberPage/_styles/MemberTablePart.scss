@@ -1,0 +1,20 @@
+.Template {
+  .Body {
+    .ClubMember_Page {
+      table.MemberTable_Part {
+        border-collapse: collapse;
+        border-color: #000000;
+        border-radius: 10px;
+        border-width: 2px;
+
+        cursor: default;
+
+        height: fit-content;
+
+        margin-top: 12px;
+        min-height: 400px;
+        width: fit-content;
+      }
+    }
+  }
+}
