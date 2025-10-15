@@ -1,0 +1,26 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.MemberList_Subpage {
+  display: flex;
+  flex-direction: column;
+
+  height: fit-content;
+  width: fit-content;
+
+  ._header_member_list {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    ._title_subpage {
+      color: v.$SAKURA_TEXT;
+      font-size: 24px;
+      font-weight: 700;
+
+      margin-left: 4px;
+
+      text-align: center;
+      user-select: none;
+    }
+  }
+}

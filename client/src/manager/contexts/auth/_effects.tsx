@@ -1,8 +1,10 @@
 import {createContext, useContext, useEffect} from 'react'
+
+import {useSocketCallbacksContext, useSocketStatesContext} from '@context'
+
 import {useAuthStatesContext} from './__states'
 
 import type {FC, PropsWithChildren} from 'react'
-import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {}
@@ -12,15 +14,19 @@ export const AuthEffectsContext = createContext<ContextType>({})
 export const useAuthEffectsContext = () => useContext(AuthEffectsContext)
 
 export const AuthEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setUserId} = useAuthStatesContext()
+  const {socket} = useSocketStatesContext()
+  const {connectSocket, disconnectSocket} = useSocketCallbacksContext()
+  const {userOId, setSocketValidated} = useAuthStatesContext()
 
+  // 초기화: 소켓 연결
   useEffect(() => {
-    U.readStringP('userId').then(userId => {
-      if (userId) {
-        setUserId(userId)
-      }
-    })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    if (userOId) {
+      connectSocket(socket, userOId, setSocketValidated)
+    } // ::
+    else {
+      disconnectSocket(socket)
+    }
+  }, [socket, userOId]) // eslint-disable-line react-hooks/exhaustive-deps
   // ::
   return <AuthEffectsContext.Provider value={{}}>{children}</AuthEffectsContext.Provider>
 }

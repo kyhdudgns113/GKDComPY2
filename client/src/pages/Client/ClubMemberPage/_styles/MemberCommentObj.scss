@@ -1,0 +1,49 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .MemberComment_Object {
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 8px;
+        border-width: 2px;
+
+        height: 130px;
+
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 8px;
+
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-right: 4px;
+
+        width: 95%;
+
+        &:focus-within {
+          background-color: v.$SAKURA_BG_10;
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
+        }
+        &:hover {
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        textarea {
+          cursor: default;
+
+          height: 100%;
+
+          outline: none;
+          overflow-y: auto;
+
+          padding-left: 8px;
+          padding-right: 8px;
+
+          resize: none;
+
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -13,7 +13,15 @@ function App() {
 
       <Route path="/client/*" element={<Template />}>
         <Route index element={<P.ClientRootPage />} />
+
         <Route path="main" element={<P.ClientMainPage />} />
+
+        <Route path="entireMember" element={<P.NullPage />} />
+
+        <Route path="club/discuss/:clubOId" element={<P.ClubDiscussPage />} />
+        <Route path="club/member/:clubOId" element={<P.ClubMemberPage />} />
+        <Route path="club/record/:clubOId" element={<P.ClubRecordPage />} />
+
         <Route path="*" element={<P.NullPage />} />
       </Route>
 

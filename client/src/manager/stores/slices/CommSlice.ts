@@ -5,6 +5,7 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 
 import * as ST from '@shareType'
 import * as NV from '@nullValue'
+import type {AdminStates} from '../store'
 
 // State 타입 정의
 interface CommunityState {
@@ -40,3 +41,5 @@ export const communitySlice = createSlice({
     // ::
   }
 })
+
+export const getClubFromClubOId = (clubOId: string) => (state: AdminStates) => state.Community.clubArr.find(club => club.clubOId === clubOId) || null

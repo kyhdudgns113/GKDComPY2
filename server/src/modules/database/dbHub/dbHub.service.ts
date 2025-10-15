@@ -30,6 +30,41 @@ export class DBHubService {
     private readonly weekRecordDBService: TB.WeekRecordDBService
   ) {}
 
+  // AREA1: Chat Area
+
+  async createChat(where: string, dto: DTO.CreateChatDTO) {
+    try {
+      const {chat} = await this.chatDBService.createChat(where, dto)
+      return {chat}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readChatArrByClubOId(where: string, clubOId: string, lastChatIdx: number) {
+    try {
+      const {chatArr} = await this.chatDBService.readChatArrByClubOId(where, clubOId, lastChatIdx)
+      return {chatArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readChatRoomByChatRoomOId(where: string, chatRoomOId: string) {
+    try {
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      return {chatRoom}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA2: Club Area
 
   async createClub(where: string, dto: DTO.CreateClubDTO) {
@@ -101,6 +136,53 @@ export class DBHubService {
     try {
       const {community} = await this.communityDBService.readCommunityByCommOId(where, commOId)
       return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA5: Document Area
+
+  async readDocumentByClubOId(where: string, clubOId: string) {
+    try {
+      const {document, contents} = await this.docDBService.readDocumentByClubOId(where, clubOId)
+      return {document, contents}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateDocument(where: string, dto: DTO.UpdateDocumentDTO) {
+    try {
+      await this.docDBService.updateDocument(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA1: Member Area
+
+  async createClubMember(where: string, dto: DTO.CreateClubMemberDTO) {
+    try {
+      const {member} = await this.memberDBService.createClubMember(where, dto)
+      return {member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readClubMemberArrByClubOId(where: string, clubOId: string) {
+    try {
+      const {clubMemberArr} = await this.memberDBService.readClubMemberArrByClubOId(where, clubOId)
+      return {clubMemberArr}
       // ::
     } catch (errObj) {
       // ::
@@ -304,6 +386,131 @@ export class DBHubService {
       }
 
       return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_ChatRoomRead(where: string, jwtPayload: T.JwtPayloadType, chatRoomOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      if (!chatRoom) {
+        throw {
+          gkd: {chatRoomErr: `채팅방이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CHAT_ROOM',
+          gkdErrMsg: `채팅방이 존재하지 않음`,
+          gkdStatus: {chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, chatRoom.clubOId)
+
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: chatRoom.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = club
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === commOId && user.commAuth >= AUTH_NORMAL)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, chatRoom}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkAuth_ChatRoomWrite(where: string, jwtPayload: T.JwtPayloadType, chatRoomOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
+      if (!chatRoom) {
+        throw {
+          gkd: {chatRoomErr: `채팅방이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CHAT_ROOM',
+          gkdErrMsg: `채팅방이 존재하지 않음`,
+          gkdStatus: {chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, chatRoom.clubOId)
+
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: chatRoom.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = club
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_CHAT_ROOM_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, chatRoomOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, chatRoom}
       // ::
     } catch (errObj) {
       // ::

@@ -7,7 +7,8 @@ import * as M from './modules'
   imports: [
     M.AdminModule, // ::
     M.ClientModule,
-    M.DatabaseModule
+    M.DatabaseModule,
+    M.SocketModule
   ],
   controllers: [AppController],
   providers: []

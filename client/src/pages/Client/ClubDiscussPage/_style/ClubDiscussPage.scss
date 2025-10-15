@@ -1,0 +1,61 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.ClubDiscuss_Page {
+  ._container_page {
+    display: flex;
+    flex-direction: row;
+
+    gap: 120px;
+
+    margin-top: 24px;
+
+    width: fit-content;
+
+    .ClubDoc_SubPage {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 10px;
+      border-width: 2px;
+
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 16px;
+
+      position: relative;
+
+      transition: box-shadow 0.4s ease;
+
+      width: fit-content;
+
+      &:hover {
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .ClubChatRoom_SubPage {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 10px;
+      border-width: 2px;
+
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
+
+      transition: box-shadow 0.4s ease;
+
+      width: 320px;
+
+      &:hover {
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+}

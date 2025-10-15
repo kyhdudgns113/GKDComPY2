@@ -9,22 +9,33 @@ import * as P from './ports'
     // ::
     P.AdminPortsModule,
     P.ClientPortsModule,
-    P.JwtPortModule
+    P.JwtPortModule,
+    P.SocketPortModule
   ],
   controllers: [],
   providers: [
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientChatPortService,
+    P.ClientClubPortService,
     P.ClientCommPortService,
-    P.JwtPortService
+    P.ClientDocPortService,
+    P.ClientMemberPortService,
+    P.JwtPortService,
+    P.SocketPortService
   ],
   exports: [
     P.AdminAuthPortService, // ::
     P.AdminCommPortService,
     P.ClientAuthPortService,
+    P.ClientChatPortService,
+    P.ClientClubPortService,
     P.ClientCommPortService,
-    P.JwtPortService
+    P.ClientDocPortService,
+    P.ClientMemberPortService,
+    P.JwtPortService,
+    P.SocketPortService
   ]
 })
 export class DatabaseModule {}

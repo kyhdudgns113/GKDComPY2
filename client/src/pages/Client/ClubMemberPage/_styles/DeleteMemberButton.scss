@@ -1,0 +1,24 @@
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .DeleteMember_Button {
+        border-radius: 50%;
+
+        color: oklch(0.6293 0.2 29);
+        font-size: 28px;
+        margin-left: auto;
+
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+}

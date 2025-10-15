@@ -1,0 +1,55 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .MemberValue_Object {
+        .MemberCrown_Module {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+
+          margin-left: auto;
+          margin-right: 20px;
+
+          position: relative;
+
+          user-select: none;
+
+          ._button_module {
+            align-content: center;
+            border-color: v.$SAKURA_BORDER;
+            border-radius: 50%;
+            border-width: 3px;
+
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+
+            cursor: pointer;
+
+            font-size: 20px;
+
+            height: 40px;
+
+            text-align: center;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+            width: 40px;
+
+            &:hover {
+              box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+            }
+
+            &._selected {
+              background-color: v.$SAKURA_BG_50;
+            }
+          }
+          ._bottom_btn {
+            position: absolute;
+            left: 30px;
+            top: 50px;
+          }
+        }
+      }
+    }
+  }
+}

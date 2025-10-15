@@ -1,0 +1,42 @@
+import {Injectable} from '@nestjs/common'
+import {JwtPayloadType} from '@type'
+import {ClientMemberPortService} from '@modules/database'
+import {GKDJwtService} from '@modules/gkdJwt'
+
+import * as HTTP from '@httpDataType'
+import * as T from '@type'
+import * as U from '@util'
+
+@Injectable()
+export class ClientMemberService {
+  constructor(
+    private readonly jwtService: GKDJwtService,
+    private readonly portService: ClientMemberPortService
+  ) {}
+
+  // POST AREA:
+
+  async addClubMember(jwtPayload: JwtPayloadType, data: HTTP.AddClubMemberDataType) {
+    try {
+      const {clubMemberArr} = await this.portService.addClubMember(jwtPayload, data)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  // GET AREA:
+
+  async loadClubMemberArr(jwtPayload: JwtPayloadType, clubOId: string) {
+    try {
+      const {clubMemberArr} = await this.portService.loadClubMemberArr(jwtPayload, clubOId)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+}

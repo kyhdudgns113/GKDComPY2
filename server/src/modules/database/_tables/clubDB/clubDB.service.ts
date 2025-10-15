@@ -96,6 +96,7 @@ export class ClubDBService {
       const club: T.ClubType = {
         clubOId,
         clubName,
+        chatRoomOId,
         commOId
       }
 
@@ -174,6 +175,7 @@ export class ClubDBService {
         const elem: T.ClubType = {
           clubOId: row.clubOId,
           clubName: row.clubName,
+          chatRoomOId: row.chatRoomOId,
           commOId: row.commOId
         }
         return elem
@@ -210,6 +212,7 @@ export class ClubDBService {
       const club: T.ClubType = {
         clubOId: resultArray[0].clubOId,
         clubName: resultArray[0].clubName,
+        chatRoomOId: resultArray[0].chatRoomOId,
         commOId: resultArray[0].commOId
       }
       return {club}
