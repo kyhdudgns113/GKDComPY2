@@ -146,4 +146,63 @@ export class ClientMemberPortService {
       throw errObj
     }
   }
+
+  // DELETE AREA:
+
+  /**
+   * removeClubMember
+   * - 클럽 멤버 삭제 함수
+   *
+   * 입력값
+   * - clubOId: string
+   *     + 클럽의 OId
+   * - memOId: string
+   *     + 멤버의 OId
+   *
+   * 출력값
+   * - clubMemberArr: T.MemberType[]
+   *     + 클럽 멤버들의 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 멤버 존재하는지 뙇!!
+   * 3. 멤버 삭제 뙇!!
+   * 4. 클럽 멤버 배열 읽기 뙇!!
+   * 5. 리턴 뙇!!
+   */
+  async removeClubMember(jwtPayload: T.JwtPayloadType, clubOId: string, memOId: string) {
+    const where = `/client/member/removeClubMember`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_ClubWrite(where, jwtPayload, clubOId)
+
+      // 2. 멤버 존재하는지 뙇!!
+      const {member} = await this.dbHubService.readClubMemberByMemOId(where, memOId)
+      if (!member) {
+        throw {
+          gkd: {memberErr: `멤버OId 의 멤버가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_REMOVE_CLUB_MEMBER_NO_MEMBER',
+          gkdErrMsg: `멤버OId 의 멤버가 존재하지 않음`,
+          gkdStatus: {clubOId, memOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. 멤버 삭제 뙇!!
+      await this.dbHubService.deleteClubMember(where, memOId)
+
+      // 4. 클럽 멤버 배열 읽기 뙇!!
+      const {clubMemberArr} = await this.dbHubService.readClubMemberArrByClubOId(where, clubOId)
+
+      // 5. 리턴 뙇!!
+      return {clubMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    }
+  }
 }

@@ -1,5 +1,6 @@
 export * from './ClubAddModal'
 export * from './ClubModifyModal'
 export * from './MemberAddModal'
+export * from './MemberDelModal'
 export * from './UserAddModal'
 export * from './UserModifyModal'

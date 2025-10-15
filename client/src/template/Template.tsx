@@ -54,6 +54,7 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
       {modalName === V.MODAL_NAME_ADD_CLUB && <M.ClubAddModal />}
       {modalName === V.MODAL_NAME_ADD_MEMBER && <M.MemberAddModal />}
       {modalName === V.MODAL_NAME_ADD_USER && <M.UserAddModal />}
+      {modalName === V.MODAL_NAME_DEL_MEMBER && <M.MemberDelModal />}
       {modalName === V.MODAL_NAME_MODIFY_CLUB && <M.ClubModifyModal />}
       {modalName === V.MODAL_NAME_MODIFY_USER && <M.UserModifyModal />}
     </div>

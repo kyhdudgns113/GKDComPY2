@@ -1,0 +1,72 @@
+@use '../../../base/styles/values.scss' as v;
+
+.MemberDel_Modal.MODAL_Contents {
+  padding-top: 16px;
+  padding-bottom: 16px;
+
+  padding-left: 40px;
+  padding-right: 40px;
+
+  ._content_modal {
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    ._confirm_text {
+      font-size: 18px;
+      color: #374151;
+
+      strong {
+        color: v.$SAKURA_TEXT;
+        font-weight: 700;
+      }
+    }
+
+    ._warning_text {
+      font-size: 14px;
+      color: #dc2626;
+      font-weight: 500;
+    }
+  }
+
+  ._button_row_form {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  button._button_form {
+    border-radius: 8px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);
+
+    height: 48px;
+    width: 108px;
+
+    &:hover {
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    &._button_delete {
+      background-color: v.$SAKURA_BORDER_DEEP_50;
+      color: white;
+      font-weight: 700;
+
+      &:hover {
+        background-color: v.$SAKURA_BORDER_DEEP_100;
+      }
+    }
+
+    &._button_cancel {
+      background-color: #e5e7eb;
+      color: #374151;
+      font-weight: 700;
+
+      &:hover {
+        background-color: #d1d5db;
+      }
+    }
+  }
+}

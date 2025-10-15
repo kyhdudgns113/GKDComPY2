@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {CheckJwtValidationGuard} from '@guard'
 
 import {ClientMemberService} from './client.member.service'
@@ -36,6 +36,16 @@ export class ClientMemberController {
   async loadClubMemberArr(@Headers() headers: any, @Param('clubOId') clubOId: string) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.loadClubMemberArr(jwtPayload, clubOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // DELETE AREA:
+
+  @Delete('/removeClubMember/:clubOId/:memOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async removeClubMember(@Headers() headers: any, @Param('clubOId') clubOId: string, @Param('memOId') memOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.removeClubMember(jwtPayload, clubOId, memOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }

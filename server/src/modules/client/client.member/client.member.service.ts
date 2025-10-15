@@ -52,4 +52,17 @@ export class ClientMemberService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // DELETE AREA:
+
+  async removeClubMember(jwtPayload: JwtPayloadType, clubOId: string, memOId: string) {
+    try {
+      const {clubMemberArr} = await this.portService.removeClubMember(jwtPayload, clubOId, memOId)
+      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

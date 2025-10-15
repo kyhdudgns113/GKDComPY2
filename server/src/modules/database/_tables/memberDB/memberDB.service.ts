@@ -333,4 +333,41 @@ export class MemberDBService {
       connection.release()
     }
   }
+
+  async deleteClubMember(where: string, memOId: string) {
+    /**
+     * deleteClubMember
+     * - 클럽 멤버를 삭제한다.
+     *
+     * 입력값
+     * - memOId: string
+     *     + 멤버의 OId
+     *
+     * 출력값
+     * - success: boolean
+     *     + 삭제 성공 여부
+     *
+     * 작동 순서
+     * 1. 멤버 삭제 쿼리 뙇!! (CASCADE로 카드도 자동 삭제됨)
+     * 2. 리턴 뙇!!
+     */
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 멤버 삭제 쿼리 뙇!! (CASCADE로 카드도 자동 삭제됨)
+      const query = `DELETE FROM members WHERE memOId = ?`
+      const param = [memOId]
+      await connection.execute(query, param)
+
+      // 2. 리턴 뙇!!
+      return {success: true}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 }

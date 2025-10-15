@@ -16,6 +16,8 @@ type ContextType = {
   saveClubMemberInfo: (member: ST.MemberType) => Promise<boolean>
 
   loadClubMemberArr: (clubOId: string) => Promise<boolean>
+
+  removeClubMember: (clubOId: string, memOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const MemberCallbacksContext = createContext<ContextType>({
@@ -24,13 +26,15 @@ export const MemberCallbacksContext = createContext<ContextType>({
   saveClubMemberInfo: () => Promise.resolve(false),
 
   loadClubMemberArr: () => Promise.resolve(false),
+
+  removeClubMember: () => Promise.resolve(false),
 })
 
 export const useMemberCallbacksContext = () => useContext(MemberCallbacksContext)
 
 export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
-  const {setClubMemberArr} = useMemberActions()
+  const {setClubMemberArr, unselectClubMemberOpened} = useMemberActions()
 
   // POST AREA:
 
@@ -112,6 +116,34 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // DELETE AREA:
+
+  const removeClubMember = useCallback(
+    async (clubOId: string, memOId: string) => {
+      const url = `/client/member/removeClubMember/${clubOId}/${memOId}`
+      return F.delWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubMemberArr} = body
+            dispatch(setClubMemberArr(clubMemberArr))
+            dispatch(unselectClubMemberOpened())
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // prettier-ignore
   const value: ContextType = {
     addClubMember,
@@ -119,6 +151,8 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     saveClubMemberInfo,
 
     loadClubMemberArr,
+
+    removeClubMember,
   }
   return <MemberCallbacksContext.Provider value={value}>{children}</MemberCallbacksContext.Provider>
 }

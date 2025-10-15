@@ -210,6 +210,16 @@ export class DBHubService {
     }
   }
 
+  async deleteClubMember(where: string, memOId: string) {
+    try {
+      await this.memberDBService.deleteClubMember(where, memOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA2: User Area
 
   async createUser(where: string, dto: DTO.CreateUserDTO) {
