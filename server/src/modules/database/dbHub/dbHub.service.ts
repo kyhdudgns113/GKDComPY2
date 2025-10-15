@@ -199,6 +199,16 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readCommMemberArrByCommOId(where: string, commOId: string) {
+    try {
+      const {commMemberArr} = await this.memberDBService.readCommMemberArrByCommOId(where, commOId)
+      return {commMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async updateClubMemberInfo(where: string, dto: DTO.UpdateMemberInfoDTO) {
     try {

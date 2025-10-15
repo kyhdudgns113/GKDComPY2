@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
-
-import * as ST from '@shareType'
-import * as NV from '@nullValue'
 import type {AdminStates} from '../store'
+
+import * as NV from '@nullValue'
+import * as ST from '@shareType'
 
 // State 타입 정의
 interface MemberState {
@@ -40,6 +40,7 @@ export const memberSlice = createSlice({
     unselectClubMemberOpened: state => {
       state.clubMemberOpened = NV.NULL_MEMBER()
     }
+    // ::
   }
 })
 

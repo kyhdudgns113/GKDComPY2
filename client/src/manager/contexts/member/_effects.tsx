@@ -10,6 +10,5 @@ export const MemberEffectsContext = createContext<ContextType>({})
 export const useMemberEffectsContext = () => useContext(MemberEffectsContext)
 
 export const MemberEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  //
   return <MemberEffectsContext.Provider value={{}}>{children}</MemberEffectsContext.Provider>
 }
