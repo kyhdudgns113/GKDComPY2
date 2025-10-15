@@ -5,6 +5,7 @@ import {ClientChatModule} from './client.chat'
 import {ClientClubModule} from './client.club'
 import {ClientCommModule} from './client.comm'
 import {ClientDocumentModule} from './client.document'
+import {ClientMemberModule} from './client.member'
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import {ClientDocumentModule} from './client.document'
     ClientChatModule,
     ClientCommModule,
     ClientClubModule,
-    ClientDocumentModule
+    ClientDocumentModule,
+    ClientMemberModule
   ],
   controllers: [],
   providers: [],

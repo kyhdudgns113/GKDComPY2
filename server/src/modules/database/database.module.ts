@@ -21,6 +21,7 @@ import * as P from './ports'
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
+    P.ClientMemberPortService,
     P.JwtPortService,
     P.SocketPortService
   ],
@@ -32,6 +33,7 @@ import * as P from './ports'
     P.ClientClubPortService,
     P.ClientCommPortService,
     P.ClientDocPortService,
+    P.ClientMemberPortService,
     P.JwtPortService,
     P.SocketPortService
   ]
