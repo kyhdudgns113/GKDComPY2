@@ -109,7 +109,7 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   useEffect(() => {
     if (chatArrDivRef.current && goToBottom) {
       const scrollHeight = chatArrDivRef.current.scrollHeight
-      chatArrDivRef.current.scrollTo({top: scrollHeight, behavior: 'smooth'})
+      chatArrDivRef.current.scrollTo({top: scrollHeight /*, behavior: 'smooth'*/})
       setGoToBottom(false)
     }
   }, [chatArr, goToBottom]) // eslint-disable-line react-hooks/exhaustive-deps

@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useSocketCallbacksContext} from '@context'
+import {useChatStatesContext, useSocketCallbacksContext} from '@context'
 import {useAppDispatch, useChatActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
@@ -28,6 +28,7 @@ export const useChatCallbacksContext = () => useContext(ChatCallbacksContext)
 export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
   const {setChatArr, pushFrontChatArr} = useChatActions()
+  const {setGoToBottom} = useChatStatesContext()
 
   const {emitSocket} = useSocketCallbacksContext()
 
@@ -45,6 +46,7 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             const {chatArr} = body
             if (lastChatIdx === -1) {
               dispatch(setChatArr(chatArr))
+              setGoToBottom(true)
             } // ::
             else {
               dispatch(pushFrontChatArr(chatArr))
