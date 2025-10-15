@@ -4,6 +4,7 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 
 import * as ST from '@shareType'
 import * as NV from '@nullValue'
+import type {AdminStates} from '../store'
 
 // State 타입 정의
 interface MemberState {
@@ -41,3 +42,6 @@ export const memberSlice = createSlice({
     }
   }
 })
+
+export const getMemberByMemOId = (memOId: string) => (state: AdminStates) =>
+  state.Member.clubMemberArr.find(member => member.memOId === memOId) || NV.NULL_MEMBER()
