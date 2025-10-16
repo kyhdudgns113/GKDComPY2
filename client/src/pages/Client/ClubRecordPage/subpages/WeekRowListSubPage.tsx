@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 
 import {useRecordCallbacksContext} from '@context'
-import {useClubStates} from '@store'
+import {useClubStates, useRecordStates} from '@store'
 
 import {AddNextWeekButton, AddPrevWeekButton} from '../buttons'
 
@@ -16,6 +16,7 @@ type WeekRowListSubPageProps = DivCommonProps & {}
 
 export const WeekRowListSubPage: FC<WeekRowListSubPageProps> = ({className, style, ...props}) => {
   const {clubOpened} = useClubStates()
+  const {weekRowArr} = useRecordStates()
   const {loadClubWeekRowArr} = useRecordCallbacksContext()
 
   // 초기화: 주차 목록 불러오기
@@ -45,7 +46,7 @@ export const WeekRowListSubPage: FC<WeekRowListSubPageProps> = ({className, styl
       <WeekRowArrPart />
 
       {/* 4. 버튼: 이전 주차 생성 */}
-      <AddPrevWeekButton />
+      {weekRowArr.length > 0 && <AddPrevWeekButton />}
     </div>
   )
 }
