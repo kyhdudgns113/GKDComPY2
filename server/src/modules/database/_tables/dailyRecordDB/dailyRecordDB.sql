@@ -1,6 +1,4 @@
 CREATE TABLE dailyRecords (
-  dailyOId CHAR(24) NOT NULL PRIMARY KEY,
-
   clubOId CHAR(24) NOT NULL,
   comment TEXT NOT NULL,
   condError INT NOT NULL,

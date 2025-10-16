@@ -6,6 +6,7 @@ import * as ST from '@shareType'
 
 // State 타입 정의
 interface RecordState {
+  dailyRecordMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}}
   rowMemberArr: ST.RowMemberType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
@@ -13,6 +14,7 @@ interface RecordState {
 
 // 초기 상태
 const initialState: RecordState = {
+  dailyRecordMap: {},
   rowMemberArr: [],
   weekOIdOpened: '',
   weekRowArr: []
@@ -23,6 +25,18 @@ export const recordSlice = createSlice({
   name: 'record',
   initialState,
   reducers: {
+    // dailyRecordMap 설정
+    setDailyRecordMapFromArr: (state, action: PayloadAction<ST.DailyRecordType[]>) => {
+      const newMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}} = {}
+      action.payload.forEach(record => {
+        if (!newMap[record.rowMemName]) {
+          newMap[record.rowMemName] = {}
+        }
+        newMap[record.rowMemName][record.dateVal] = record
+      })
+      state.dailyRecordMap = newMap
+    },
+
     // rowMemberArr 설정
     setRowMemberArr: (state, action: PayloadAction<ST.RowMemberType[]>) => {
       state.rowMemberArr = action.payload

@@ -199,8 +199,6 @@ CREATE TABLE rowMemberInfos (
 
 -- 11. dailyRecords 테이블 (weekRows, clubs 참조)
 CREATE TABLE dailyRecords (
-  dailyOId CHAR(24) NOT NULL PRIMARY KEY,
-
   clubOId CHAR(24) NOT NULL,
   comment TEXT NOT NULL,
   condError INT NOT NULL,

@@ -45,6 +45,19 @@ export type CommunityType = {
   subClubOId: string // 후보군 더미클럽
 }
 
+export type DailyRecordType = {
+  clubOId: string
+  comment: string
+  condError: number
+  dateVal: number
+  memOId: string | null
+  result0: number
+  result1: number
+  result2: number
+  rowMemName: string
+  weekOId: string
+}
+
 export type DocumentType = {
   documentOId: string
   clubOId: string
