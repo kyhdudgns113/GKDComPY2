@@ -1,3 +1,5 @@
+// AREA1: Create
+
 export type CreateChatDTO = {
   chatIdx: number
   chatRoomOId: string
@@ -34,6 +36,15 @@ export type CreateUserDTO = {
   userId: string
   password: string
 }
+
+export type CreateWeekRowDTO = {
+  clubOId: string
+  startDateVal: number
+  endDateVal: number
+  title: string
+}
+
+// AREA2: Update
 
 export type UpdateClubDTO = {
   clubOId: string

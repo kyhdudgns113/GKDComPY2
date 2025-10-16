@@ -98,10 +98,29 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readClubWeekInfo(where: string, clubOId: string) {
+    try {
+      const {lastAddPrevWeekDate, numOfAddedPrevWeek} = await this.clubDBService.readClubWeekInfo(where, clubOId)
+      return {lastAddPrevWeekDate, numOfAddedPrevWeek}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async updateClub(where: string, dto: DTO.UpdateClubDTO) {
     try {
       await this.clubDBService.updateClub(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async updateClubWeekInfo(where: string, clubOId: string, todayValue: number, numOfAddedPrevWeek: number) {
+    try {
+      await this.clubDBService.updateClubWeekInfo(where, clubOId, todayValue, numOfAddedPrevWeek)
       // ::
     } catch (errObj) {
       // ::
@@ -219,7 +238,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async updateMemberClubOId(where: string, dto: DTO.UpdateMemberClubOIdDTO) {
     try {
       await this.memberDBService.updateMemberClubOId(where, dto)
@@ -296,6 +314,29 @@ export class DBHubService {
   async updateUser(where: string, dto: DTO.UpdateUserDTO) {
     try {
       await this.userDBService.updateUser(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA3: WeekRecord Area
+
+  async createWeekRow(where: string, dto: DTO.CreateWeekRowDTO) {
+    try {
+      await this.weekRecordDBService.createWeekRow(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readWeekRowArrByClubOId(where: string, clubOId: string) {
+    try {
+      const {weekRowArr} = await this.weekRecordDBService.readWeekRowArrByClubOId(where, clubOId)
+      return {weekRowArr}
       // ::
     } catch (errObj) {
       // ::
@@ -819,19 +860,6 @@ export class DBHubService {
       }
 
       return {payloadUser: user, targetUser: _user, targetUserCommunity: community}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
-
-  // AREA: WeekRecord Area
-
-  async readWeekRowArrByClubOId(where: string, clubOId: string) {
-    try {
-      const {weekRowArr} = await this.weekRecordDBService.readWeekRowArrByClubOId(where, clubOId)
-      return {weekRowArr}
       // ::
     } catch (errObj) {
       // ::

@@ -72,8 +72,9 @@ export type UserType = {
 }
 
 export type WeekRowType = {
-  weekOId: string
-  startDateVal: number
+  clubOId: string
   endDateVal: number
+  startDateVal: number
   title: string
+  weekOId: string
 }

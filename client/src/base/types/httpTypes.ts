@@ -21,6 +21,14 @@ export type AddCommUserDataType = {
   password: string
 }
 
+export type AddNextWeekDataType = {
+  clubOId: string
+}
+
+export type AddPrevWeekDataType = {
+  clubOId: string
+}
+
 export type ModifyClubDocDataType = {
   clubOId: string
   contents: string

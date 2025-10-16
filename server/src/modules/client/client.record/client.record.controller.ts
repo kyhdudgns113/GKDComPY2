@@ -1,11 +1,31 @@
-import {Controller, Get, Headers, Param, UseGuards} from '@nestjs/common'
+import {Body, Controller, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
 import {CheckJwtValidationGuard} from '@guard'
 
 import {ClientRecordService} from './client.record.service'
 
+import * as HTTP from '@httpDataType'
+
 @Controller('/client/record')
 export class ClientRecordController {
   constructor(private readonly clientRecordService: ClientRecordService) {}
+
+  // POST AREA:
+
+  @Post('/addNextWeek')
+  @UseGuards(CheckJwtValidationGuard)
+  async addNextWeek(@Headers() headers: any, @Body() data: HTTP.AddNextWeekDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.addNextWeek(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Post('/addPrevWeek')
+  @UseGuards(CheckJwtValidationGuard)
+  async addPrevWeek(@Headers() headers: any, @Body() data: HTTP.AddPrevWeekDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.addPrevWeek(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
 
   // GET AREA:
 

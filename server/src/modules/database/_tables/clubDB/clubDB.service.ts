@@ -226,6 +226,27 @@ export class ClubDBService {
       connection.release()
     }
   }
+  async readClubWeekInfo(where: string, clubOId: string) {
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const queryRead = 'SELECT lastAddPrevWeekDate, numOfAddedPrevWeek FROM clubs WHERE clubOId = ?'
+      const paramRead = [clubOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+
+      const {lastAddPrevWeekDate, numOfAddedPrevWeek} = resultArray[0]
+      return {lastAddPrevWeekDate, numOfAddedPrevWeek}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 
   async updateClub(where: string, dto: DTO.UpdateClubDTO) {
     const {clubOId, newClubName} = dto
@@ -234,6 +255,22 @@ export class ClubDBService {
     try {
       const queryUpdate = 'UPDATE clubs SET clubName = ? WHERE clubOId = ?'
       const paramUpdate = [newClubName, clubOId]
+      await connection.execute(queryUpdate, paramUpdate)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+  async updateClubWeekInfo(where: string, clubOId: string, todayValue: number, numOfAddedPrevWeek: number) {
+    const connection = await this.dbService.getConnection()
+    try {
+      const queryUpdate = 'UPDATE clubs SET lastAddPrevWeekDate = ?, numOfAddedPrevWeek = ? WHERE clubOId = ?'
+      const paramUpdate = [todayValue, numOfAddedPrevWeek, clubOId]
       await connection.execute(queryUpdate, paramUpdate)
       // ::
     } catch (errObj) {

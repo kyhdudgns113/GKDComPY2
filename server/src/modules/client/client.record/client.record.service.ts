@@ -3,6 +3,7 @@ import {JwtPayloadType} from '@type'
 import {ClientRecordPortService} from '@modules/database'
 import {GKDJwtService} from '@modules/gkdJwt'
 
+import * as HTTP from '@httpDataType'
 import * as T from '@type'
 import * as U from '@util'
 
@@ -12,6 +13,30 @@ export class ClientRecordService {
     private readonly jwtService: GKDJwtService,
     private readonly portService: ClientRecordPortService
   ) {}
+
+  // POST AREA:
+
+  async addNextWeek(jwtPayload: JwtPayloadType, data: HTTP.AddNextWeekDataType) {
+    try {
+      const {weekRowArr} = await this.portService.addNextWeek(jwtPayload, data)
+      return {ok: true, body: {weekRowArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async addPrevWeek(jwtPayload: JwtPayloadType, data: HTTP.AddPrevWeekDataType) {
+    try {
+      const {weekRowArr} = await this.portService.addPrevWeek(jwtPayload, data)
+      return {ok: true, body: {weekRowArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 
   // GET AREA:
 
