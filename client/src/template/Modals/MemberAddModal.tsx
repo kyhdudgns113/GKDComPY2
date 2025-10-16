@@ -71,7 +71,7 @@ export const MemberAddModal: FC<MemberAddModalProps> = ({className, style, ...pr
   return (
     <Modal
       className={`MemberAdd_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={() => dispatch(closeModal())}
+      onClose={() => {}}
       onKeyDown={onKeyDownModal(commOId, clubOpened.clubOId, memName, batterPower, pitcherPower)}
       style={style}
       {...props} // ::

@@ -73,7 +73,7 @@ export const UserModifyModal: FC<UserModifyModalProps> = ({className, style, ...
   return (
     <Modal
       className={`UserModify_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={onClose}
+      onClose={() => {}}
       onKeyDown={onKeyDownModal(userSelected.userOId, userId, password, userSelected.commAuth)}
       style={style}
       {...props} // ::

@@ -53,7 +53,7 @@ export const MemberDelModal: FC<MemberDelModalProps> = ({className, style, ...pr
   return (
     <Modal
       className={`MemberDel_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={() => dispatch(closeModal())}
+      onClose={() => {}}
       onKeyDown={onKeyDownModal(clubMemberOpened.clubOId, clubMemberOpened.memOId)}
       style={style}
       {...props} // ::

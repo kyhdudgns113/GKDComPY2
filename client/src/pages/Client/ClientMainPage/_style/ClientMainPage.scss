@@ -97,17 +97,6 @@
         }
         .MemberList_Part {
           @extend .__PART_COMMON;
-
-          min-width: 500px;
-
-          ._container_arr_part {
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-
-            overflow: auto;
-            width: 100%;
-          }
         }
       }
     }
