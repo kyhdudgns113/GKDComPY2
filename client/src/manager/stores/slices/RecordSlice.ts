@@ -6,12 +6,14 @@ import * as ST from '@shareType'
 
 // State 타입 정의
 interface RecordState {
+  rowMemberArr: ST.RowMemberType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
 }
 
 // 초기 상태
 const initialState: RecordState = {
+  rowMemberArr: [],
   weekOIdOpened: '',
   weekRowArr: []
 }
@@ -21,6 +23,11 @@ export const recordSlice = createSlice({
   name: 'record',
   initialState,
   reducers: {
+    // rowMemberArr 설정
+    setRowMemberArr: (state, action: PayloadAction<ST.RowMemberType[]>) => {
+      state.rowMemberArr = action.payload
+    },
+    // ::
     // 주차 OId 해제
     resetWeekOIdOpened: state => {
       state.weekOIdOpened = ''

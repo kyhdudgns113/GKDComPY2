@@ -150,7 +150,8 @@ export class WeekRecordDBService {
         clubOId,
         startDateVal,
         endDateVal,
-        title
+        title,
+        weekComments: ''
       }
       return {weekRow}
       // ::
@@ -182,7 +183,8 @@ export class WeekRecordDBService {
         clubOId: row.clubOId,
         startDateVal: row.startDateVal,
         endDateVal: row.endDateVal,
-        title: row.title
+        title: row.title,
+        weekComments: row.weekComments
       }))
 
       return {weekRowArr}

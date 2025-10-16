@@ -64,6 +64,24 @@ export type MemberType = {
   pitcherPower: number
 }
 
+export type RecordDateInfo = {
+  comments: string
+  dailyOrder: string
+  dateVal: number
+  enemyName: string
+  pitchOrder: number
+  weekOId: string
+}
+
+export type RowMemberType = {
+  batterPower: number
+  memOId: string
+  pitcherPower: number
+  position: number
+  rowMemName: string
+  weekOId: string
+}
+
 export type UserType = {
   commAuth: number
   commOId: string
@@ -76,5 +94,6 @@ export type WeekRowType = {
   endDateVal: number
   startDateVal: number
   title: string
+  weekComments: string
   weekOId: string
 }

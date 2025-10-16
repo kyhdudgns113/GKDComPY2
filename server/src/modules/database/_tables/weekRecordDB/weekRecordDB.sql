@@ -5,6 +5,7 @@ CREATE TABLE weekRows (
   endDateVal INT NOT NULL,
   startDateVal INT NOT NULL,
   title VARCHAR(255) NOT NULL,
+  weekComments VARCHAR(255) NOT NULL,
 
   CONSTRAINT fk_weekRows_clubOId
     FOREIGN KEY (clubOId)
