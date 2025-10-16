@@ -73,7 +73,7 @@ export type UserType = {
 
 export type WeekRowType = {
   weekOId: string
-  start: number
-  end: number
+  startDateVal: number
+  endDateVal: number
   title: string
 }

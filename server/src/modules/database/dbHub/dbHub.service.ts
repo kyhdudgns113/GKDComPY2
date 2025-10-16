@@ -825,4 +825,17 @@ export class DBHubService {
       throw errObj
     }
   }
+
+  // AREA: WeekRecord Area
+
+  async readWeekRowArrByClubOId(where: string, clubOId: string) {
+    try {
+      const {weekRowArr} = await this.weekRecordDBService.readWeekRowArrByClubOId(where, clubOId)
+      return {weekRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 }

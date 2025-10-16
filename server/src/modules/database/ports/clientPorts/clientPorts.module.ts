@@ -6,6 +6,7 @@ import {ClientCommPortModule, ClientCommPortService} from './clientCommPort'
 import {ClientClubPortModule, ClientClubPortService} from './clientClubPort'
 import {ClientDocPortModule, ClientDocPortService} from './clientDocPort'
 import {ClientMemberPortModule, ClientMemberPortService} from './clientMemberPort'
+import {ClientRecordPortModule, ClientRecordPortService} from './clientRecordPort'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {ClientMemberPortModule, ClientMemberPortService} from './clientMemberPor
     ClientCommPortModule,
     ClientDocPortModule,
     ClientMemberPortModule,
+    ClientRecordPortModule,
     DBHubModule // ::
   ],
   controllers: [],
@@ -24,7 +26,8 @@ import {ClientMemberPortModule, ClientMemberPortService} from './clientMemberPor
     ClientCommPortService,
     ClientClubPortService,
     ClientDocPortService,
-    ClientMemberPortService
+    ClientMemberPortService,
+    ClientRecordPortService
   ],
 
   exports: [
@@ -33,7 +36,8 @@ import {ClientMemberPortModule, ClientMemberPortService} from './clientMemberPor
     ClientCommPortService,
     ClientClubPortService,
     ClientDocPortService,
-    ClientMemberPortService
+    ClientMemberPortService,
+    ClientRecordPortService
   ]
 })
 export class ClientPortsModule {}

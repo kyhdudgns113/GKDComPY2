@@ -6,6 +6,7 @@ import {ClientClubModule} from './client.club'
 import {ClientCommModule} from './client.comm'
 import {ClientDocumentModule} from './client.document'
 import {ClientMemberModule} from './client.member'
+import {ClientRecordModule} from './client.record'
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import {ClientMemberModule} from './client.member'
     ClientCommModule,
     ClientClubModule,
     ClientDocumentModule,
-    ClientMemberModule
+    ClientMemberModule,
+    ClientRecordModule
   ],
   controllers: [],
   providers: [],

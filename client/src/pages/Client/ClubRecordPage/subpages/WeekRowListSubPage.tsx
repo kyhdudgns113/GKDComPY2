@@ -1,3 +1,8 @@
+import {useEffect} from 'react'
+
+import {useRecordCallbacksContext} from '@context'
+import {useClubStates} from '@store'
+
 import {AddNextWeekButton, AddPrevWeekButton} from '../buttons'
 
 import {WeekRowArrPart} from '../parts'
@@ -10,6 +15,22 @@ import '../_styles/SP_WeekRowList.scss'
 type WeekRowListSubPageProps = DivCommonProps & {}
 
 export const WeekRowListSubPage: FC<WeekRowListSubPageProps> = ({className, style, ...props}) => {
+  const {clubOpened} = useClubStates()
+  const {loadClubWeekRowArr} = useRecordCallbacksContext()
+
+  // 초기화: 주차 목록 불러오기
+  useEffect(() => {
+    /**
+     * 이 서브페이지가 로딩될때 주차 목록을 불러와야 한다
+     * context 에서 해버리면 클럽회의록 열때도 로딩이 되어버린다.
+     */
+    if (!clubOpened || clubOpened.clubOId === '') {
+      return
+    }
+
+    loadClubWeekRowArr(clubOpened.clubOId)
+  }, [clubOpened, loadClubWeekRowArr])
+
   return (
     <div className={`WeekRowList_SubPage ${className || ''}`} style={style} {...props}>
       {/* 1. 타이틀 블록 */}
