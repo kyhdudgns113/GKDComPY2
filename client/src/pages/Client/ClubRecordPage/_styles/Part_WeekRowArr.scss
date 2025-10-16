@@ -56,6 +56,11 @@
               &:hover {
                 border-color: v.$SAKURA_BORDER;
               }
+
+              &._opened {
+                border-color: v.$SAKURA_BORDER;
+                background-color: v.$SAKURA_BG_DEEP_50;
+              }
             }
           }
         }

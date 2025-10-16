@@ -106,13 +106,17 @@ export class WeekRecordDBService {
         // 3-2. 해당 멤버 정보들을 토대로 rowMemberInfos 테이블에 생성
         if (resultArray.length > 0) {
           const valuesPlaceholder = resultArray.map(() => '(?, ?, ?, ?, ?, ?)').join(', ')
-          const queryCreateRowMemberInfos = `INSERT INTO rowMemberInfos (batterPower, memOId, pitcherPower, position, rowMemName, weekOId) VALUES ${valuesPlaceholder}`
+          const queryCreateRowMemberInfos = `
+            INSERT INTO rowMemberInfos 
+              (batterPower, memOId, pitcherPower, position, rowMemName, weekOId)
+              VALUES ${valuesPlaceholder}
+          `
           const paramCreateRowMemberInfos = resultArray.flatMap(row => [
             row.batterPower,
             row.memOId,
             row.pitcherPower,
             row.position,
-            row.memName,
+            row.rowMemName,
             weekOId
           ])
           await connection.execute(queryCreateRowMemberInfos, paramCreateRowMemberInfos)

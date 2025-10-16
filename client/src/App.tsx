@@ -21,6 +21,7 @@ function App() {
         <Route path="club/discuss/:clubOId" element={<P.ClubDiscussPage />} />
         <Route path="club/member/:clubOId" element={<P.ClubMemberPage />} />
         <Route path="club/record/:clubOId" element={<P.ClubRecordPage />} />
+        <Route path="club/record/:clubOId/:weekOId" element={<P.ClubRecordPage />} />
 
         <Route path="*" element={<P.NullPage />} />
       </Route>
