@@ -70,3 +70,10 @@ export type UserType = {
   userOId: string
   userId: string
 }
+
+export type WeekRowType = {
+  weekOId: string
+  start: number
+  end: number
+  title: string
+}
