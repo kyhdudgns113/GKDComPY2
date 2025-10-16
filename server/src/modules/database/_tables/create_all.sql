@@ -184,7 +184,6 @@ CREATE TABLE rowMemberInfos (
   pitcherPower INT NOT NULL,
   position INT NOT NULL,
   rowMemName VARCHAR(255) NOT NULL,
-  rowIdx INT NOT NULL,
   weekOId CHAR(24) NOT NULL,
 
   CONSTRAINT fk_rowMemberInfos_weekOId

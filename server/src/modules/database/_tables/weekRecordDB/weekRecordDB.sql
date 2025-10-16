@@ -39,8 +39,7 @@ CREATE TABLE rowMemberInfos (
   memOId CHAR(24), -- 이거 unique 로 들어가면 안된다. 공백인 애들이 많을 수 있다.
   pitcherPower INT NOT NULL,
   position INT NOT NULL,
-  rowMemName VARCHAR(255) NOT NULL,
-  rowIdx INT NOT NULL,
+  rowMemName VARCHAR(255) NOT NULL, 
   weekOId CHAR(24) NOT NULL,
 
   CONSTRAINT fk_rowMemberInfos_weekOId

@@ -79,6 +79,7 @@ export class ClientRecordPortService {
         clubOId,
         startDateVal,
         endDateVal,
+        isNext: true,
         title: startDateVal.toString()
       }
       await this.dbHubService.createWeekRow(where, dto)
@@ -163,6 +164,7 @@ export class ClientRecordPortService {
         clubOId,
         startDateVal,
         endDateVal,
+        isNext: false,
         title: startDateVal.toString()
       }
       await this.dbHubService.createWeekRow(where, dto)

@@ -41,6 +41,7 @@ export type CreateWeekRowDTO = {
   clubOId: string
   startDateVal: number
   endDateVal: number
+  isNext: boolean
   title: string
 }
 
