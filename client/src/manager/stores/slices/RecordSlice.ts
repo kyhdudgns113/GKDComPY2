@@ -8,6 +8,7 @@ import * as ST from '@shareType'
 interface RecordState {
   dailyRecordMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}}
   dateInfoArr: ST.RecordDateInfo[]
+  dayIdxSelected: number | null
   rowMemberArr: ST.RowMemberType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
@@ -17,6 +18,7 @@ interface RecordState {
 const initialState: RecordState = {
   dailyRecordMap: {},
   dateInfoArr: [],
+  dayIdxSelected: null,
   rowMemberArr: [],
   weekOIdOpened: '',
   weekRowArr: []
@@ -50,6 +52,15 @@ export const recordSlice = createSlice({
     // dateInfoArr 설정
     setDateInfoArrFromArr: (state, action: PayloadAction<ST.RecordDateInfo[]>) => {
       state.dateInfoArr = action.payload.sort((a, b) => a.dateVal - b.dateVal)
+    },
+    // ::
+    // dayIdxSelected 설정
+    setDayIdxSelected: (state, action: PayloadAction<number>) => {
+      state.dayIdxSelected = action.payload
+    },
+    // dayIdxSelected 해제
+    resetDayIdxSelected: state => {
+      state.dayIdxSelected = null
     },
     // ::
     // rowMemberArr 초기화
