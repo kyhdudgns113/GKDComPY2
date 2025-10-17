@@ -1,6 +1,7 @@
-import {useRecordStates} from '@store'
+import {useCallback} from 'react'
+import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
 
-import type {FC} from 'react'
+import type {FC, MouseEvent} from 'react'
 import type {TableHeadCommonProps} from '@prop'
 import type {WeekRowType} from '@shareType'
 
@@ -12,8 +13,21 @@ type TableHeadObjectProps = TableHeadCommonProps & {
 
 export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, style, ...props}) => {
   const {dateInfoArr} = useRecordStates()
+  const {setDayIdxSelected} = useRecordActions()
+  const {openModalModifyDailyInfo} = useModalActions()
+
+  const dispatch = useAppDispatch()
 
   const {weekOId} = weekRow
+
+  const onClickDailyInfo = useCallback(
+    (dayIdx: number) => (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setDayIdxSelected(dayIdx))
+      dispatch(openModalModifyDailyInfo())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   return (
     <thead className={`TableHead_Object ${weekOId} ${className || ''}`} style={style} {...props}>
@@ -28,27 +42,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
           요일
         </th>
         {/* 0행 9~13열: 월*/}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(0)}>
           월
         </th>
         {/* 0행 14~18열: 화*/}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(1)}>
           화
         </th>
         {/* 0행 19~23열: 수*/}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(2)}>
           수
         </th>
         {/* 0행 24~28열: 목*/}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(3)}>
           목
         </th>
         {/* 0행 29~33열: 금*/}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(4)}>
           금
         </th>
         {/* 0행 34~38열: 토*/}
-        <th colSpan={5} rowSpan={1}>
+        <th colSpan={5} rowSpan={1} onClick={onClickDailyInfo(5)}>
           토
         </th>
       </tr>
@@ -59,27 +73,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
           상대 클럽
         </th>
         {/* 1행 9~13열: 클럽명: 월요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(0)}>
           {dateInfoArr[0]?.enemyName || ''}
         </th>
         {/* 1행 14~18열: 클럽명: 화요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(1)}>
           {dateInfoArr[1]?.enemyName || ''}
         </th>
         {/* 1행 19~23열: 클럽명: 수요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(2)}>
           {dateInfoArr[2]?.enemyName || ''}
         </th>
         {/* 1행 24~28열: 클럽명: 목요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(3)}>
           {dateInfoArr[3]?.enemyName || ''}
         </th>
         {/* 1행 29~33열: 클럽명: 금요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(4)}>
           {dateInfoArr[4]?.enemyName || ''}
         </th>
         {/* 1행 34~38열: 클럽명: 토요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(5)}>
           {dateInfoArr[5]?.enemyName || ''}
         </th>
       </tr>
@@ -90,27 +104,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
           선발 순서
         </th>
         {/* 2행 9~13열: 선발순서: 월요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(0)}>
           {dateInfoArr[0]?.pitchOrder || ''}
         </th>
         {/* 2행 14~18열: 선발순서: 화요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(1)}>
           {dateInfoArr[1]?.pitchOrder || ''}
         </th>
         {/* 2행 19~23열: 선발순서: 수요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(2)}>
           {dateInfoArr[2]?.pitchOrder || ''}
         </th>
         {/* 2행 24~28열: 선발순서: 목요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(3)}>
           {dateInfoArr[3]?.pitchOrder || ''}
         </th>
         {/* 2행 29~33열: 선발순서: 금요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(4)}>
           {dateInfoArr[4]?.pitchOrder || ''}
         </th>
         {/* 2행 34~38열: 선발순서: 토요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(5)}>
           {dateInfoArr[5]?.pitchOrder || ''}
         </th>
       </tr>
@@ -121,27 +135,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
           클전 오더
         </th>
         {/* 3행 9~13열: 오더: 월요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(0)}>
           {dateInfoArr[0]?.dailyOrder || ''}
         </th>
         {/* 3행 14~18열: 오더: 화요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(1)}>
           {dateInfoArr[1]?.dailyOrder || ''}
         </th>
         {/* 3행 19~23열: 오더: 수요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(2)}>
           {dateInfoArr[2]?.dailyOrder || ''}
         </th>
         {/* 3행 24~28열: 오더: 목요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(3)}>
           {dateInfoArr[3]?.dailyOrder || ''}
         </th>
         {/* 3행 29~33열: 오더: 금요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(4)}>
           {dateInfoArr[4]?.dailyOrder || ''}
         </th>
         {/* 3행 34~38열: 오더: 토요일 */}
-        <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
+        <th className="th_bd_r_4" colSpan={5} rowSpan={1} onClick={onClickDailyInfo(5)}>
           {dateInfoArr[5]?.dailyOrder || ''}
         </th>
       </tr>
