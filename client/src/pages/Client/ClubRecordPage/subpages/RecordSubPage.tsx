@@ -1,4 +1,7 @@
+import {useEffect} from 'react'
+
 import {useRecordStates} from '@store'
+import {useRecordCallbacksContext} from '@context'
 
 import {DeleteWeekButton} from '../buttons'
 import {RecordTablePart} from '../parts'
@@ -12,7 +15,18 @@ type RecordSubPageProps = DivCommonProps & {}
 
 export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...props}) => {
   const {weekOIdOpened, weekRowArr} = useRecordStates()
+
+  const {loadWeeklyRecordInfo} = useRecordCallbacksContext()
+
   const weekRow = weekRowArr.find(weekRow => weekRow.weekOId === weekOIdOpened)
+
+  // 초기화: 주간 기록 데이터 불러오기
+  useEffect(() => {
+    if (!weekOIdOpened || !weekRow) {
+      return
+    }
+    loadWeeklyRecordInfo(weekOIdOpened)
+  }, [weekOIdOpened, weekRow, loadWeeklyRecordInfo])
 
   if (!weekOIdOpened || !weekRow) {
     return (

@@ -17,3 +17,22 @@ export const MODAL_NAMES = [
 ]
 
 export const [COMM_MEMBER_SORT_MODE_CLUB, COMM_MEMBER_SORT_MODE_NAME] = [0, 1]
+
+export const [RECORD_WIN, RECORD_DRAW, RECORD_LOSE, RECORD_MISS, RECORD_OK, RECOR_NULL] = [0, 1, 2, 3, 4, 5]
+
+export const getResultString = (result: number) => {
+  switch (result) {
+    case RECORD_WIN:
+      return ''
+    case RECORD_DRAW:
+      return '무'
+    case RECORD_LOSE:
+      return '패'
+    case RECORD_MISS:
+      return '미'
+    case RECORD_OK:
+      return '△'
+    default:
+      return '?'
+  }
+}

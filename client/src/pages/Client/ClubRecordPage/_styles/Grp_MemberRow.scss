@@ -1,0 +1,42 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .MemberRow_Group {
+        cursor: default;
+        font-size: 14px;
+
+        transition: background-color 0.15s ease;
+
+        &:hover {
+          background-color: v.$SAKURA_BG;
+        }
+
+        td {
+          padding-top: 1px;
+          padding-bottom: 1px;
+
+          text-align: center;
+        }
+
+        .td_member_name {
+          padding-left: 2px;
+          padding-right: 2px;
+
+          text-align: left;
+        }
+        .td_member_total,
+        .td_member_pitcher {
+          text-align: right;
+          padding-right: 4px;
+        }
+
+        ._gold_crown,
+        ._silver_crown {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
