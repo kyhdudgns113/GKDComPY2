@@ -254,7 +254,6 @@ export class ClientRecordPortService {
     const where = `/client/record/loadWeeklyRecordInfo`
 
     try {
-
       // 1. 권한 췍!!
       await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, weekOId)
 
@@ -269,6 +268,67 @@ export class ClientRecordPortService {
 
       // 5. 리턴 뙇!!
       return {dailyRecordArr, dateInfoArr, rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // DELETE AREA:
+
+  /**
+   * deleteWeeklyRecord
+   * - 주간 기록을 삭제하는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   *
+   * 출력값
+   * - weekRowArr: T.WeekRowType[]
+   *     + 주간 기록 행 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 클럽의 주차 배열 조히 뙇!!
+   * 3. 처음이나 마지막이 아니면 에러 뙇!!
+   * 4. 주간 기록 삭제 뙇!!
+   * 5. 갱신된 클럽의 주차 배열 뙇!!
+   * 6. 리턴 뙇!!
+   */
+  async removeWeekRow(jwtPayload: T.JwtPayloadType, weekOId: string) {
+    const where = `/client/record/deleteWeeklyRecord`
+
+    try {
+      // 1. 권한 췍!!
+      const {weekRow, club} = await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. 클럽의 주차 배열 조회 뙇!!
+      const {weekRowArr} = await this.dbHubService.readWeekRowArrByClubOId(where, weekRow.clubOId)
+
+      // 3. 처음이나 마지막이 아니면 에러 뙇!!
+      const weekIndex = weekRowArr.findIndex(row => row.weekOId === weekOId)
+
+      if (weekIndex !== 0 && weekIndex !== weekRowArr.length - 1) {
+        throw {
+          gkd: {limit: `처음이나 마지막 주차만 삭제할 수 있습니다.`},
+          gkdErrCode: 'CLIENTRECORDPORT_REMOVE_WEEK_ROW_NOT_FIRST_OR_LAST',
+          gkdErrMsg: `처음이나 마지막 주차만 삭제할 수 있습니다.`,
+          gkdStatus: {weekOId, weekIndex},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 4. 주간 기록 삭제 뙇!!
+      await this.dbHubService.deleteWeekRow(where, weekOId)
+
+      // 5. 갱신된 클럽의 주차 배열 뙇!!
+      const {weekRowArr: updatedWeekRowArr} = await this.dbHubService.readWeekRowArrByClubOId(where, weekRow.clubOId)
+
+      // 6. 리턴 뙇!!
+      return {weekRowArr: updatedWeekRowArr}
       // ::
     } catch (errObj) {
       // ::

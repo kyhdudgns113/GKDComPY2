@@ -14,6 +14,8 @@ type ContextType = {
 
   loadClubWeekRowArr: (clubOId: string) => Promise<boolean>
   loadWeeklyRecordInfo: (weekOId: string) => Promise<boolean>
+
+  removeWeekRow: (weekOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const RecordCallbacksContext = createContext<ContextType>({
@@ -22,6 +24,8 @@ export const RecordCallbacksContext = createContext<ContextType>({
 
   loadClubWeekRowArr: async () => false,
   loadWeeklyRecordInfo: async () => false,
+
+  removeWeekRow: async () => false,
 })
 
 export const useRecordCallbacksContext = () => useContext(RecordCallbacksContext)
@@ -138,6 +142,33 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  // DELETE AREA:
+
+  const removeWeekRow = useCallback(
+    async (weekOId: string) => {
+      const url = `/client/record/removeWeekRow/${weekOId}`
+      return F.delWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {weekRowArr} = body
+            dispatch(setWeekRowArr(weekRowArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // prettier-ignore
   const value: ContextType = {
     addNextWeek,
@@ -145,6 +176,8 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
     loadClubWeekRowArr,
     loadWeeklyRecordInfo,
+
+    removeWeekRow,
   }
   return <RecordCallbacksContext.Provider value={value}>{children}</RecordCallbacksContext.Provider>
 }

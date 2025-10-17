@@ -388,6 +388,16 @@ export class DBHubService {
     }
   }
 
+  async deleteWeekRow(where: string, weekOId: string) {
+    try {
+      await this.weekRecordDBService.deleteWeekRow(where, weekOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA1: Check Auth Area
 
   async checkUserAdmin(where: string, jwtPayload: T.JwtPayloadType) {

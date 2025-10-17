@@ -53,8 +53,8 @@ export class WeekRecordDBService {
       }
 
       // 2. 주간 기록 행 생성 쿼리 뙇!!
-      const queryCreateWeekRow = `INSERT INTO weekRows (weekOId, clubOId, startDateVal, endDateVal, title) VALUES (?, ?, ?, ?, ?)`
-      const paramCreateWeekRow = [weekOId, clubOId, startDateVal, endDateVal, title]
+      const queryCreateWeekRow = `INSERT INTO weekRows (weekOId, clubOId, startDateVal, endDateVal, title, weekComments) VALUES (?, ?, ?, ?, ?, ?)`
+      const paramCreateWeekRow = [weekOId, clubOId, startDateVal, endDateVal, title, '']
       await connection.execute(queryCreateWeekRow, paramCreateWeekRow)
 
       /**
@@ -290,6 +290,44 @@ export class WeekRecordDBService {
       }))
 
       return {rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async deleteWeekRow(where: string, weekOId: string) {
+    where = where + `/deleteWeekRow`
+    const connection = await this.dbService.getConnection()
+    /**
+     * deleteWeekRow
+     * - 주간 기록 행 삭제 함수
+     *
+     * 입력값
+     * - weekOId: string
+     *     + 주간 기록의 OId
+     *
+     * 출력값
+     * - 없음
+     *
+     * 작동 순서
+     * 1. 주간 기록 행 삭제 뙇!!
+     *     - ON DELETE CASCADE 로 인해 관련된 모든 자식 테이블 레코드들이 자동 삭제됨
+     *       (dailyRecords, weekRowDateInfos, rowMemberInfos)
+     */
+
+    try {
+      // 1. 주간 기록 행 삭제 뙇!!
+      // ON DELETE CASCADE로 인해 자식 테이블들(dailyRecords, weekRowDateInfos, rowMemberInfos)도 자동 삭제됨
+      const queryDeleteWeekRow = `DELETE FROM weekRows WHERE weekOId = ?`
+      const paramDeleteWeekRow = [weekOId]
+      await connection.execute(queryDeleteWeekRow, paramDeleteWeekRow)
+
       // ::
     } catch (errObj) {
       // ::

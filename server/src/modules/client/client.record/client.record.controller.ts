@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
 import {CheckJwtValidationGuard} from '@guard'
 
 import {ClientRecordService} from './client.record.service'
@@ -42,6 +42,16 @@ export class ClientRecordController {
   async loadWeeklyRecordInfo(@Headers() headers: any, @Param('weekOId') weekOId: string) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.loadWeeklyRecordInfo(jwtPayload, weekOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // DELETE AREA:
+
+  @Delete('/removeWeekRow/:weekOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async removeWeekRow(@Headers() headers: any, @Param('weekOId') weekOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.removeWeekRow(jwtPayload, weekOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }

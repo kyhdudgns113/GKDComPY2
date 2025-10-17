@@ -61,4 +61,17 @@ export class ClientRecordService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // DELETE AREA:
+
+  async removeWeekRow(jwtPayload: JwtPayloadType, weekOId: string) {
+    try {
+      const {weekRowArr} = await this.portService.removeWeekRow(jwtPayload, weekOId)
+      return {ok: true, body: {weekRowArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }
