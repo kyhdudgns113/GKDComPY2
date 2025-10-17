@@ -5,7 +5,7 @@ import {GoldCrown, SilverCrown} from '../components'
 
 import type {FC} from 'react'
 import type {TableRowCommonProps} from '@prop'
-import type {RowMemberType} from '@shareType'
+import type {RowMemberType, WeekRowType} from '@shareType'
 
 import * as SV from '@shareValue'
 import * as U from '@util'
@@ -15,10 +15,11 @@ import '../_styles/Grp_MemberRow.scss'
 
 type MemberRowGroupProps = TableRowCommonProps & {
   rowMember: RowMemberType
+  weekRow: WeekRowType
 }
 
-export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, className, style, ...props}) => {
-  const {dailyRecordMap, weekOIdOpened, weekRowArr} = useRecordStates()
+export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, className, style, ...props}) => {
+  const {dailyRecordMap} = useRecordStates()
 
   const [condArr, setCondArr] = useState<string[]>(Array(6).fill(''))
   const [resultsArr, setResultsArr] = useState<string[][]>(Array(6).fill(Array(3).fill('')))
@@ -31,37 +32,32 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, className, s
   // 초기화: 각종 배열들
   useEffect(() => {
     const {rowMemName} = rowMember
-    const weekOId = weekOIdOpened
-    const weekRow = weekRowArr.find(weekRow => weekRow.weekOId === weekOId)
 
     const newCondArr = Array(6).fill('')
     const newResultsArr = Array(6).fill(Array(3).fill(''))
     const newMentsArr = Array(6).fill('')
 
-    // 일단 주차 정보가 있어야 한다.
-    if (weekRow) {
-      const {startDateVal} = weekRow
-      const recordArr = dailyRecordMap[rowMemName]
+    const {startDateVal} = weekRow
+    const recordArr = dailyRecordMap[rowMemName]
 
-      // 그 다음 멤버의 주간 기록이 있어야 한다.
-      if (recordArr) {
-        for (let i = 0; i < 6; i++) {
-          const dateVal = U.shiftDateValue(startDateVal, i)
-          const dailyRecord = recordArr[dateVal]
+    // 그 다음 멤버의 주간 기록이 있어야 한다.
+    if (recordArr) {
+      for (let i = 0; i < 6; i++) {
+        const dateVal = U.shiftDateValue(startDateVal, i)
+        const dailyRecord = recordArr[dateVal]
 
-          // 마지막으로 해당 일자의 기록이 있어야 데이터를 넣던가 한다.
-          if (dailyRecord) {
-            // 1. condError 가 있으면 '컨' 을 저장한다.
-            newCondArr[i] = dailyRecord.condError > 0 ? 'X' : ''
+        // 마지막으로 해당 일자의 기록이 있어야 데이터를 넣던가 한다.
+        if (dailyRecord) {
+          // 1. condError 가 있으면 '컨' 을 저장한다.
+          newCondArr[i] = dailyRecord.condError > 0 ? 'X' : ''
 
-            // 2. result0~resul2 값에 따라서 다른 값들을 저장한다.
-            newResultsArr[i][0] = V.getResultString(dailyRecord.result0)
-            newResultsArr[i][1] = V.getResultString(dailyRecord.result1)
-            newResultsArr[i][2] = V.getResultString(dailyRecord.result2)
+          // 2. result0~resul2 값에 따라서 다른 값들을 저장한다.
+          newResultsArr[i][0] = V.getResultString(dailyRecord.result0)
+          newResultsArr[i][1] = V.getResultString(dailyRecord.result1)
+          newResultsArr[i][2] = V.getResultString(dailyRecord.result2)
 
-            // 3. comment 가 있으면 'V' 을 저장한다.
-            newMentsArr[i] = dailyRecord.comment ? 'V' : ''
-          }
+          // 3. comment 가 있으면 'V' 을 저장한다.
+          newMentsArr[i] = dailyRecord.comment ? 'V' : ''
         }
       }
     }
@@ -69,7 +65,8 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, className, s
     setCondArr(newCondArr)
     setResultsArr(newResultsArr)
     setMentsArr(newMentsArr)
-  }, [dailyRecordMap, rowMember, weekOIdOpened, weekRowArr])
+    // ::
+  }, [dailyRecordMap, rowMember, weekRow])
 
   return (
     <tr className={`MemberRow_Group ${rowMember.rowMemName || '<<ERROR>>'} ${className || ''}`} style={style} {...props}>

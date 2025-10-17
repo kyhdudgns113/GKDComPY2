@@ -47,7 +47,7 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
       </div>
 
       {/* 3. 기록 테이블 */}
-      <RecordTablePart />
+      <RecordTablePart weekRow={weekRow} />
     </div>
   )
 }

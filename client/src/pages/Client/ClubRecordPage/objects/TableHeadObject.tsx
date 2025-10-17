@@ -1,13 +1,18 @@
 import type {FC} from 'react'
 import type {TableHeadCommonProps} from '@prop'
+import type {WeekRowType} from '@shareType'
 
 import '../_styles/Obj_TableHead.scss'
 
-type TableHeadObjectProps = TableHeadCommonProps & {}
+type TableHeadObjectProps = TableHeadCommonProps & {
+  weekRow: WeekRowType
+}
 
-export const TableHeadObject: FC<TableHeadObjectProps> = ({className, style, ...props}) => {
+export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, style, ...props}) => {
+  const {weekOId} = weekRow
+
   return (
-    <thead className={`TableHead_Object ${className || ''}`} style={style} {...props}>
+    <thead className={`TableHead_Object ${weekOId} ${className || ''}`} style={style} {...props}>
       {/* 0행 */}
       <tr className="_tr_0">
         {/* 0~3행 0~4열: 주간 통계 */}

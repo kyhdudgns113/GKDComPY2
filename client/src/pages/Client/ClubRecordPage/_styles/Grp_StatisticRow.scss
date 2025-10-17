@@ -1,0 +1,25 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .StatisticRow_Group {
+        &.ROW_0 {
+          border-top-width: 6px;
+        }
+        &.ROW_1 {
+          border-bottom-width: 6px;
+        }
+
+        ._total {
+          text-align: center;
+        }
+        .td_separator {
+          font-size: 18px;
+          font-weight: 700;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
