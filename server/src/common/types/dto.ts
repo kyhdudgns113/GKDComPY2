@@ -77,3 +77,12 @@ export type UpdateUserDTO = {
   newPassword: string
   newCommAuth: number
 }
+
+export type UpdateDateInfoDTO = {
+  weekOId: string
+  dateVal: number
+  enemyName: string
+  pitchOrder: number
+  dailyOrder: string
+  comments: string
+}

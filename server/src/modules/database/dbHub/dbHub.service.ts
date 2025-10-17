@@ -53,7 +53,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async readChatRoomByChatRoomOId(where: string, chatRoomOId: string) {
     try {
       const {chatRoom} = await this.chatDBService.readChatRoomByChatRoomOId(where, chatRoomOId)
@@ -343,7 +342,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async readWeekRowArrByClubOId(where: string, clubOId: string) {
     try {
       const {weekRowArr} = await this.weekRecordDBService.readWeekRowArrByClubOId(where, clubOId)
@@ -354,7 +352,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async readDateInfoArrByWeekOId(where: string, weekOId: string) {
     try {
       const {dateInfoArr} = await this.weekRecordDBService.readDateInfoArrByWeekOId(where, weekOId)
@@ -365,7 +362,6 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async readRowMemberArrByWeekOId(where: string, weekOId: string) {
     try {
       const {rowMemberArr} = await this.weekRecordDBService.readRowMemberArrByWeekOId(where, weekOId)
@@ -376,11 +372,20 @@ export class DBHubService {
       throw errObj
     }
   }
-
   async readDailyRecordArrByWeekOId(where: string, weekOId: string) {
     try {
       const {dailyRecordArr} = await this.dailyRecordDBService.readDailyRecordArrByWeekOId(where, weekOId)
       return {dailyRecordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateDateInfo(where: string, dto: DTO.UpdateDateInfoDTO) {
+    try {
+      await this.weekRecordDBService.updateDateInfo(where, dto)
       // ::
     } catch (errObj) {
       // ::

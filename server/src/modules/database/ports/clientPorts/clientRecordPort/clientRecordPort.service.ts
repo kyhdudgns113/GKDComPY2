@@ -275,6 +275,67 @@ export class ClientRecordPortService {
     }
   }
 
+  // PUT AREA:
+
+  /**
+   * modifyDailyInfo
+   * - 일간 정보를 수정하는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   * - dateVal: number
+   *     + 날짜 값
+   * - enemyName: string
+   *     + 상대 클럽명
+   * - pitchOrder: number
+   *     + 선발 순서
+   * - dailyOrder: string
+   *     + 클전 오더
+   * - comments: string
+   *     + 일간 코멘트
+   *
+   * 출력값
+   * - dateInfoArr: T.RecordDateInfo[]
+   *     + 수정된 날짜 정보 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 일간 정보 수정 뙇!!
+   * 3. 수정된 날짜 정보 배열 조회 뙇!!
+   * 4. 리턴 뙇!!
+   */
+  async modifyDailyInfo(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyDailyInfoDataType) {
+    const where = `/client/record/modifyDailyInfo`
+    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. 일간 정보 수정 뙇!!
+      const dto: DTO.UpdateDateInfoDTO = {
+        weekOId,
+        dateVal,
+        enemyName,
+        pitchOrder,
+        dailyOrder,
+        comments
+      }
+      await this.dbHubService.updateDateInfo(where, dto)
+
+      // 3. 수정된 날짜 정보 배열 조회 뙇!!
+      const {dateInfoArr} = await this.dbHubService.readDateInfoArrByWeekOId(where, weekOId)
+
+      // 4. 리턴 뙇!!
+      return {dateInfoArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // DELETE AREA:
 
   /**

@@ -46,6 +46,15 @@ export type ModifyCommUserDataType = {
   newCommAuth: number
 }
 
+export type ModifyDailyInfoDataType = {
+  weekOId: string
+  dateVal: number
+  enemyName: string
+  pitchOrder: number
+  dailyOrder: string
+  comments: string
+}
+
 export type MoveClubMemberDataType = {
   prevClubOId: string
   clubOId: string

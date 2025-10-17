@@ -210,7 +210,6 @@ export class WeekRecordDBService {
       connection.release()
     }
   }
-
   async readWeekRowArrByClubOId(where: string, clubOId: string) {
     const connection = await this.dbService.getConnection()
 
@@ -240,7 +239,6 @@ export class WeekRecordDBService {
       connection.release()
     }
   }
-
   async readDateInfoArrByWeekOId(where: string, weekOId: string) {
     const connection = await this.dbService.getConnection()
 
@@ -270,7 +268,6 @@ export class WeekRecordDBService {
       connection.release()
     }
   }
-
   async readRowMemberArrByWeekOId(where: string, weekOId: string) {
     const connection = await this.dbService.getConnection()
 
@@ -328,6 +325,51 @@ export class WeekRecordDBService {
       const paramDeleteWeekRow = [weekOId]
       await connection.execute(queryDeleteWeekRow, paramDeleteWeekRow)
 
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async updateDateInfo(where: string, dto: DTO.UpdateDateInfoDTO) {
+    where = where + `/updateDateInfo`
+    const connection = await this.dbService.getConnection()
+    /**
+     * updateDateInfo
+     * - 일간 날짜 정보 수정 함수
+     *
+     * 입력값
+     * - dto: UpdateDateInfoDTO
+     *     + weekOId: 주간 기록의 OId
+     *     + dateVal: 날짜 값
+     *     + enemyName: 상대 클럽명
+     *     + pitchOrder: 선발 순서
+     *     + dailyOrder: 클전 오더
+     *     + comments: 일간 코멘트
+     *
+     * 출력값
+     * - 없음
+     *
+     * 작동 순서
+     * 1. 일간 날짜 정보 수정 뙇!!
+     */
+
+    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments} = dto
+
+    try {
+      // 1. 일간 날짜 정보 수정 뙇!!
+      const queryUpdate = `
+        UPDATE weekRowDateInfos
+        SET enemyName = ?, pitchOrder = ?, dailyOrder = ?, comments = ?
+        WHERE weekOId = ? AND dateVal = ?
+      `
+      const paramUpdate = [enemyName, pitchOrder, dailyOrder, comments, weekOId, dateVal]
+      await connection.execute(queryUpdate, paramUpdate)
       // ::
     } catch (errObj) {
       // ::
