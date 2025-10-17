@@ -169,6 +169,48 @@ export class WeekRecordDBService {
     }
   }
 
+  async readWeekRowByWeekOId(where: string, weekOId: string) {
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const queryReadWeekRow = `SELECT * FROM weekRows WHERE weekOId = ?`
+      const paramReadWeekRow = [weekOId]
+      const [rows] = await connection.execute(queryReadWeekRow, paramReadWeekRow)
+      const resultArray = rows as RowDataPacket[]
+
+      if (resultArray.length === 0) {
+        throw {
+          gkd: {notFound: `해당 주간 기록을 찾을 수 없습니다.`},
+          gkdErrCode: 'WEEKRECORDDB_READ_WEEK_ROW_NOT_FOUND',
+          gkdErrMsg: `해당 주간 기록을 찾을 수 없습니다.`,
+          gkdStatus: {weekOId},
+          statusCode: 404,
+          where
+        } as T.ErrorObjType
+      }
+
+      const row = resultArray[0]
+      const weekRow: T.WeekRowType = {
+        weekOId: row.weekOId,
+        clubOId: row.clubOId,
+        startDateVal: row.startDateVal,
+        endDateVal: row.endDateVal,
+        title: row.title,
+        weekComments: row.weekComments
+      }
+
+      return {weekRow}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
   async readWeekRowArrByClubOId(where: string, clubOId: string) {
     const connection = await this.dbService.getConnection()
 
@@ -188,6 +230,66 @@ export class WeekRecordDBService {
       }))
 
       return {weekRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async readDateInfoArrByWeekOId(where: string, weekOId: string) {
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const queryReadDateInfos = `SELECT * FROM weekRowDateInfos WHERE weekOId = ? ORDER BY dateVal ASC`
+      const paramReadDateInfos = [weekOId]
+      const [rows] = await connection.execute(queryReadDateInfos, paramReadDateInfos)
+      const resultArray = rows as RowDataPacket[]
+
+      const dateInfoArr: T.RecordDateInfo[] = resultArray.map(row => ({
+        weekOId: row.weekOId,
+        dateVal: row.dateVal,
+        enemyName: row.enemyName,
+        pitchOrder: row.pitchOrder,
+        dailyOrder: row.dailyOrder,
+        comments: row.comments
+      }))
+
+      return {dateInfoArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async readRowMemberArrByWeekOId(where: string, weekOId: string) {
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const queryReadRowMembers = `SELECT * FROM rowMemberInfos WHERE weekOId = ? ORDER BY position ASC`
+      const paramReadRowMembers = [weekOId]
+      const [rows] = await connection.execute(queryReadRowMembers, paramReadRowMembers)
+      const resultArray = rows as RowDataPacket[]
+
+      const rowMemberArr: T.RowMemberType[] = resultArray.map(row => ({
+        weekOId: row.weekOId,
+        memOId: row.memOId,
+        rowMemName: row.rowMemName,
+        position: row.position,
+        batterPower: row.batterPower,
+        pitcherPower: row.pitcherPower
+      }))
+
+      return {rowMemberArr}
       // ::
     } catch (errObj) {
       // ::

@@ -226,4 +226,53 @@ export class ClientRecordPortService {
       throw errObj
     }
   }
+
+  /**
+   * loadWeeklyRecordInfo
+   * - 주간 기록 정보를 불러오는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   *
+   * 출력값
+   * - dailyRecordArr: T.DailyRecordType[]
+   *     + 일일 기록 배열
+   * - dateInfoArr: T.RecordDateInfo[]
+   *     + 날짜 정보 배열
+   * - rowMemberArr: T.RowMemberType[]
+   *     + 행 멤버 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. weekOId로 일일 기록 배열 조회 뙇!!
+   * 3. weekOId로 날짜 정보 배열 조회 뙇!!
+   * 4. weekOId로 행 멤버 배열 조회 뙇!!
+   * 5. 리턴 뙇!!
+   */
+  async loadWeeklyRecordInfo(jwtPayload: T.JwtPayloadType, weekOId: string) {
+    const where = `/client/record/loadWeeklyRecordInfo`
+
+    try {
+
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, weekOId)
+
+      // 2. weekOId로 일일 기록 배열 조회 뙇!!
+      const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByWeekOId(where, weekOId)
+
+      // 3. weekOId로 날짜 정보 배열 조회 뙇!!
+      const {dateInfoArr} = await this.dbHubService.readDateInfoArrByWeekOId(where, weekOId)
+
+      // 4. weekOId로 행 멤버 배열 조회 뙇!!
+      const {rowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
+
+      // 5. 리턴 뙇!!
+      return {dailyRecordArr, dateInfoArr, rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 }

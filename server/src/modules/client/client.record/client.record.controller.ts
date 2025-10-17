@@ -36,4 +36,12 @@ export class ClientRecordController {
     const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.loadClubWeekRowArr(jwtPayload, clubOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
+
+  @Get('/loadWeeklyRecordInfo/:weekOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadWeeklyRecordInfo(@Headers() headers: any, @Param('weekOId') weekOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.loadWeeklyRecordInfo(jwtPayload, weekOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
 }

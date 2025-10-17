@@ -7,6 +7,7 @@ import * as ST from '@shareType'
 // State 타입 정의
 interface RecordState {
   dailyRecordMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}}
+  dateInfoArr: ST.RecordDateInfo[]
   rowMemberArr: ST.RowMemberType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
@@ -15,6 +16,7 @@ interface RecordState {
 // 초기 상태
 const initialState: RecordState = {
   dailyRecordMap: {},
+  dateInfoArr: [],
   rowMemberArr: [],
   weekOIdOpened: '',
   weekRowArr: []
@@ -25,6 +27,10 @@ export const recordSlice = createSlice({
   name: 'record',
   initialState,
   reducers: {
+    // dailyRecordMap 초기화
+    resetDailyRecordMap: state => {
+      state.dailyRecordMap = {}
+    },
     // dailyRecordMap 설정
     setDailyRecordMapFromArr: (state, action: PayloadAction<ST.DailyRecordType[]>) => {
       const newMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}} = {}
@@ -36,7 +42,20 @@ export const recordSlice = createSlice({
       })
       state.dailyRecordMap = newMap
     },
-
+    // ::
+    // dateInfoArr 초기화
+    resetDateInfoArr: state => {
+      state.dateInfoArr = []
+    },
+    // dateInfoArr 설정
+    setDateInfoArrFromArr: (state, action: PayloadAction<ST.RecordDateInfo[]>) => {
+      state.dateInfoArr = action.payload.sort((a, b) => a.dateVal - b.dateVal)
+    },
+    // ::
+    // rowMemberArr 초기화
+    resetRowMemberArr: state => {
+      state.rowMemberArr = []
+    },
     // rowMemberArr 설정
     setRowMemberArr: (state, action: PayloadAction<ST.RowMemberType[]>) => {
       state.rowMemberArr = action.payload

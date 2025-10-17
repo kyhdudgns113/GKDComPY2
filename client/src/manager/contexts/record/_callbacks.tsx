@@ -13,6 +13,7 @@ type ContextType = {
   addPrevWeek: (clubOId: string) => Promise<boolean>
 
   loadClubWeekRowArr: (clubOId: string) => Promise<boolean>
+  loadWeeklyRecordInfo: (weekOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const RecordCallbacksContext = createContext<ContextType>({
@@ -20,13 +21,14 @@ export const RecordCallbacksContext = createContext<ContextType>({
   addPrevWeek: async () => false,
 
   loadClubWeekRowArr: async () => false,
+  loadWeeklyRecordInfo: async () => false,
 })
 
 export const useRecordCallbacksContext = () => useContext(RecordCallbacksContext)
 
 export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
-  const {setWeekRowArr} = useRecordActions()
+  const {setDailyRecordMapFromArr, setDateInfoArrFromArr, setRowMemberArr, setWeekRowArr} = useRecordActions()
 
   // POST AREA:
 
@@ -109,12 +111,40 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const loadWeeklyRecordInfo = useCallback(
+    async (weekOId: string) => {
+      const url = `/client/record/loadWeeklyRecordInfo/${weekOId}`
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {dailyRecordArr, dateInfoArr, rowMemberArr} = body
+            dispatch(setDailyRecordMapFromArr(dailyRecordArr))
+            dispatch(setDateInfoArrFromArr(dateInfoArr))
+            dispatch(setRowMemberArr(rowMemberArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // prettier-ignore
   const value: ContextType = {
     addNextWeek,
     addPrevWeek,
 
     loadClubWeekRowArr,
+    loadWeeklyRecordInfo,
   }
   return <RecordCallbacksContext.Provider value={value}>{children}</RecordCallbacksContext.Provider>
 }

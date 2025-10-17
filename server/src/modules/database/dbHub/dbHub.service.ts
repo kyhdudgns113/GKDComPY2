@@ -333,10 +333,54 @@ export class DBHubService {
     }
   }
 
+  async readWeekRowByWeekOId(where: string, weekOId: string) {
+    try {
+      const {weekRow} = await this.weekRecordDBService.readWeekRowByWeekOId(where, weekOId)
+      return {weekRow}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readWeekRowArrByClubOId(where: string, clubOId: string) {
     try {
       const {weekRowArr} = await this.weekRecordDBService.readWeekRowArrByClubOId(where, clubOId)
       return {weekRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readDateInfoArrByWeekOId(where: string, weekOId: string) {
+    try {
+      const {dateInfoArr} = await this.weekRecordDBService.readDateInfoArrByWeekOId(where, weekOId)
+      return {dateInfoArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readRowMemberArrByWeekOId(where: string, weekOId: string) {
+    try {
+      const {rowMemberArr} = await this.weekRecordDBService.readRowMemberArrByWeekOId(where, weekOId)
+      return {rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readDailyRecordArrByWeekOId(where: string, weekOId: string) {
+    try {
+      const {dailyRecordArr} = await this.dailyRecordDBService.readDailyRecordArrByWeekOId(where, weekOId)
+      return {dailyRecordArr}
       // ::
     } catch (errObj) {
       // ::
@@ -860,6 +904,123 @@ export class DBHubService {
       }
 
       return {payloadUser: user, targetUser: _user, targetUserCommunity: community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_RecordRead(where: string, jwtPayload: T.JwtPayloadType, weekOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {weekRow} = await this.weekRecordDBService.readWeekRowByWeekOId(where, weekOId)
+      if (!weekRow) {
+        throw {
+          gkd: {weekRowErr: `주간 기록이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_WEEK_ROW',
+          gkdErrMsg: `주간 기록이 존재하지 않음`,
+          gkdStatus: {weekOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, weekRow.clubOId)
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: weekRow.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === club.commOId && user.commAuth >= AUTH_NORMAL)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, clubOId: weekRow.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, weekRow, club}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkAuth_RecordWrite(where: string, jwtPayload: T.JwtPayloadType, weekOId: string) {
+    const {userOId} = jwtPayload
+
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {weekRow} = await this.weekRecordDBService.readWeekRowByWeekOId(where, weekOId)
+      if (!weekRow) {
+        throw {
+          gkd: {weekRowErr: `주간 기록이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_WEEK_ROW',
+          gkdErrMsg: `주간 기록이 존재하지 않음`,
+          gkdStatus: {weekOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {club} = await this.clubDBService.readClubByClubOId(where, weekRow.clubOId)
+      if (!club) {
+        throw {
+          gkd: {clubErr: `클럽이 존재하지 않음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_CLUB',
+          gkdErrMsg: `클럽이 존재하지 않음`,
+          gkdStatus: {clubOId: weekRow.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === club.commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_RECORD_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, clubOId: weekRow.clubOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, weekRow, club}
       // ::
     } catch (errObj) {
       // ::

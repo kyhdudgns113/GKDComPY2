@@ -50,4 +50,15 @@ export class ClientRecordService {
       return U.getFailResponse(errObj)
     }
   }
+
+  async loadWeeklyRecordInfo(jwtPayload: JwtPayloadType, weekOId: string) {
+    try {
+      const {dailyRecordArr, dateInfoArr, rowMemberArr} = await this.portService.loadWeeklyRecordInfo(jwtPayload, weekOId)
+      return {ok: true, body: {dailyRecordArr, dateInfoArr, rowMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }
