@@ -1,3 +1,5 @@
+import {useRecordStates} from '@store'
+
 import type {FC} from 'react'
 import type {TableHeadCommonProps} from '@prop'
 import type {WeekRowType} from '@shareType'
@@ -9,6 +11,8 @@ type TableHeadObjectProps = TableHeadCommonProps & {
 }
 
 export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, style, ...props}) => {
+  const {dateInfoArr} = useRecordStates()
+
   const {weekOId} = weekRow
 
   return (
@@ -56,27 +60,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
         </th>
         {/* 1행 9~13열: 클럽명: 월요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 월요일
+          {dateInfoArr[0]?.enemyName || ''}
         </th>
         {/* 1행 14~18열: 클럽명: 화요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 화요일
+          {dateInfoArr[1]?.enemyName || ''}
         </th>
         {/* 1행 19~23열: 클럽명: 수요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 수요일
+          {dateInfoArr[2]?.enemyName || ''}
         </th>
         {/* 1행 24~28열: 클럽명: 목요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 목요일
+          {dateInfoArr[3]?.enemyName || ''}
         </th>
         {/* 1행 29~33열: 클럽명: 금요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 금요일
+          {dateInfoArr[4]?.enemyName || ''}
         </th>
         {/* 1행 34~38열: 클럽명: 토요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          클럽명: 토요일
+          {dateInfoArr[5]?.enemyName || ''}
         </th>
       </tr>
       {/* 2행: 5열부터 */}
@@ -87,27 +91,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
         </th>
         {/* 2행 9~13열: 선발순서: 월요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          123
+          {dateInfoArr[0]?.pitchOrder || ''}
         </th>
         {/* 2행 14~18열: 선발순서: 화요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          234
+          {dateInfoArr[1]?.pitchOrder || ''}
         </th>
         {/* 2행 19~23열: 선발순서: 수요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          345
+          {dateInfoArr[2]?.pitchOrder || ''}
         </th>
         {/* 2행 24~28열: 선발순서: 목요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          451
+          {dateInfoArr[3]?.pitchOrder || ''}
         </th>
         {/* 2행 29~33열: 선발순서: 금요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          512
+          {dateInfoArr[4]?.pitchOrder || ''}
         </th>
         {/* 2행 34~38열: 선발순서: 토요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          123
+          {dateInfoArr[5]?.pitchOrder || ''}
         </th>
       </tr>
       {/* 3행: 5열부터 */}
@@ -118,27 +122,27 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
         </th>
         {/* 3행 9~13열: 오더: 월요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 월요일
+          {dateInfoArr[0]?.dailyOrder || ''}
         </th>
         {/* 3행 14~18열: 오더: 화요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 화요일
+          {dateInfoArr[1]?.dailyOrder || ''}
         </th>
         {/* 3행 19~23열: 오더: 수요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 수요일
+          {dateInfoArr[2]?.dailyOrder || ''}
         </th>
         {/* 3행 24~28열: 오더: 목요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 목요일
+          {dateInfoArr[3]?.dailyOrder || ''}
         </th>
         {/* 3행 29~33열: 오더: 금요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 금요일
+          {dateInfoArr[4]?.dailyOrder || ''}
         </th>
         {/* 3행 34~38열: 오더: 토요일 */}
         <th className="th_bd_r_4" colSpan={5} rowSpan={1}>
-          오더: 토요일
+          {dateInfoArr[5]?.dailyOrder || ''}
         </th>
       </tr>
       {/* 4행: 0열부터 */}
