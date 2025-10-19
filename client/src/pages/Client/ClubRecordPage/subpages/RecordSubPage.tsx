@@ -37,7 +37,7 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
 
   if (!weekOIdOpened || !weekRow) {
     return (
-      <div className={`Record_SubPage ${className || ''}`} style={style} {...props}>
+      <div className={`Record_SubPage _NULL ${className || ''}`} style={style} {...props}>
         <p>&nbsp;</p>
       </div>
     )
