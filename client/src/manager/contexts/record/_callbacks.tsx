@@ -44,7 +44,7 @@ export const useRecordCallbacksContext = () => useContext(RecordCallbacksContext
 
 export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
-  const {setDailyRecordMapFromArr, setDateInfoArrFromArr, setRowMemberArr, setWeekRowArr} = useRecordActions()
+  const {resetStatisticArr, setDailyRecordMapFromArr, setDateInfoArrFromArr, setRowMemberArr, setWeekRowArr} = useRecordActions()
 
   // POST AREA:
 
@@ -145,6 +145,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           const {ok, body, statusCode, gkdErrMsg, message} = res
           if (ok) {
             const {dailyRecordArr} = body
+            dispatch(resetStatisticArr())
             dispatch(setDailyRecordMapFromArr(dailyRecordArr))
             return true
           } // ::

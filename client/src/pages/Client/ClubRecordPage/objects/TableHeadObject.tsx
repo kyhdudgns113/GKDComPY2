@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {Fragment, useCallback} from 'react'
 import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
 
 import type {FC, MouseEvent} from 'react'
@@ -174,7 +174,7 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
         <th className="_th_member_total th_bd_r_6">총합</th>
         {/* 4행 9~38열: 요일별 기록 카테고리 */}
         {Array.from({length: 6}).map((_, idx) => (
-          <>
+          <Fragment key={6 * idx}>
             <th className="_th_day_cond th_bd_r_2" key={6 * idx}>
               컨
             </th>
@@ -190,7 +190,7 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
             <th className="_th_day_comment th_bd_r_4" key={6 * idx + 4}>
               V
             </th>
-          </>
+          </Fragment>
         ))}
       </tr>
     </thead>

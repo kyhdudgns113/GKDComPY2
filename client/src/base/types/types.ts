@@ -22,3 +22,9 @@ export type CommSettingType = {
   maxUsers: number
   maxClubs: number
 }
+export type RecordStatisticType = {
+  sumDraw: number
+  sumLose: number
+  sumMiss: number
+  sumCond: number
+}

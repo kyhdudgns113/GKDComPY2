@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 
-import {useRecordStates} from '@store'
+import {useAppDispatch, useRecordActions, useRecordStates} from '@store'
 import {useRecordCallbacksContext} from '@context'
 
 import {DeleteWeekButton} from '../buttons'
@@ -17,6 +17,9 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
   const {weekOIdOpened, weekRowArr} = useRecordStates()
 
   const {loadWeeklyRecordInfo} = useRecordCallbacksContext()
+  const {resetStatisticArr} = useRecordActions()
+
+  const dispatch = useAppDispatch()
 
   const weekRow = weekRowArr.find(weekRow => weekRow.weekOId === weekOIdOpened)
 
@@ -26,7 +29,11 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
       return
     }
     loadWeeklyRecordInfo(weekOIdOpened)
-  }, [weekOIdOpened, weekRow, loadWeeklyRecordInfo])
+
+    return () => {
+      dispatch(resetStatisticArr())
+    }
+  }, [weekOIdOpened, weekRow, dispatch, loadWeeklyRecordInfo]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!weekOIdOpened || !weekRow) {
     return (

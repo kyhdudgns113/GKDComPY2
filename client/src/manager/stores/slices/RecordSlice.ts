@@ -1,8 +1,10 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSelector, createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
+import type {AdminStates} from '../store'
 
 import * as ST from '@shareType'
+import * as T from '@type'
 
 // State 타입 정의
 interface RecordState {
@@ -11,6 +13,7 @@ interface RecordState {
   dayIdxSelected: number | null
   rowMemberArr: ST.RowMemberType[]
   rowMemberOpened: ST.RowMemberType | null
+  statisticArr: T.RecordStatisticType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
 }
@@ -22,6 +25,7 @@ const initialState: RecordState = {
   dayIdxSelected: null,
   rowMemberArr: [],
   rowMemberOpened: null,
+  statisticArr: Array(6).fill({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}),
   weekOIdOpened: '',
   weekRowArr: []
 }
@@ -45,6 +49,23 @@ export const recordSlice = createSlice({
         newMap[record.rowMemName][record.dateVal] = record
       })
       state.dailyRecordMap = newMap
+    },
+    // ::
+    incStaticDraw: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumDraw += 1
+    },
+    incStaticLose: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumLose += 1
+    },
+    incStaticMiss: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumMiss += 1
+    },
+    incStaticCond: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumCond += 1
+    },
+    // statisticArr 초기화
+    resetStatisticArr: state => {
+      state.statisticArr = Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}))
     },
     // ::
     // dateInfoArr 초기화
@@ -97,4 +118,22 @@ export const recordSlice = createSlice({
       state.weekRowArr = action.payload
     }
   }
+})
+
+// Selector: statisticArr 선택
+const selectStatisticArr = (state: AdminStates) => state.Record.statisticArr
+
+// Memoized Selector: 주간 통계 합계
+export const getWeeklyStatisticArr = createSelector([selectStatisticArr], statisticArr => {
+  let sumDraw = 0
+  let sumLose = 0
+  let sumMiss = 0
+  let sumCond = 0
+  for (let i = 0; i < 6; i++) {
+    sumDraw += statisticArr[i].sumDraw
+    sumLose += statisticArr[i].sumLose
+    sumMiss += statisticArr[i].sumMiss
+    sumCond += statisticArr[i].sumCond
+  }
+  return {sumDraw, sumLose, sumMiss, sumCond}
 })

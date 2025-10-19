@@ -335,6 +335,15 @@ export class WeekRecordDBService {
         batterPower: row.batterPower,
         pitcherPower: row.pitcherPower
       }))
+      rowMemberArr.sort((a, b) => {
+        if (a.position !== b.position) {
+          return b.position - a.position
+        } // ::
+
+        const sumA = a.batterPower + a.pitcherPower
+        const sumB = b.batterPower + b.pitcherPower
+        return sumB - sumA
+      })
 
       return {rowMemberArr}
       // ::

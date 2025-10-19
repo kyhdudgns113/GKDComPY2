@@ -33,8 +33,6 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
 
   const _executeModify = useCallback(
     (weekOId: string, rowMemName: string, dateVal: number, result0: number, result1: number, result2: number, condError: number, comment: string) => {
-      console.log('대전기록 수정/생성:', {weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment})
-
       writeDailyRecord(weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment).then(res => {
         if (res) {
           alert('대전기록 저장 성공')
