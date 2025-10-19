@@ -11,6 +11,7 @@ import * as U from '@util'
 type ContextType = {
   addNextWeek: (clubOId: string) => Promise<boolean>
   addPrevWeek: (clubOId: string) => Promise<boolean>
+  addRowMember: (weekOId: string, rowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
 
   modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => Promise<boolean>
   modifyWeeklyInfo: (weekOId: string, weekComments: string) => Promise<boolean>
@@ -24,6 +25,7 @@ type ContextType = {
 export const RecordCallbacksContext = createContext<ContextType>({
   addNextWeek: async () => false,
   addPrevWeek: async () => false,
+  addRowMember: async () => false,
 
   modifyDailyInfo: async () => false,
   modifyWeeklyInfo: async () => false,
@@ -79,6 +81,32 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             const {weekRowArr} = body
             dispatch(setWeekRowArr(weekRowArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const addRowMember = useCallback(
+    async (weekOId: string, rowMemName: string, batterPower: number, pitcherPower: number, position: number) => {
+      const url = `/client/record/addRowMember`
+      const data: HTTP.AddRowMemberDataType = {weekOId, rowMemName, batterPower, pitcherPower, position}
+      return F.postWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {rowMemberArr} = body
+            dispatch(setRowMemberArr(rowMemberArr))
             return true
           } // ::
           else {
@@ -233,6 +261,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const value: ContextType = {
     addNextWeek,
     addPrevWeek,
+    addRowMember,
 
     modifyDailyInfo,
     modifyWeeklyInfo,

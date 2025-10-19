@@ -1,5 +1,8 @@
 import {useCallback} from 'react'
+
 import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
+
+import {AddRowMemberButton} from '../buttons'
 
 import type {FC, MouseEvent} from 'react'
 import type {TableRowCommonProps} from '@prop'
@@ -51,7 +54,7 @@ export const CommentRowGroup: FC<CommentRowGroupProps> = ({weekRow, className, s
       </td>
       {/* 2. 5~8 열: 행 멤버 추가 버튼 */}
       <td className="td_add_row_member td_br_6" colSpan={4}>
-        멤버 추가
+        <AddRowMemberButton />
       </td>
       {/* 3. 9~13 열: 월요일 */}
       <td className="td_day_comment td_br_4" colSpan={5} onClick={onClickDaily(0)}>

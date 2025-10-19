@@ -29,6 +29,14 @@ export type AddPrevWeekDataType = {
   clubOId: string
 }
 
+export type AddRowMemberDataType = {
+  weekOId: string
+  rowMemName: string
+  batterPower: number
+  pitcherPower: number
+  position: number
+}
+
 export type ModifyClubDocDataType = {
   clubOId: string
   contents: string

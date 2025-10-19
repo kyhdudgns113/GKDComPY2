@@ -25,7 +25,7 @@ export const TableBodyObject: FC<TableBodyObjectProps> = ({weekRow, className, s
       {/* 2. 통계 행 */}
       <StatisticRowGroup weekRow={weekRow} />
 
-      {/* 3. 코멘트 행 */}
+      {/* 3. 코멘트, 멤버 추가 행 */}
       <CommentRowGroup weekRow={weekRow} />
     </tbody>
   )

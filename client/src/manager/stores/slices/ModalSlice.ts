@@ -38,6 +38,10 @@ export const modalSlice = createSlice({
     openModalAddMember: state => {
       state.modalName = V.MODAL_NAME_ADD_MEMBER
     },
+    // 멤버 추가 모달 열기
+    openModalAddRowMember: state => {
+      state.modalName = V.MODAL_NAME_ADD_ROW_MEMBER
+    },
     // 멤버 삭제 모달 열기
     openModalDelMember: state => {
       state.modalName = V.MODAL_NAME_DEL_MEMBER
