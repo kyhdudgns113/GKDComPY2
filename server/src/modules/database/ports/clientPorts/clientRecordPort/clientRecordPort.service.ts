@@ -336,6 +336,54 @@ export class ClientRecordPortService {
     }
   }
 
+  /**
+   * modifyWeeklyInfo
+   * - 주간 정보를 수정하는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   * - weekComments: string
+   *     + 주간 코멘트
+   *
+   * 출력값
+   * - weekRowArr: T.WeekRowType[]
+   *     + 수정된 주간 기록 행 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 주간 코멘트 수정 뙇!!
+   * 3. 클럽 OId 조회 뙇!!
+   * 4. 수정된 주간 기록 행 배열 조회 뙇!!
+   * 5. 리턴 뙇!!
+   */
+  async modifyWeeklyInfo(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyWeeklyInfoDataType) {
+    const where = `/client/record/modifyWeeklyInfo`
+    const {weekOId, weekComments} = data
+
+    try {
+      // 1. 권한 췍!!
+      const {weekRow} = await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. 주간 정보 수정 뙇!!
+      const dto: DTO.UpdateWeeklyInfoDTO = {
+        weekOId,
+        weekComments
+      }
+      await this.dbHubService.updateWeeklyInfo(where, dto)
+
+      // 3. 수정된 주간 기록 행 배열 조회 뙇!!
+      const {weekRowArr} = await this.dbHubService.readWeekRowArrByClubOId(where, weekRow.clubOId)
+
+      // 4. 리턴 뙇!!
+      return {weekRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // DELETE AREA:
 
   /**

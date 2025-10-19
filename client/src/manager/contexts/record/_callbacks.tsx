@@ -13,6 +13,7 @@ type ContextType = {
   addPrevWeek: (clubOId: string) => Promise<boolean>
 
   modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => Promise<boolean>
+  modifyWeeklyInfo: (weekOId: string, weekComments: string) => Promise<boolean>
 
   loadClubWeekRowArr: (clubOId: string) => Promise<boolean>
   loadWeeklyRecordInfo: (weekOId: string) => Promise<boolean>
@@ -25,6 +26,7 @@ export const RecordCallbacksContext = createContext<ContextType>({
   addPrevWeek: async () => false,
 
   modifyDailyInfo: async () => false,
+  modifyWeeklyInfo: async () => false,
 
   loadClubWeekRowArr: async () => false,
   loadWeeklyRecordInfo: async () => false,
@@ -105,6 +107,32 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             const {dateInfoArr} = body
             dispatch(setDateInfoArrFromArr(dateInfoArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const modifyWeeklyInfo = useCallback(
+    async (weekOId: string, weekComments: string) => {
+      const url = `/client/record/modifyWeeklyInfo`
+      const data: HTTP.ModifyWeeklyInfoDataType = {weekOId, weekComments}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {weekRowArr} = body
+            dispatch(setWeekRowArr(weekRowArr))
             return true
           } // ::
           else {
@@ -207,6 +235,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     addPrevWeek,
 
     modifyDailyInfo,
+    modifyWeeklyInfo,
 
     loadClubWeekRowArr,
     loadWeeklyRecordInfo,

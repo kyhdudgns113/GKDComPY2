@@ -58,6 +58,7 @@ export const Template: FC<TemplateProps> = ({className, style, ...props}) => {
       {modalName === V.MODAL_NAME_MODIFY_CLUB && <M.ClubModifyModal />}
       {modalName === V.MODAL_NAME_MODIFY_DAILY_INFO && <M.DayInfoModifyModal />}
       {modalName === V.MODAL_NAME_MODIFY_USER && <M.UserModifyModal />}
+      {modalName === V.MODAL_NAME_MODIFY_WEEKLY_INFO && <M.WeekInfoModifyModal />}
     </div>
   )
 }

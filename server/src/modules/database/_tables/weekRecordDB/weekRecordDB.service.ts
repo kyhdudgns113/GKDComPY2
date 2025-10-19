@@ -380,4 +380,45 @@ export class WeekRecordDBService {
       connection.release()
     }
   }
+
+  async updateWeeklyInfo(where: string, dto: DTO.UpdateWeeklyInfoDTO) {
+    where = where + `/updateWeeklyInfo`
+    const connection = await this.dbService.getConnection()
+    /**
+     * updateWeeklyInfo
+     * - 주간 정보 수정 함수
+     *
+     * 입력값
+     * - dto: UpdateWeeklyInfoDTO
+     *     + weekOId: 주간 기록의 OId
+     *     + weekComments: 주간 코멘트
+     *
+     * 출력값
+     * - 없음
+     *
+     * 작동 순서
+     * 1. 주간 정보 수정 뙇!!
+     */
+
+    const {weekOId, weekComments} = dto
+
+    try {
+      // 1. 주간 코멘트 수정 뙇!!
+      const queryUpdate = `
+        UPDATE weekRows
+        SET weekComments = ?
+        WHERE weekOId = ?
+      `
+      const paramUpdate = [weekComments, weekOId]
+      await connection.execute(queryUpdate, paramUpdate)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 }

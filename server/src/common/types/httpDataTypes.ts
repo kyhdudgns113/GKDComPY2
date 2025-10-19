@@ -55,6 +55,11 @@ export type ModifyDailyInfoDataType = {
   comments: string
 }
 
+export type ModifyWeeklyInfoDataType = {
+  weekOId: string
+  weekComments: string
+}
+
 export type MoveClubMemberDataType = {
   prevClubOId: string
   clubOId: string

@@ -61,6 +61,11 @@ export type MoveClubMemberDataType = {
   memOId: string
 }
 
+export type ModifyWeeklyInfoDataType = {
+  weekOId: string
+  weekComments: string
+}
+
 export type SaveClubMemberInfoDataType = {
   clubOId: string
   memOId: string

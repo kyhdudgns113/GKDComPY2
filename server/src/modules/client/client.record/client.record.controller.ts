@@ -55,6 +55,14 @@ export class ClientRecordController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Put('/modifyWeeklyInfo')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyWeeklyInfo(@Headers() headers: any, @Body() data: HTTP.ModifyWeeklyInfoDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.modifyWeeklyInfo(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // DELETE AREA:
 
   @Delete('/removeWeekRow/:weekOId')

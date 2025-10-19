@@ -75,6 +75,17 @@ export class ClientRecordService {
     }
   }
 
+  async modifyWeeklyInfo(jwtPayload: JwtPayloadType, data: HTTP.ModifyWeeklyInfoDataType) {
+    try {
+      const {weekRowArr} = await this.portService.modifyWeeklyInfo(jwtPayload, data)
+      return {ok: true, body: {weekRowArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // DELETE AREA:
 
   async removeWeekRow(jwtPayload: JwtPayloadType, weekOId: string) {

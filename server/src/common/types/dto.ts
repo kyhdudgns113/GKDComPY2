@@ -86,3 +86,8 @@ export type UpdateDateInfoDTO = {
   dailyOrder: string
   comments: string
 }
+
+export type UpdateWeeklyInfoDTO = {
+  weekOId: string
+  weekComments: string
+}
