@@ -70,6 +70,10 @@ export const modalSlice = createSlice({
     openModalModifyWeeklyInfo: state => {
       state.modalName = V.MODAL_NAME_MODIFY_WEEKLY_INFO
     },
+    // 대전기록 모달 열기
+    openModalRecord: state => {
+      state.modalName = V.MODAL_NAME_RECORD
+    },
     // AREA2: 정보 영역
     // 선택: 수정할 클럽
     selectModifyClub: (state, action: PayloadAction<ST.ClubType>) => {

@@ -20,8 +20,8 @@ type MemberRowGroupProps = TableRowCommonProps & {
 
 export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, className, style, ...props}) => {
   const {dailyRecordMap} = useRecordStates()
-  const {setRowMemberOpened} = useRecordActions()
-  const {openModalModifyRowMembeInfo} = useModalActions()
+  const {setRowMemberOpened, setDayIdxSelected} = useRecordActions()
+  const {openModalModifyRowMembeInfo, openModalRecord} = useModalActions()
 
   const dispatch = useAppDispatch()
 
@@ -38,6 +38,16 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
       e.stopPropagation()
       dispatch(setRowMemberOpened(rowMember))
       dispatch(openModalModifyRowMembeInfo())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const onClickRecord = useCallback(
+    (rowMember: RowMemberType, dayIdx: number) => (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setRowMemberOpened(rowMember))
+      dispatch(setDayIdxSelected(dayIdx))
+      dispatch(openModalRecord())
     },
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
@@ -103,41 +113,101 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
         {rowMemTotal.toLocaleString()}
       </td>
       {/* 9~13 열: 월요알 */}
-      <td className="td_day_condError td_br_2">{condArr[0]}</td>
-      <td className="td_day_draw td_br_2">{resultsArr[0][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[0][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[0][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[0]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 0)}>
+        {condArr[0]}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 0)}>
+        {resultsArr[0][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 0)}>
+        {resultsArr[0][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 0)}>
+        {resultsArr[0][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 0)}>
+        {mentsArr[0]}
+      </td>
       {/* 14~18 열: 화요알 */}
-      <td className="td_day_condError td_br_2">{condArr[1]}</td>
-      <td className="td_day_draw td_br_2">{resultsArr[1][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[1][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[1][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[1]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 1)}>
+        {condArr[1]}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 1)}>
+        {resultsArr[1][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 1)}>
+        {resultsArr[1][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 1)}>
+        {resultsArr[1][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 1)}>
+        {mentsArr[1]}
+      </td>
       {/* 19~23 열: 수요알 */}
-      <td className="td_day_condError td_br_2">{condArr[2]} </td>
-      <td className="td_day_draw td_br_2">{resultsArr[2][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[2][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[2][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[2]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 2)}>
+        {condArr[2]}{' '}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 2)}>
+        {resultsArr[2][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 2)}>
+        {resultsArr[2][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 2)}>
+        {resultsArr[2][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 2)}>
+        {mentsArr[2]}
+      </td>
       {/* 24~28 열: 목요알 */}
-      <td className="td_day_condError td_br_2">{condArr[3]}</td>
-      <td className="td_day_draw td_br_2">{resultsArr[3][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[3][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[3][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[3]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 3)}>
+        {condArr[3]}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 3)}>
+        {resultsArr[3][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 3)}>
+        {resultsArr[3][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 3)}>
+        {resultsArr[3][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 3)}>
+        {mentsArr[3]}
+      </td>
       {/* 29~33 열: 금요알 */}
-      <td className="td_day_condError td_br_2">{condArr[4]}</td>
-      <td className="td_day_draw td_br_2">{resultsArr[4][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[4][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[4][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[4]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 4)}>
+        {condArr[4]}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 4)}>
+        {resultsArr[4][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 4)}>
+        {resultsArr[4][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 4)}>
+        {resultsArr[4][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 4)}>
+        {mentsArr[4]}
+      </td>
       {/* 34~38 열: 토요알 */}
-      <td className="td_day_condError td_br_2">{condArr[5]}</td>
-      <td className="td_day_draw td_br_2">{resultsArr[5][0]}</td>
-      <td className="td_day_lose td_br_2">{resultsArr[5][1]}</td>
-      <td className="td_day_miss td_br_2">{resultsArr[5][2]}</td>
-      <td className="td_day_ments td_br_4">{mentsArr[5]}</td>
+      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 5)}>
+        {condArr[5]}
+      </td>
+      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 5)}>
+        {resultsArr[5][0]}
+      </td>
+      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 5)}>
+        {resultsArr[5][1]}
+      </td>
+      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 5)}>
+        {resultsArr[5][2]}
+      </td>
+      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 5)}>
+        {mentsArr[5]}
+      </td>
     </tr>
   )
 }

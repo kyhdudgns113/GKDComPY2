@@ -8,6 +8,7 @@ export const MODAL_NAME_MODIFY_DAILY_INFO = 'modifyDailyInfo'
 export const MODAL_NAME_MODIFY_ROW_MEMBER_INFO = 'modifyRowMemberInfo'
 export const MODAL_NAME_MODIFY_USER = 'modifyUser'
 export const MODAL_NAME_MODIFY_WEEKLY_INFO = 'modifyWeeklyInfo'
+export const MODAL_NAME_RECORD = 'record'
 
 export const MODAL_NAMES = [
   MODAL_NAME_ADD_CLUB,
@@ -19,12 +20,13 @@ export const MODAL_NAMES = [
   MODAL_NAME_MODIFY_DAILY_INFO,
   MODAL_NAME_MODIFY_ROW_MEMBER_INFO,
   MODAL_NAME_MODIFY_USER,
-  MODAL_NAME_MODIFY_WEEKLY_INFO
+  MODAL_NAME_MODIFY_WEEKLY_INFO,
+  MODAL_NAME_RECORD
 ]
 
 export const [COMM_MEMBER_SORT_MODE_CLUB, COMM_MEMBER_SORT_MODE_NAME] = [0, 1]
 
-export const [RECORD_WIN, RECORD_DRAW, RECORD_LOSE, RECORD_MISS, RECORD_OK, RECOR_NULL] = [0, 1, 2, 3, 4, 5]
+export const [RECORD_WIN, RECORD_DRAW, RECORD_LOSE, RECORD_MISS, RECORD_OK] = [0, 1, 2, 3, 4]
 
 export const getResultString = (result: number) => {
   switch (result) {
