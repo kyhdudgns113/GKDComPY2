@@ -52,7 +52,7 @@ export const StatisticRowGroup: FC<StatisticRowGroupProps> = ({weekRow, classNam
       </tr>
       {/* 1행 */}
       <tr className={`StatisticRow_Group ROW_1 ${weekOId} ${className || ''}`} style={style} {...props}>
-        <td className="td_statistic_total _total td_br_2">컨</td>
+        <td className="td_statistic_total _total td_br_2">18</td>
         <td className="td_draw_total _total td_br_2">무</td>
         <td className="td_lose_total _total td_br_2">패</td>
         <td className="td_miss_total _total td_br_2">미</td>
