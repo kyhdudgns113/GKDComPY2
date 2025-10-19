@@ -4,11 +4,23 @@
   .Body {
     .ClubMember_Page {
       .RecordHead_Module {
-        tr {
-          border-color: v.$SAKURA_BORDER;
-          border-bottom-width: 4px;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        z-index: 2;
 
+        tr {
+          background-color: white;
+          border-color: v.$SAKURA_BORDER;
+          border-bottom-width: 1px;
           font-size: 18px;
+
+          &.tr_head_shadow {
+            th {
+              background-color: v.$SAKURA_BORDER;
+              height: 6px;
+            }
+          }
 
           ._th_date {
             width: 64px;

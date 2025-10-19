@@ -27,7 +27,7 @@ export const RecordBodyModule: FC<RecordBodyModuleProps> = ({className, style, .
             <td className="_td_br_2">{dailyRecord.result1 === 0 ? '' : V.getResultString(dailyRecord.result1)}</td>
             <td className="_td_br_2">{dailyRecord.result2 === 0 ? '' : V.getResultString(dailyRecord.result2)}</td>
             <td className="_td_br_2">{dailyRecord.comment ? 'V' : ''}</td>
-            <td className=" ">{clubName}</td>
+            <td className="">{clubName}</td>
           </tr>
         )
       })}

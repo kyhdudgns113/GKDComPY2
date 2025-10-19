@@ -17,6 +17,15 @@ export const RecordHeadModule: FC<RecordHeadModuleProps> = ({className, style, .
         <th className="_th_comment _br_2">V</th>
         <th className="_th_club">클럽</th>
       </tr>
+      <tr className="tr_head_shadow">
+        <th className="_th_date "></th>
+        <th className="_th_cond"></th>
+        <th className="_th_result"></th>
+        <th className="_th_result"></th>
+        <th className="_th_result"></th>
+        <th className="_th_comment"></th>
+        <th className="_th_club"></th>
+      </tr>
     </thead>
   )
 }
