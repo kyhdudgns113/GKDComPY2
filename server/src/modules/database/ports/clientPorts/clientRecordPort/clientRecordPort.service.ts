@@ -333,7 +333,7 @@ export class ClientRecordPortService {
     const where = `/client/record/loadMemberRecentRecord`
     try {
       // 1. 권한 췍!!
-      await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, memOId)
+      await this.dbHubService.checkAuth_MemberRead(where, jwtPayload, memOId)
 
       // 2. 시작날짜 계산 뙇!!
       const startDateVal = U.shiftDateValue(U.getTodayValue(), -duration)

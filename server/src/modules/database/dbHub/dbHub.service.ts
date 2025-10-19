@@ -913,6 +913,52 @@ export class DBHubService {
     }
   }
 
+  async checkAuth_MemberRead(where: string, jwtPayload: T.JwtPayloadType, memOId: string) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_USER',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {member} = await this.memberDBService.readClubMemberByMemOId(where, memOId)
+      if (!member) {
+        throw {
+          gkd: {memberErr: `멤버가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_MEMBER',
+          gkdErrMsg: `멤버가 DB 에 없음`,
+          gkdStatus: {memOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && user.commOId !== member.commOId) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId: member.commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async checkAuth_UserWrite(where: string, jwtPayload: T.JwtPayloadType, _userOId: string) {
     const {userOId} = jwtPayload
 

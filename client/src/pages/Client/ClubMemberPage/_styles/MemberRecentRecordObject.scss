@@ -13,32 +13,66 @@
 
         padding-left: 12px;
         padding-right: 12px;
-        padding-top: 8px;
+        padding-top: 12px;
 
-        ._title_object {
-          color: v.$SAKURA_TEXT;
+        ._header_row_object {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
 
-          font-size: 20px;
-          font-weight: 700;
+          ._title_object {
+            color: v.$SAKURA_TEXT;
+
+            font-size: 20px;
+            font-weight: 700;
+          }
+
+          select {
+            border-color: v.$SAKURA_BORDER;
+            border-radius: 8px;
+            border-width: 2px;
+
+            color: v.$SAKURA_TEXT;
+            font-size: 18px;
+            font-weight: 700;
+
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
+            outline: none;
+          }
+
+          option {
+            &:checked,
+            &:focus,
+            &:hover {
+              background-color: v.$SAKURA_BG_50;
+            }
+          }
         }
-        ._contents_object {
-          align-content: center;
+
+        ._table_container_object {
           border-color: v.$SAKURA_BORDER;
           border-radius: 8px;
-          border-width: 2px;
+          border-width: 4px;
 
-          color: v.$SAKURA_TEXT;
+          max-height: 300px;
+          overflow-y: auto;
 
-          height: 330px;
+          margin-top: 12px;
 
-          font-size: 18px;
-          font-weight: 700;
+          width: fit-content;
 
-          margin-top: 8px;
+          table {
+            border-collapse: collapse;
+            border-color: transparent;
+            border-bottom-width: 2px;
 
-          text-align: center;
-
-          width: 100%;
+            width: fit-content;
+          }
         }
       }
     }
