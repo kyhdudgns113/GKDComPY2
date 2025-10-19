@@ -189,92 +189,6 @@ export class ClientRecordPortService {
     }
   }
 
-  // GET AREA:
-
-  /**
-   * loadClubWeekRowArr
-   * - 클럽의 주간 기록 행 배열을 불러오는 함수
-   *
-   * 입력값
-   * - clubOId: string
-   *     + 클럽의 OId
-   *
-   * 출력값
-   * - weekRowArr: T.WeekRowType[]
-   *     + 주간 기록 행 배열
-   *
-   * 작동 순서
-   * 1. 권한 췍!!
-   * 2. clubOId로 주간 기록 행 배열 조회 뙇!!
-   * 3. 리턴 뙇!!
-   */
-  async loadClubWeekRowArr(jwtPayload: T.JwtPayloadType, clubOId: string) {
-    const where = `/client/record/loadClubWeekRowArr`
-
-    try {
-      // 1. 권한 체크: clubOId에 대한 읽기 권한이 있는지 확인
-      const {user, club} = await this.dbHubService.checkAuth_ClubRead(where, jwtPayload, clubOId)
-
-      // 2. clubOId로 주간 기록 행 배열 조회
-      const {weekRowArr} = await this.dbHubService.readWeekRowArrByClubOId(where, clubOId)
-
-      // 3. 리턴 뙇!!
-      return {weekRowArr}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
-
-  /**
-   * loadWeeklyRecordInfo
-   * - 주간 기록 정보를 불러오는 함수
-   *
-   * 입력값
-   * - weekOId: string
-   *     + 주간 기록의 OId
-   *
-   * 출력값
-   * - dailyRecordArr: T.DailyRecordType[]
-   *     + 일일 기록 배열
-   * - dateInfoArr: T.RecordDateInfo[]
-   *     + 날짜 정보 배열
-   * - rowMemberArr: T.RowMemberType[]
-   *     + 행 멤버 배열
-   *
-   * 작동 순서
-   * 1. 권한 췍!!
-   * 2. weekOId로 일일 기록 배열 조회 뙇!!
-   * 3. weekOId로 날짜 정보 배열 조회 뙇!!
-   * 4. weekOId로 행 멤버 배열 조회 뙇!!
-   * 5. 리턴 뙇!!
-   */
-  async loadWeeklyRecordInfo(jwtPayload: T.JwtPayloadType, weekOId: string) {
-    const where = `/client/record/loadWeeklyRecordInfo`
-
-    try {
-      // 1. 권한 췍!!
-      await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, weekOId)
-
-      // 2. weekOId로 일일 기록 배열 조회 뙇!!
-      const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByWeekOId(where, weekOId)
-
-      // 3. weekOId로 날짜 정보 배열 조회 뙇!!
-      const {dateInfoArr} = await this.dbHubService.readDateInfoArrByWeekOId(where, weekOId)
-
-      // 4. weekOId로 행 멤버 배열 조회 뙇!!
-      const {rowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
-
-      // 5. 리턴 뙇!!
-      return {dailyRecordArr, dateInfoArr, rowMemberArr}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
-
   /**
    * addRowMember
    * - 주간 기록에 행 멤버를 추가하는 함수
@@ -350,6 +264,134 @@ export class ClientRecordPortService {
 
       // 7. 리턴 뙇!!
       return {rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // GET AREA:
+
+  /**
+   * loadClubWeekRowArr
+   * - 클럽의 주간 기록 행 배열을 불러오는 함수
+   *
+   * 입력값
+   * - clubOId: string
+   *     + 클럽의 OId
+   *
+   * 출력값
+   * - weekRowArr: T.WeekRowType[]
+   *     + 주간 기록 행 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. clubOId로 주간 기록 행 배열 조회 뙇!!
+   * 3. 리턴 뙇!!
+   */
+  async loadClubWeekRowArr(jwtPayload: T.JwtPayloadType, clubOId: string) {
+    const where = `/client/record/loadClubWeekRowArr`
+
+    try {
+      // 1. 권한 체크: clubOId에 대한 읽기 권한이 있는지 확인
+      const {user, club} = await this.dbHubService.checkAuth_ClubRead(where, jwtPayload, clubOId)
+
+      // 2. clubOId로 주간 기록 행 배열 조회
+      const {weekRowArr} = await this.dbHubService.readWeekRowArrByClubOId(where, clubOId)
+
+      // 3. 리턴 뙇!!
+      return {weekRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadMemberRecentRecord
+   * - 멤버의 최근 기록을 불러오는 함수
+   *
+   * 입력값
+   * - memOId: string
+   *     + 멤버의 OId
+   * - duration: number
+   *     + 기간
+   *
+   * 출력값
+   * - dailyRecordArr: T.DailyRecordType[]
+   *     + 일일 기록 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 시작날짜 계산 뙇!!
+   * 3. 시작날짜로 일일 기록 배열 조회 뙇!!
+   * 4. 리턴 뙇!!
+   */
+  async loadMemberRecentRecord(jwtPayload: T.JwtPayloadType, memOId: string, duration: number) {
+    const where = `/client/record/loadMemberRecentRecord`
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, memOId)
+
+      // 2. 시작날짜 계산 뙇!!
+      const startDateVal = U.shiftDateValue(U.getTodayValue(), -duration)
+      const endDateVal = U.getTodayValue()
+
+      // 3. 시작날짜로 일일 기록 배열 조회 뙇!!
+      const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByMemOIdAndDateRange(where, memOId, startDateVal, endDateVal)
+
+      // 4. 리턴 뙇!!
+      return {dailyRecordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadWeeklyRecordInfo
+   * - 주간 기록 정보를 불러오는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   *
+   * 출력값
+   * - dailyRecordArr: T.DailyRecordType[]
+   *     + 일일 기록 배열
+   * - dateInfoArr: T.RecordDateInfo[]
+   *     + 날짜 정보 배열
+   * - rowMemberArr: T.RowMemberType[]
+   *     + 행 멤버 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. weekOId로 일일 기록 배열 조회 뙇!!
+   * 3. weekOId로 날짜 정보 배열 조회 뙇!!
+   * 4. weekOId로 행 멤버 배열 조회 뙇!!
+   * 5. 리턴 뙇!!
+   */
+  async loadWeeklyRecordInfo(jwtPayload: T.JwtPayloadType, weekOId: string) {
+    const where = `/client/record/loadWeeklyRecordInfo`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_RecordRead(where, jwtPayload, weekOId)
+
+      // 2. weekOId로 일일 기록 배열 조회 뙇!!
+      const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByWeekOId(where, weekOId)
+
+      // 3. weekOId로 날짜 정보 배열 조회 뙇!!
+      const {dateInfoArr} = await this.dbHubService.readDateInfoArrByWeekOId(where, weekOId)
+
+      // 4. weekOId로 행 멤버 배열 조회 뙇!!
+      const {rowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
+
+      // 5. 리턴 뙇!!
+      return {dailyRecordArr, dateInfoArr, rowMemberArr}
       // ::
     } catch (errObj) {
       // ::
@@ -560,7 +602,7 @@ export class ClientRecordPortService {
       await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
 
       // 2. writeDailyRecord 실행 뙇!!
-      const dto: DTO.WriteDailyRecordDTO = {
+      const dto: DTO.CreateOrUpdateDailyRecordDTO = {
         weekOId,
         rowMemName,
         dateVal,
@@ -570,7 +612,7 @@ export class ClientRecordPortService {
         condError,
         comment
       }
-      await this.dbHubService.writeDailyRecord(where, dto)
+      await this.dbHubService.createOrUpdateDailyRecord(where, dto)
 
       // 3. 업데이트된 dailyRecordArr 조회 뙇!!
       const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByWeekOId(where, weekOId)

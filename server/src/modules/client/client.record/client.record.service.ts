@@ -62,6 +62,18 @@ export class ClientRecordService {
     }
   }
 
+  async loadMemberRecentRecord(jwtPayload: JwtPayloadType, memOId: string, _duration: string) {
+    try {
+      const duration = parseInt(_duration)
+      const {dailyRecordArr} = await this.portService.loadMemberRecentRecord(jwtPayload, memOId, duration)
+      return {ok: true, body: {dailyRecordArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async loadWeeklyRecordInfo(jwtPayload: JwtPayloadType, weekOId: string) {
     try {
       const {dailyRecordArr, dateInfoArr, rowMemberArr} = await this.portService.loadWeeklyRecordInfo(jwtPayload, weekOId)

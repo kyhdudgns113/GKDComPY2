@@ -1,4 +1,4 @@
-import {useAppDispatch, useRecordActions} from '@store'
+import {useAppDispatch, useMemberActions, useRecordActions} from '@store'
 import {createContext, useCallback, useContext} from 'react'
 
 import type {FC, PropsWithChildren} from 'react'
@@ -19,6 +19,7 @@ type ContextType = {
   modifyWeeklyInfo: (weekOId: string, weekComments: string) => Promise<boolean>
 
   loadClubWeekRowArr: (clubOId: string) => Promise<boolean>
+  loadMemberRecentRecord: (memOId: string, duration: number) => Promise<boolean>
   loadWeeklyRecordInfo: (weekOId: string) => Promise<boolean>
 
   removeWeekRow: (weekOId: string) => Promise<boolean>
@@ -35,6 +36,7 @@ export const RecordCallbacksContext = createContext<ContextType>({
   modifyWeeklyInfo: async () => false,
 
   loadClubWeekRowArr: async () => false,
+  loadMemberRecentRecord: async () => false,
   loadWeeklyRecordInfo: async () => false,
 
   removeWeekRow: async () => false,
@@ -44,6 +46,7 @@ export const useRecordCallbacksContext = () => useContext(RecordCallbacksContext
 
 export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
+  const {setMemberRecentRecordArr} = useMemberActions()
   const {setDailyRecordMapFromArr, setDateInfoArrFromArr, setRowMemberArr, setWeekRowArr} = useRecordActions()
 
   // POST AREA:
@@ -268,6 +271,31 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const loadMemberRecentRecord = useCallback(
+    async (memOId: string, duration: number) => {
+      const url = `/client/record/loadMemberRecentRecord/${memOId}/${duration}`
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {dailyRecordArr} = body
+            dispatch(setMemberRecentRecordArr(dailyRecordArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   const loadWeeklyRecordInfo = useCallback(
     async (weekOId: string) => {
       const url = `/client/record/loadWeeklyRecordInfo/${weekOId}`
@@ -334,6 +362,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     modifyWeeklyInfo,
 
     loadClubWeekRowArr,
+    loadMemberRecentRecord,
     loadWeeklyRecordInfo,
 
     removeWeekRow,

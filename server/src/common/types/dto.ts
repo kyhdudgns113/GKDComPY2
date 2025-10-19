@@ -26,6 +26,17 @@ export type CreateCommunityAdminDTO = {
   commName: string
 }
 
+export type CreateOrUpdateDailyRecordDTO = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
+}
+
 export type CreateUserAdminDTO = {
   userId: string
   password: string
@@ -109,15 +120,4 @@ export type UpdateRowMemberDTO = {
 export type UpdateWeeklyInfoDTO = {
   weekOId: string
   weekComments: string
-}
-
-export type WriteDailyRecordDTO = {
-  weekOId: string
-  rowMemName: string
-  dateVal: number
-  result0: number
-  result1: number
-  result2: number
-  condError: number
-  comment: string
 }

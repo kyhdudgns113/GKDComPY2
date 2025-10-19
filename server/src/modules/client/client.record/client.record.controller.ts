@@ -45,6 +45,14 @@ export class ClientRecordController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Get('/loadMemberRecentRecord/:memOId/:duration')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadMemberRecentRecord(@Headers() headers: any, @Param('memOId') memOId: string, @Param('duration') duration: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.loadMemberRecentRecord(jwtPayload, memOId, duration)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Get('/loadWeeklyRecordInfo/:weekOId')
   @UseGuards(CheckJwtValidationGuard)
   async loadWeeklyRecordInfo(@Headers() headers: any, @Param('weekOId') weekOId: string) {

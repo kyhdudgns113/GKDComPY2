@@ -12,13 +12,15 @@ interface MemberState {
   clubMemberArr: ST.MemberType[]
   clubMemberOpened: ST.MemberType
   memSortType: number
+  memberRecentRecordArr: ST.DailyRecordType[]
 }
 
 // 초기 상태
 const initialState: MemberState = {
   clubMemberArr: [],
   clubMemberOpened: NV.NULL_MEMBER(),
-  memSortType: V.SORT_TYPE_NAME_ASC
+  memSortType: V.SORT_TYPE_NAME_ASC,
+  memberRecentRecordArr: []
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -136,6 +138,11 @@ export const memberSlice = createSlice({
       else {
         state.memSortType = V.SORT_TYPE_TOTAL_ASC
       }
+    },
+    // ::
+    // memberRecentRecordArr 설정
+    setMemberRecentRecordArr: (state, action: PayloadAction<ST.DailyRecordType[]>) => {
+      state.memberRecentRecordArr = action.payload
     }
   }
 })

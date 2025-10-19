@@ -161,6 +161,39 @@ export class DBHubService {
     }
   }
 
+  // AREA4: DailyRecord Area
+
+  async createOrUpdateDailyRecord(where: string, dto: DTO.CreateOrUpdateDailyRecordDTO) {
+    try {
+      await this.dailyRecordDBService.createOrUpdateDailyRecord(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readDailyRecordArrByMemOIdAndDateRange(where: string, memOId: string, startDateVal: number, endDateVal: number) {
+    try {
+      const {dailyRecordArr} = await this.dailyRecordDBService.readDailyRecordArrByMemOIdAndDateRange(where, memOId, startDateVal, endDateVal)
+      return {dailyRecordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async readDailyRecordArrByWeekOId(where: string, weekOId: string) {
+    try {
+      const {dailyRecordArr} = await this.dailyRecordDBService.readDailyRecordArrByWeekOId(where, weekOId)
+      return {dailyRecordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA5: Document Area
 
   async readDocumentByClubOId(where: string, clubOId: string) {
@@ -372,16 +405,6 @@ export class DBHubService {
       throw errObj
     }
   }
-  async readDailyRecordArrByWeekOId(where: string, weekOId: string) {
-    try {
-      const {dailyRecordArr} = await this.dailyRecordDBService.readDailyRecordArrByWeekOId(where, weekOId)
-      return {dailyRecordArr}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
 
   async createRowMember(where: string, dto: DTO.CreateRowMemberDTO) {
     try {
@@ -416,16 +439,6 @@ export class DBHubService {
   async updateRowMember(where: string, dto: DTO.UpdateRowMemberDTO) {
     try {
       await this.weekRecordDBService.updateRowMember(where, dto)
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
-
-  async writeDailyRecord(where: string, dto: DTO.WriteDailyRecordDTO) {
-    try {
-      await this.weekRecordDBService.writeDailyRecord(where, dto)
       // ::
     } catch (errObj) {
       // ::
