@@ -38,6 +38,17 @@ export class ClientRecordService {
     }
   }
 
+  async addRowMember(jwtPayload: JwtPayloadType, data: HTTP.AddRowMemberDataType) {
+    try {
+      const {rowMemberArr} = await this.portService.addRowMember(jwtPayload, data)
+      return {ok: true, body: {rowMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadClubWeekRowArr(jwtPayload: JwtPayloadType, clubOId: string) {

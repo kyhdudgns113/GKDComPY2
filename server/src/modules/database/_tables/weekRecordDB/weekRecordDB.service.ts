@@ -298,6 +298,57 @@ export class WeekRecordDBService {
     }
   }
 
+  async createRowMember(where: string, dto: DTO.CreateRowMemberDTO) {
+    where = where + `/createRowMember`
+    const connection = await this.dbService.getConnection()
+    /**
+     * createRowMember
+     * - 주간 기록에 행 멤버를 추가하는 함수
+     *
+     * 입력값
+     * - weekOId: string
+     *     + 주간 기록의 OId
+     * - memOId: string | null
+     *     + 멤버의 OId (같은 이름의 멤버가 있으면 해당 memOId, 없으면 null)
+     * - rowMemName: string
+     *     + 행 멤버 이름
+     * - batterPower: number
+     *     + 타자력
+     * - pitcherPower: number
+     *     + 투수력
+     * - position: number
+     *     + 포지션
+     *
+     * 출력값
+     * - 없음
+     *
+     * 작동 순서
+     * 1. rowMemberInfos 테이블에 추가 뙇!!
+     */
+
+    const {weekOId, memOId, rowMemName, batterPower, pitcherPower, position} = dto
+
+    try {
+      // 1. rowMemberInfos 테이블에 추가 뙇!!
+      const queryCreateRowMember = `
+        INSERT INTO rowMemberInfos 
+          (weekOId, memOId, rowMemName, batterPower, pitcherPower, position)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `
+      const paramCreateRowMember = [weekOId, memOId, rowMemName, batterPower, pitcherPower, position]
+      await connection.execute(queryCreateRowMember, paramCreateRowMember)
+
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
   async deleteWeekRow(where: string, weekOId: string) {
     where = where + `/deleteWeekRow`
     const connection = await this.dbService.getConnection()

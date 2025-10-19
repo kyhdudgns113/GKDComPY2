@@ -275,6 +275,88 @@ export class ClientRecordPortService {
     }
   }
 
+  /**
+   * addRowMember
+   * - 주간 기록에 행 멤버를 추가하는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   * - rowMemName: string
+   *     + 행 멤버 이름
+   * - batterPower: number
+   *     + 타자력
+   * - pitcherPower: number
+   *     + 투수력
+   * - position: number
+   *     + 포지션
+   *
+   * 출력값
+   * - rowMemberArr: T.RowMemberType[]
+   *     + 업데이트된 행 멤버 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. weekRow 조회하여 clubOId 획득 뙇!!
+   * 3. club 조회하여 commOId 획득 뙇!!
+   * 4. commOId로 공동체의 모든 멤버 조회 뙇!!
+   * 5. rowMemName과 같은 이름의 멤버를 찾음 뙇!!
+   * 6. createRowMember 실행 뙇!!
+   * 7. 업데이트된 rowMemberArr 조회 뙇!!
+   * 8. 리턴 뙇!!
+   */
+  async addRowMember(jwtPayload: T.JwtPayloadType, data: HTTP.AddRowMemberDataType) {
+    const where = `/client/record/addRowMember`
+    const {weekOId, rowMemName, batterPower, pitcherPower, position} = data
+
+    try {
+      // 1. 권한 췍!!
+      const {weekRow} = await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. club 조회하여 commOId 획득 뙇!!
+      const {club} = await this.dbHubService.readClubByClubOId(where, weekRow.clubOId)
+
+      if (!club) {
+        throw {
+          gkd: {notFound: `해당 클럽을 찾을 수 없습니다.`},
+          gkdErrCode: 'CLIENTRECORDPORT_ADD_ROW_MEMBER_CLUB_NOT_FOUND',
+          gkdErrMsg: `해당 클럽을 찾을 수 없습니다.`,
+          gkdStatus: {clubOId: weekRow.clubOId},
+          statusCode: 404,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. commOId로 공동체의 모든 멤버 조회 뙇!!
+      const {commMemberArr} = await this.dbHubService.readCommMemberArrByCommOId(where, club.commOId)
+
+      // 4. rowMemName과 같은 이름의 멤버를 찾음 뙇!!
+      const existingMember = commMemberArr.find(member => member.memName === rowMemName)
+      const memOId = existingMember ? existingMember.memOId : null
+
+      // 5. createRowMember 실행 뙇!!
+      const dto: DTO.CreateRowMemberDTO = {
+        weekOId,
+        memOId,
+        rowMemName,
+        batterPower,
+        pitcherPower,
+        position
+      }
+      await this.dbHubService.createRowMember(where, dto)
+
+      // 6. 업데이트된 rowMemberArr 조회 뙇!!
+      const {rowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
+
+      // 7. 리턴 뙇!!
+      return {rowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // PUT AREA:
 
   /**

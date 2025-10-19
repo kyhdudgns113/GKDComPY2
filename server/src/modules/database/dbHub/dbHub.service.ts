@@ -383,6 +383,16 @@ export class DBHubService {
     }
   }
 
+  async createRowMember(where: string, dto: DTO.CreateRowMemberDTO) {
+    try {
+      await this.weekRecordDBService.createRowMember(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async updateDateInfo(where: string, dto: DTO.UpdateDateInfoDTO) {
     try {
       await this.weekRecordDBService.updateDateInfo(where, dto)

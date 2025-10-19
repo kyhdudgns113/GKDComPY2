@@ -27,6 +27,14 @@ export class ClientRecordController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Post('/addRowMember')
+  @UseGuards(CheckJwtValidationGuard)
+  async addRowMember(@Headers() headers: any, @Body() data: HTTP.AddRowMemberDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.addRowMember(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadClubWeekRowArr/:clubOId')

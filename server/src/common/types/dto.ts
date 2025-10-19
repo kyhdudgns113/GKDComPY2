@@ -45,6 +45,15 @@ export type CreateWeekRowDTO = {
   title: string
 }
 
+export type CreateRowMemberDTO = {
+  weekOId: string
+  memOId: string | null
+  rowMemName: string
+  batterPower: number
+  pitcherPower: number
+  position: number
+}
+
 // AREA2: Update
 
 export type UpdateClubDTO = {
