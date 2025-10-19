@@ -30,7 +30,7 @@ export const CancelInfoButton: FC<CancelInfoButtonProps> = ({className, style, .
       style={style}
       {...props} // ::
     >
-      취소
+      롤백
     </button>
   )
 }

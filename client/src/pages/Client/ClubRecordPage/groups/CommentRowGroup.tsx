@@ -49,7 +49,7 @@ export const CommentRowGroup: FC<CommentRowGroupProps> = ({weekRow, className, s
   return (
     <tr className={`CommentRow_Group ${weekOId} ${className || ''}`} style={style} {...props}>
       {/* 1. 0~4 열: 주간 코멘트 */}
-      <td className="td_weekly_comment td_br_4" colSpan={5} onClick={onClickWeekComments}>
+      <td className="td_weekly_comment td_br_4" colSpan={4} onClick={onClickWeekComments}>
         {weekRow.weekComments.trim() || BlankComment(6)}
       </td>
       {/* 2. 5~8 열: 행 멤버 추가 버튼 */}

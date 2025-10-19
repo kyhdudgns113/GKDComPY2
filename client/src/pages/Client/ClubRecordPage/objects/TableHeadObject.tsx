@@ -34,7 +34,7 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
       {/* 0행 */}
       <tr className="_tr_0">
         {/* 0~3행 0~4열: 주간 통계 */}
-        <th className="th_week_statistic th_bd_r_4" colSpan={5} rowSpan={4}>
+        <th className="th_week_statistic th_bd_r_4" colSpan={4} rowSpan={4}>
           주간 통계
         </th>
         {/* 0행 5~8열: 요일*/}
@@ -165,8 +165,7 @@ export const TableHeadObject: FC<TableHeadObjectProps> = ({weekRow, className, s
         <th className="_th_week th_bd_r_2">컨</th>
         <th className="_th_week th_bd_r_2">무</th>
         <th className="_th_week th_bd_r_2">패</th>
-        <th className="_th_week th_bd_r_2">미</th>
-        <th className="_th_week th_bd_r_4">V</th>
+        <th className="_th_week th_bd_r_4">미</th>
         {/* 4행 5~8열 멤버 정보 카테고리 */}
         <th className="_th_member_star th_bd_r_2">별</th>
         <th className="_th_member_name th_bd_r_2">닉네임</th>

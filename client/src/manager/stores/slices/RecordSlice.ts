@@ -25,7 +25,7 @@ const initialState: RecordState = {
   dayIdxSelected: null,
   rowMemberArr: [],
   rowMemberOpened: null,
-  statisticArr: Array(6).fill({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}),
+  statisticArr: Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0})),
   weekOIdOpened: '',
   weekRowArr: []
 }
@@ -49,6 +49,7 @@ export const recordSlice = createSlice({
         newMap[record.rowMemName][record.dateVal] = record
       })
       state.dailyRecordMap = newMap
+      state.statisticArr = Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}))
     },
     // ::
     incStaticDraw: (state, action: PayloadAction<number>) => {

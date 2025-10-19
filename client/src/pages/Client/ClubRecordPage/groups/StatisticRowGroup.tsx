@@ -25,8 +25,8 @@ export const StatisticRowGroup: FC<StatisticRowGroupProps> = ({weekRow, classNam
         <td className="td_statistic_total _total _bold td_br_2">컨</td>
         <td className="td_draw_total _total _bold td_br_2">무</td>
         <td className="td_lose_total _total _bold td_br_2">패</td>
-        <td className="td_miss_total _total _bold td_br_2">미</td>
-        <td className="td_comments_total _total _bold td_br_4">V</td>
+        <td className="td_miss_total _total _bold td_br_4">미</td>
+
         {/* 2. 5~8 열: 구분선 */}
         <td className="td_separator td_br_6" rowSpan={2} colSpan={4}>
           {`주간 / 일간`}
@@ -74,8 +74,7 @@ export const StatisticRowGroup: FC<StatisticRowGroupProps> = ({weekRow, classNam
         <td className="td_statistic_total _total td_br_2">{sumCond}</td>
         <td className="td_draw_total _total td_br_2">{sumDraw}</td>
         <td className="td_lose_total _total td_br_2">{sumLose}</td>
-        <td className="td_miss_total _total td_br_2">{sumMiss}</td>
-        <td className="td_comments_total _total td_br_4"></td>
+        <td className="td_miss_total _total td_br_4">{sumMiss}</td>
         {/* 2. 5~8행 : 건너뛰어짐 */}
         {/* 3. 9~13 열: 월요일 */}
         <td className="_total td_br_2">{statisticArr[0].sumCond > 0 ? statisticArr[0].sumCond : ''}</td>

@@ -122,8 +122,7 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
       <td className="td_week_condError _total td_br_2">{weekResult.sumCond > 0 ? weekResult.sumCond : ''}</td>
       <td className="td_week_draw _total td_br_2">{weekResult.sumDraw > 0 ? weekResult.sumDraw : ''}</td>
       <td className="td_week_lose _total td_br_2">{weekResult.sumLose > 0 ? weekResult.sumLose : ''}</td>
-      <td className="td_week_miss _total td_br_2">{weekResult.sumMiss > 0 ? weekResult.sumMiss : ''}</td>
-      <td className="td_week_ments _total td_br_4">{''}</td>
+      <td className="td_week_miss _total td_br_4">{weekResult.sumMiss > 0 ? weekResult.sumMiss : ''}</td>
       {/* 5~8 열: 멤버 정보 */}
       <td className="td_member_star td_br_2" onClick={onClickMemberInfo(rowMember)}>
         {position === SV.MEMBER_POSITION_GOLD ? <GoldCrown /> : position === SV.MEMBER_POSITION_SILVER ? <SilverCrown /> : <></>}
