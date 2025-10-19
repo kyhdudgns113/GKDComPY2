@@ -12,6 +12,7 @@ type ContextType = {
   addNextWeek: (clubOId: string) => Promise<boolean>
   addPrevWeek: (clubOId: string) => Promise<boolean>
   addRowMember: (weekOId: string, rowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
+  writeDailyRecord: (weekOId: string, rowMemName: string, dateVal: number, result0: number, result1: number, result2: number, condError: number, comment: string) => Promise<boolean>
 
   modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => Promise<boolean>
   modifyRowMemberInfo: (weekOId: string, prevRowMemName: string, newRowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
@@ -27,6 +28,7 @@ export const RecordCallbacksContext = createContext<ContextType>({
   addNextWeek: async () => false,
   addPrevWeek: async () => false,
   addRowMember: async () => false,
+  writeDailyRecord: async () => false,
 
   modifyDailyInfo: async () => false,
   modifyRowMemberInfo: async () => false,
@@ -109,6 +111,41 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             const {rowMemberArr} = body
             dispatch(setRowMemberArr(rowMemberArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const writeDailyRecord = useCallback(
+    async (
+      weekOId: string,
+      rowMemName: string,
+      dateVal: number,
+      result0: number,
+      result1: number,
+      result2: number,
+      condError: number,
+      comment: string
+    ) => {
+      const url = `/client/record/writeDailyRecord`
+      const data: HTTP.WriteDailyRecordDataType = {weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {dailyRecordArr} = body
+            dispatch(setDailyRecordMapFromArr(dailyRecordArr))
             return true
           } // ::
           else {
@@ -290,6 +327,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     addNextWeek,
     addPrevWeek,
     addRowMember,
+    writeDailyRecord,
 
     modifyDailyInfo,
     modifyRowMemberInfo,

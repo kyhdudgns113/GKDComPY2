@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react'
 
 import {Modal} from '@component'
-// import {useRecordCallbacksContext} from '@context'
+import {useRecordCallbacksContext} from '@context'
 import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
@@ -19,7 +19,7 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
   const {weekOIdOpened, rowMemberOpened, dateInfoArr, dayIdxSelected, dailyRecordMap} = useRecordStates()
   const {resetDayIdxSelected, resetRowMemberOpened} = useRecordActions()
 
-  // const {modifyDailyRecord} = useRecordCallbacksContext()
+  const {writeDailyRecord} = useRecordCallbacksContext()
 
   const [result0, setResult0] = useState<number>(V.RECORD_WIN)
   const [result1, setResult1] = useState<number>(V.RECORD_WIN)
@@ -31,48 +31,20 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
 
   const dateArr = ['월', '화', '수', '목', '금', '토']
 
-  // 기존 값 로드
-  useEffect(() => {
-    if (rowMemberOpened && dayIdxSelected !== null) {
-      const dateVal = dateInfoArr[dayIdxSelected].dateVal
-      const rowMemName = rowMemberOpened.rowMemName
-
-      // dailyRecordMap에서 기존 기록 찾기
-      const existingRecord = dailyRecordMap[rowMemName]?.[dateVal]
-
-      if (existingRecord) {
-        setResult0(existingRecord.result0)
-        setResult1(existingRecord.result1)
-        setResult2(existingRecord.result2)
-        setCondError(existingRecord.condError)
-        setComment(existingRecord.comment)
-      } else {
-        // 기록이 없으면 초기값
-        setResult0(V.RECORD_WIN)
-        setResult1(V.RECORD_WIN)
-        setResult2(V.RECORD_WIN)
-        setCondError(0)
-        setComment('')
-      }
-    }
-  }, [rowMemberOpened, dayIdxSelected, dateInfoArr, dailyRecordMap])
-
   const _executeModify = useCallback(
     (weekOId: string, rowMemName: string, dateVal: number, result0: number, result1: number, result2: number, condError: number, comment: string) => {
-      // TODO: modifyDailyRecord API 호출
       console.log('대전기록 수정/생성:', {weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment})
 
-      // modifyDailyRecord(weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment)
-      //   .then(res => {
-      //     if (res) {
-      //       alert('대전기록 저장 성공')
-      //       dispatch(closeModal())
-      //       dispatch(resetDayIdxSelected())
-      //       dispatch(resetRowMemberOpened())
-      //     }
-      //   })
+      writeDailyRecord(weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment).then(res => {
+        if (res) {
+          alert('대전기록 저장 성공')
+          dispatch(closeModal())
+          dispatch(resetDayIdxSelected())
+          dispatch(resetRowMemberOpened())
+        }
+      })
     },
-    []
+    [dispatch, writeDailyRecord] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onKeyDownModal = useCallback(
@@ -109,6 +81,33 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
     dispatch(resetDayIdxSelected())
     dispatch(resetRowMemberOpened())
   }, [dispatch, closeModal, resetDayIdxSelected, resetRowMemberOpened])
+
+  // 초기화: 기존 값 로드
+  useEffect(() => {
+    if (rowMemberOpened && dayIdxSelected !== null) {
+      const dateVal = dateInfoArr[dayIdxSelected].dateVal
+      const rowMemName = rowMemberOpened.rowMemName
+
+      // dailyRecordMap에서 기존 기록 찾기
+      const existingRecord = dailyRecordMap[rowMemName]?.[dateVal]
+
+      if (existingRecord) {
+        setResult0(existingRecord.result0)
+        setResult1(existingRecord.result1)
+        setResult2(existingRecord.result2)
+        setCondError(existingRecord.condError)
+        setComment(existingRecord.comment)
+      } // ::
+      else {
+        // 기록이 없으면 초기값
+        setResult0(V.RECORD_WIN)
+        setResult1(V.RECORD_WIN)
+        setResult2(V.RECORD_WIN)
+        setCondError(0)
+        setComment('')
+      }
+    }
+  }, [rowMemberOpened, dayIdxSelected, dateInfoArr, dailyRecordMap])
 
   if (!rowMemberOpened || dayIdxSelected === null) {
     return null

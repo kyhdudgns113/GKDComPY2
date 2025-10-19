@@ -83,6 +83,17 @@ export type ModifyWeeklyInfoDataType = {
   weekComments: string
 }
 
+export type WriteDailyRecordDataType = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
+}
+
 export type SaveClubMemberInfoDataType = {
   clubOId: string
   memOId: string

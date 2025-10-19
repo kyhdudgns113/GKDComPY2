@@ -423,6 +423,16 @@ export class DBHubService {
     }
   }
 
+  async writeDailyRecord(where: string, dto: DTO.WriteDailyRecordDTO) {
+    try {
+      await this.weekRecordDBService.writeDailyRecord(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async deleteWeekRow(where: string, weekOId: string) {
     try {
       await this.weekRecordDBService.deleteWeekRow(where, weekOId)

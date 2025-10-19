@@ -110,3 +110,14 @@ export type UpdateWeeklyInfoDTO = {
   weekOId: string
   weekComments: string
 }
+
+export type WriteDailyRecordDTO = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
+}

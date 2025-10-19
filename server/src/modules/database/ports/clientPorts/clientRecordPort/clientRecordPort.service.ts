@@ -520,6 +520,71 @@ export class ClientRecordPortService {
   }
 
   /**
+   * writeDailyRecord
+   * - 일일 대전기록을 작성하는 함수 (없으면 생성, 있으면 업데이트)
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   * - rowMemName: string
+   *     + 행 멤버 이름
+   * - dateVal: number
+   *     + 날짜 값
+   * - result0: number
+   *     + 1경기 결과
+   * - result1: number
+   *     + 2경기 결과
+   * - result2: number
+   *     + 3경기 결과
+   * - condError: number
+   *     + 컨디션 에러
+   * - comment: string
+   *     + 코멘트
+   *
+   * 출력값
+   * - dailyRecordArr: T.DailyRecordType[]
+   *     + 업데이트된 일일 기록 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. writeDailyRecord 실행 뙇!!
+   * 3. 업데이트된 dailyRecordArr 조회 뙇!!
+   * 4. 리턴 뙇!!
+   */
+  async writeDailyRecord(jwtPayload: T.JwtPayloadType, data: HTTP.WriteDailyRecordDataType) {
+    const where = `/client/record/writeDailyRecord`
+    const {weekOId, rowMemName, dateVal, result0, result1, result2, condError, comment} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. writeDailyRecord 실행 뙇!!
+      const dto: DTO.WriteDailyRecordDTO = {
+        weekOId,
+        rowMemName,
+        dateVal,
+        result0,
+        result1,
+        result2,
+        condError,
+        comment
+      }
+      await this.dbHubService.writeDailyRecord(where, dto)
+
+      // 3. 업데이트된 dailyRecordArr 조회 뙇!!
+      const {dailyRecordArr} = await this.dbHubService.readDailyRecordArrByWeekOId(where, weekOId)
+
+      // 4. 리턴 뙇!!
+      return {dailyRecordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
    * modifyWeeklyInfo
    * - 주간 정보를 수정하는 함수
    *

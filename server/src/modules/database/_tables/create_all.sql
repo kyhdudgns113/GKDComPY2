@@ -199,7 +199,7 @@ CREATE TABLE rowMemberInfos (
 
 -- 11. dailyRecords 테이블 (weekRows, clubs 참조)
 CREATE TABLE dailyRecords (
-  clubOId CHAR(24) NOT NULL,
+  clubOId CHAR(24) NOT NULL, -- 어느 클럽에서 발생한 기록인지 빠르게 알기위해 필요함
   comment TEXT NOT NULL,
   condError INT NOT NULL,
   dateVal INT NOT NULL,
@@ -222,9 +222,15 @@ CREATE TABLE dailyRecords (
     ON UPDATE CASCADE
     ON DELETE CASCADE,
 
-  CONSTRAINT unique_dailyRecords_rowMemName_dateVal UNIQUE (rowMemName, dateVal)
+  CONSTRAINT fk_dailyRecords_rowMemName
+    FOREIGN KEY (weekOId, rowMemName)
+    REFERENCES rowMemberInfos (weekOId, rowMemName)
+    ON UPDATE CASCADE
+
+  CONSTRAINT unique_dailyRecords_rowMemName_dateVal UNIQUE (rowMemName, dateVal, weekOId)
 
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
+
 
 -- 12. docs 테이블 (clubs 참조)
 CREATE TABLE docs (

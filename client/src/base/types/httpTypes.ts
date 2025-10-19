@@ -102,3 +102,13 @@ export type SignUpDataType = {
   userId: string
   password: string
 }
+export type WriteDailyRecordDataType = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
+}

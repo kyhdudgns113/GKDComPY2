@@ -108,6 +108,17 @@ export class ClientRecordService {
     }
   }
 
+  async writeDailyRecord(jwtPayload: JwtPayloadType, data: HTTP.WriteDailyRecordDataType) {
+    try {
+      const {dailyRecordArr} = await this.portService.writeDailyRecord(jwtPayload, data)
+      return {ok: true, body: {dailyRecordArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // DELETE AREA:
 
   async removeWeekRow(jwtPayload: JwtPayloadType, weekOId: string) {

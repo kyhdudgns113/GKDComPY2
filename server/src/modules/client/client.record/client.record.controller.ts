@@ -79,6 +79,14 @@ export class ClientRecordController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Put('/writeDailyRecord')
+  @UseGuards(CheckJwtValidationGuard)
+  async writeDailyRecord(@Headers() headers: any, @Body() data: HTTP.WriteDailyRecordDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.writeDailyRecord(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // DELETE AREA:
 
   @Delete('/removeWeekRow/:weekOId')
