@@ -86,6 +86,17 @@ export class ClientRecordService {
     }
   }
 
+  async modifyRowMemberInfo(jwtPayload: JwtPayloadType, data: HTTP.ModifyRowMemberInfoDataType) {
+    try {
+      const {rowMemberArr} = await this.portService.modifyRowMemberInfo(jwtPayload, data)
+      return {ok: true, body: {rowMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async modifyWeeklyInfo(jwtPayload: JwtPayloadType, data: HTTP.ModifyWeeklyInfoDataType) {
     try {
       const {weekRowArr} = await this.portService.modifyWeeklyInfo(jwtPayload, data)

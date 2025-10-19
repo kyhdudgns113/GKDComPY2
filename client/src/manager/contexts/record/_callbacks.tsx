@@ -14,6 +14,7 @@ type ContextType = {
   addRowMember: (weekOId: string, rowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
 
   modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => Promise<boolean>
+  modifyRowMemberInfo: (weekOId: string, prevRowMemName: string, newRowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
   modifyWeeklyInfo: (weekOId: string, weekComments: string) => Promise<boolean>
 
   loadClubWeekRowArr: (clubOId: string) => Promise<boolean>
@@ -28,6 +29,7 @@ export const RecordCallbacksContext = createContext<ContextType>({
   addRowMember: async () => false,
 
   modifyDailyInfo: async () => false,
+  modifyRowMemberInfo: async () => false,
   modifyWeeklyInfo: async () => false,
 
   loadClubWeekRowArr: async () => false,
@@ -135,6 +137,32 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             const {dateInfoArr} = body
             dispatch(setDateInfoArrFromArr(dateInfoArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const modifyRowMemberInfo = useCallback(
+    async (weekOId: string, prevRowMemName: string, newRowMemName: string, batterPower: number, pitcherPower: number, position: number) => {
+      const url = `/client/record/modifyRowMemberInfo`
+      const data: HTTP.ModifyRowMemberInfoDataType = {weekOId, prevRowMemName, newRowMemName, batterPower, pitcherPower, position}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {rowMemberArr} = body
+            dispatch(setRowMemberArr(rowMemberArr))
             return true
           } // ::
           else {
@@ -264,6 +292,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     addRowMember,
 
     modifyDailyInfo,
+    modifyRowMemberInfo,
     modifyWeeklyInfo,
 
     loadClubWeekRowArr,

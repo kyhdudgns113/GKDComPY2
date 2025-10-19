@@ -419,6 +419,107 @@ export class ClientRecordPortService {
   }
 
   /**
+   * modifyRowMemberInfo
+   * - 행 멤버 정보를 수정하는 함수
+   *
+   * 입력값
+   * - weekOId: string
+   *     + 주간 기록의 OId
+   * - rowMemName: string
+   *     + 행 멤버 이름
+   * - batterPower: number
+   *     + 타자력
+   * - pitcherPower: number
+   *     + 투수력
+   * - position: number
+   *     + 포지션
+   *
+   * 출력값
+   * - rowMemberArr: T.RowMemberType[]
+   *     + 수정된 행 멤버 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 행 멤버 배열 조회하여 해당 행 멤버 찾기 뙇!!
+   * 3. memOId가 없던 경우에만 공동체에서 같은 이름의 멤버 찾기 뙇!!
+   * 4. updateRowMember 실행 뙇!!
+   * 5. 업데이트된 rowMemberArr 조회 뙇!!
+   * 6. 리턴 뙇!!
+   */
+  async modifyRowMemberInfo(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyRowMemberInfoDataType) {
+    const where = `/client/record/modifyRowMemberInfo`
+    const {weekOId, prevRowMemName, newRowMemName, batterPower, pitcherPower, position} = data
+
+    try {
+      // 1. 권한 췍!!
+      const {weekRow} = await this.dbHubService.checkAuth_RecordWrite(where, jwtPayload, weekOId)
+
+      // 2. 행 멤버 배열 조회하여 해당 행 멤버 찾기 뙇!!
+      const {rowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
+      const targetRowMember = rowMemberArr.find(member => member.rowMemName === prevRowMemName)
+
+      if (!targetRowMember) {
+        throw {
+          gkd: {notFound: `해당 행 멤버를 찾을 수 없습니다.`},
+          gkdErrCode: 'CLIENTRECORDPORT_MODIFY_ROW_MEMBER_NOT_FOUND',
+          gkdErrMsg: `해당 행 멤버를 찾을 수 없습니다.`,
+          gkdStatus: {weekOId, prevRowMemName},
+          statusCode: 404,
+          where
+        } as T.ErrorObjType
+      }
+
+      let memOId: string | null = targetRowMember.memOId
+
+      // 3. memOId가 없던 경우에만 공동체에서 같은 이름의 멤버 찾기 뙇!!
+      if (!memOId) {
+        // 3-1. club 조회하여 commOId 획득 뙇!!
+        const {club} = await this.dbHubService.readClubByClubOId(where, weekRow.clubOId)
+
+        if (!club) {
+          throw {
+            gkd: {notFound: `해당 클럽을 찾을 수 없습니다.`},
+            gkdErrCode: 'CLIENTRECORDPORT_MODIFY_ROW_MEMBER_CLUB_NOT_FOUND',
+            gkdErrMsg: `해당 클럽을 찾을 수 없습니다.`,
+            gkdStatus: {clubOId: weekRow.clubOId},
+            statusCode: 404,
+            where
+          } as T.ErrorObjType
+        }
+
+        // 3-2. commOId로 공동체의 모든 멤버 조회 뙇!!
+        const {commMemberArr} = await this.dbHubService.readCommMemberArrByCommOId(where, club.commOId)
+
+        // 3-3. rowMemName과 같은 이름의 멤버를 찾음 뙇!!
+        const existingMember = commMemberArr.find(member => member.memName === newRowMemName)
+        memOId = existingMember ? existingMember.memOId : null
+      }
+
+      // 4. updateRowMember 실행 뙇!!
+      const dto: DTO.UpdateRowMemberDTO = {
+        weekOId,
+        prevRowMemName,
+        newRowMemName,
+        memOId,
+        batterPower,
+        pitcherPower,
+        position
+      }
+      await this.dbHubService.updateRowMember(where, dto)
+
+      // 5. 업데이트된 rowMemberArr 조회 뙇!!
+      const {rowMemberArr: updatedRowMemberArr} = await this.dbHubService.readRowMemberArrByWeekOId(where, weekOId)
+
+      // 6. 리턴 뙇!!
+      return {rowMemberArr: updatedRowMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
    * modifyWeeklyInfo
    * - 주간 정보를 수정하는 함수
    *

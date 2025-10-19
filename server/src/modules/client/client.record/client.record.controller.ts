@@ -63,6 +63,14 @@ export class ClientRecordController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Put('/modifyRowMemberInfo')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyRowMemberInfo(@Headers() headers: any, @Body() data: HTTP.ModifyRowMemberInfoDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientRecordService.modifyRowMemberInfo(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Put('/modifyWeeklyInfo')
   @UseGuards(CheckJwtValidationGuard)
   async modifyWeeklyInfo(@Headers() headers: any, @Body() data: HTTP.ModifyWeeklyInfoDataType) {

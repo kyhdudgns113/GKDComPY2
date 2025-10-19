@@ -413,6 +413,16 @@ export class DBHubService {
     }
   }
 
+  async updateRowMember(where: string, dto: DTO.UpdateRowMemberDTO) {
+    try {
+      await this.weekRecordDBService.updateRowMember(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async deleteWeekRow(where: string, weekOId: string) {
     try {
       await this.weekRecordDBService.deleteWeekRow(where, weekOId)

@@ -38,7 +38,7 @@ export const modalSlice = createSlice({
     openModalAddMember: state => {
       state.modalName = V.MODAL_NAME_ADD_MEMBER
     },
-    // 멤버 추가 모달 열기
+    // 행 멤버 추가 모달 열기
     openModalAddRowMember: state => {
       state.modalName = V.MODAL_NAME_ADD_ROW_MEMBER
     },
@@ -57,6 +57,10 @@ export const modalSlice = createSlice({
     // 대전 기록 일간 정보 수정 모달 열기
     openModalModifyDailyInfo: state => {
       state.modalName = V.MODAL_NAME_MODIFY_DAILY_INFO
+    },
+    // 행 멤버 수정 모달 열기
+    openModalModifyRowMembeInfo: state => {
+      state.modalName = V.MODAL_NAME_MODIFY_ROW_MEMBER_INFO
     },
     // 유저 수정 모달 열기
     openModalModifyUser: state => {

@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react'
-import {useRecordStates} from '@store'
+import {useCallback, useEffect, useState} from 'react'
+import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
 
 import {GoldCrown, SilverCrown} from '../components'
 
-import type {FC} from 'react'
+import type {FC, MouseEvent} from 'react'
 import type {TableRowCommonProps} from '@prop'
 import type {RowMemberType, WeekRowType} from '@shareType'
 
@@ -20,6 +20,10 @@ type MemberRowGroupProps = TableRowCommonProps & {
 
 export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, className, style, ...props}) => {
   const {dailyRecordMap} = useRecordStates()
+  const {setRowMemberOpened} = useRecordActions()
+  const {openModalModifyRowMembeInfo} = useModalActions()
+
+  const dispatch = useAppDispatch()
 
   const [condArr, setCondArr] = useState<string[]>(Array(6).fill(''))
   const [resultsArr, setResultsArr] = useState<string[][]>(Array(6).fill(Array(3).fill('')))
@@ -28,6 +32,15 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
   const {rowMemName, batterPower, pitcherPower, position} = rowMember
 
   const rowMemTotal = batterPower + pitcherPower
+
+  const onClickMemberInfo = useCallback(
+    (rowMember: RowMemberType) => (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setRowMemberOpened(rowMember))
+      dispatch(openModalModifyRowMembeInfo())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   // 초기화: 각종 배열들
   useEffect(() => {
@@ -77,12 +90,18 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
       <td className="td_week_miss td_br_2"></td>
       <td className="td_week_ments td_br_4"></td>
       {/* 5~8 열: 멤버 정보 */}
-      <td className="td_member_star td_br_2">
+      <td className="td_member_star td_br_2" onClick={onClickMemberInfo(rowMember)}>
         {position === SV.MEMBER_POSITION_GOLD ? <GoldCrown /> : position === SV.MEMBER_POSITION_SILVER ? <SilverCrown /> : <></>}
       </td>
-      <td className="td_member_name td_br_2">{rowMemName}</td>
-      <td className="td_member_pitcher td_br_2">{pitcherPower.toLocaleString()}</td>
-      <td className="td_member_total td_br_6">{rowMemTotal.toLocaleString()}</td>
+      <td className="td_member_name td_br_2" onClick={onClickMemberInfo(rowMember)}>
+        {rowMemName}
+      </td>
+      <td className="td_member_pitcher td_br_2" onClick={onClickMemberInfo(rowMember)}>
+        {pitcherPower.toLocaleString()}
+      </td>
+      <td className="td_member_total td_br_6" onClick={onClickMemberInfo(rowMember)}>
+        {rowMemTotal.toLocaleString()}
+      </td>
       {/* 9~13 열: 월요알 */}
       <td className="td_day_condError td_br_2">{condArr[0]}</td>
       <td className="td_day_draw td_br_2">{resultsArr[0][0]}</td>

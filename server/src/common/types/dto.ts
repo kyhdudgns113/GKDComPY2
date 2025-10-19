@@ -96,6 +96,16 @@ export type UpdateDateInfoDTO = {
   comments: string
 }
 
+export type UpdateRowMemberDTO = {
+  weekOId: string
+  prevRowMemName: string
+  newRowMemName?: string
+  memOId: string | null
+  batterPower: number
+  pitcherPower: number
+  position?: number
+}
+
 export type UpdateWeeklyInfoDTO = {
   weekOId: string
   weekComments: string

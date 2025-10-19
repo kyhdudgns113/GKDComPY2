@@ -10,6 +10,7 @@ interface RecordState {
   dateInfoArr: ST.RecordDateInfo[]
   dayIdxSelected: number | null
   rowMemberArr: ST.RowMemberType[]
+  rowMemberOpened: ST.RowMemberType | null
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
 }
@@ -20,6 +21,7 @@ const initialState: RecordState = {
   dateInfoArr: [],
   dayIdxSelected: null,
   rowMemberArr: [],
+  rowMemberOpened: null,
   weekOIdOpened: '',
   weekRowArr: []
 }
@@ -70,6 +72,15 @@ export const recordSlice = createSlice({
     // rowMemberArr 설정
     setRowMemberArr: (state, action: PayloadAction<ST.RowMemberType[]>) => {
       state.rowMemberArr = action.payload
+    },
+    // ::
+    // rowMemberOpened 설정
+    setRowMemberOpened: (state, action: PayloadAction<ST.RowMemberType>) => {
+      state.rowMemberOpened = action.payload
+    },
+    // rowMemberOpened 해제
+    resetRowMemberOpened: state => {
+      state.rowMemberOpened = null
     },
     // ::
     // 주차 OId 해제
