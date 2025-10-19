@@ -28,6 +28,17 @@ export const [COMM_MEMBER_SORT_MODE_CLUB, COMM_MEMBER_SORT_MODE_NAME] = [0, 1]
 
 export const [RECORD_WIN, RECORD_DRAW, RECORD_LOSE, RECORD_MISS, RECORD_OK] = [0, 1, 2, 3, 4]
 
+export const [
+  SORT_TYPE_NAME_ASC,
+  SORT_TYPE_NAME_DESC,
+  SORT_TYPE_BATTER_ASC,
+  SORT_TYPE_BATTER_DESC,
+  SORT_TYPE_PITCHER_ASC,
+  SORT_TYPE_PITCHER_DESC,
+  SORT_TYPE_TOTAL_ASC,
+  SORT_TYPE_TOTAL_DESC
+] = [0, 1, 2, 3, 4, 5, 6, 7]
+
 export const getResultString = (result: number) => {
   switch (result) {
     case RECORD_WIN:

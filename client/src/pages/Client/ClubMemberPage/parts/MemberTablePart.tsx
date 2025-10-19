@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 
-import {CircleInfo} from '@component'
+import {Icon, IconFilled} from '@component'
 import {useAppDispatch, useMemberActions, useMemberStates} from '@store'
 
 import {GoldCrown, SilverCrown} from '../components'
@@ -17,9 +17,43 @@ type MemberTablePartProps = TableCommonProps & {}
 
 export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...props}) => {
   const {clubMemberArr} = useMemberStates()
-  const {setClubMemberOpened} = useMemberActions()
+  const {setClubMemberOpened, setMemSortTypeName, setMemSortTypeBatter, setMemSortTypePitcher, setMemSortTypeTotal, sortClubMemberArr} =
+    useMemberActions()
 
   const dispatch = useAppDispatch()
+
+  const onClickName = useCallback(
+    (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setMemSortTypeName())
+      dispatch(sortClubMemberArr())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+  const onClickBatter = useCallback(
+    (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setMemSortTypeBatter())
+      dispatch(sortClubMemberArr())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+  const onClickPitcher = useCallback(
+    (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setMemSortTypePitcher())
+      dispatch(sortClubMemberArr())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+  const onClickTotal = useCallback(
+    (e: MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      dispatch(setMemSortTypeTotal())
+      dispatch(sortClubMemberArr())
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   const onClickIcon = useCallback(
     (member: MemberType) => (e: MouseEvent<HTMLImageElement>) => {
@@ -34,10 +68,18 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
       <thead>
         <tr className="tr_head">
           <th className="_th_crown"></th>
-          <th className="_th_name">멤버 이름</th>
-          <th className="_th_batterPower">타자</th>
-          <th className="_th_pitcherPower">투수</th>
-          <th className="_th_info">-</th>
+          <th className="_th_name" onClick={onClickName} onMouseDown={e => e.preventDefault()}>
+            멤버 이름
+          </th>
+          <th className="_th_batterPower" onClick={onClickBatter} onMouseDown={e => e.preventDefault()}>
+            타자
+          </th>
+          <th className="_th_pitcherPower" onClick={onClickPitcher} onMouseDown={e => e.preventDefault()}>
+            투수
+          </th>
+          <th className="_th_info" onClick={onClickTotal} onMouseDown={e => e.preventDefault()}>
+            -
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -60,7 +102,11 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
               <td className="_td_batterPower">{member.batterPower.toLocaleString()}</td>
               <td className="_td_pitcherPower">{member.pitcherPower.toLocaleString()}</td>
               <td className="_td_info">
-                <CircleInfo onClick={onClickIcon(member)} />
+                {member.memberComment.length > 0 ? (
+                  <IconFilled className="_icon_info" iconName="info" onClick={onClickIcon(member)} />
+                ) : (
+                  <Icon className="_icon_info" iconName="info" onClick={onClickIcon(member)} />
+                )}
               </td>
             </tr>
           )

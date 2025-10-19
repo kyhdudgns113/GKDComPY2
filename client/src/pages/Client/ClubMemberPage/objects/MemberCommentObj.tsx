@@ -25,7 +25,14 @@ export const MemberCommentObj: FC<MemberCommentObjProps> = ({className, style, .
 
   return (
     <div className={`MemberComment_Object ${className || ''}`} style={style} {...props}>
-      <textarea className="_textarea_part" autoFocus onChange={onChangeComment(clubMemberOpened)} value={clubMemberOpened.memberComment} />
+      <textarea
+        autoFocus
+        className="_textarea_part"
+        maxLength={100}
+        onChange={onChangeComment(clubMemberOpened)}
+        placeholder="코멘트를 입력해주세요."
+        value={clubMemberOpened.memberComment}
+      />
     </div>
   )
 }
