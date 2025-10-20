@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
 import {useMemberCallbacksContext} from '@context'
 import {positionValue} from '@bases/values/positionValues'
@@ -19,6 +19,8 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
   const [cardNumStr, setCardNumStr] = useState<string>('')
   const [skillIdxs, setSkillIdxs] = useState<number[]>([0, 1, 2])
   const [skillLevels, setSkillLevels] = useState<number[]>([0, 0, 0])
+
+  const nameRef = useRef<HTMLInputElement | null>(null)
 
   const {posIdx} = card
 
@@ -80,6 +82,12 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
     [_executeModify] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const onClickCardPos = useCallback(() => {
+    if (nameRef.current) {
+      nameRef.current.focus()
+    }
+  }, [])
+
   // 초기화: 카드의 정보
   useEffect(() => {
     setCardName(card.cardName || '')
@@ -91,7 +99,9 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
   return (
     <div className={`Card ${className || ''}`} style={style} {...props}>
       {/* 1. 포지션 */}
-      <p className="_card_pos">{positionValue[posIdx]}</p>
+      <p className="_card_pos" onClick={onClickCardPos}>
+        {positionValue[posIdx]}
+      </p>
 
       {/* 2. 이름 */}
       <input
@@ -100,6 +110,7 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
         onBlur={onBlurInput(card.memOId, posIdx, cardName, cardNumStr, skillIdxs, skillLevels)}
         onChange={onChangeName}
         placeholder="카드 이름"
+        ref={nameRef}
         tabIndex={10 + 2 * posIdx}
         value={cardName} // ::
       />
