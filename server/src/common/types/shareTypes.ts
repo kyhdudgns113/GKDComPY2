@@ -78,6 +78,7 @@ export type MemberType = {
 }
 
 export type RecordDateInfo = {
+  clubOId: string
   comments: string
   dailyOrder: string
   dateVal: number

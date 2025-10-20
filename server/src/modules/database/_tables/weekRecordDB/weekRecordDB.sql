@@ -19,6 +19,7 @@ CREATE TABLE weekRows (
 
 CREATE TABLE weekRowDateInfos (
   weekOId CHAR(24) NOT NULL,
+  clubOId CHAR(24) NOT NULL,
   dateVal INT NOT NULL,
   enemyName VARCHAR(255) NOT NULL,
   pitchOrder INT NOT NULL,
@@ -31,7 +32,14 @@ CREATE TABLE weekRowDateInfos (
     ON UPDATE CASCADE
     ON DELETE CASCADE,
 
-  CONSTRAINT unique_weekRowDateInfo_weekOId_dateVal UNIQUE (weekOId, dateVal)
+  CONSTRAINT fk_weekRowDateInfos_clubOId
+    FOREIGN KEY (clubOId)
+    REFERENCES clubs (clubOId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+
+  CONSTRAINT unique_weekRowDateInfo_weekOId_dateVal UNIQUE (weekOId, dateVal),
+  CONSTRAINT unique_weekRowDateInfo_clubOId_dateVal UNIQUE (clubOId, dateVal)
 
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
 

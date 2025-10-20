@@ -176,15 +176,16 @@ export class WeekRecordDBService {
       // 4. 열 정보 생성(날짜 정보)
       const queryCreateDate = `
         INSERT INTO weekRowDateInfos
-          (weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
+          (weekOId, clubOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
           VALUES
           ${Array.from({length: 6})
-            .map(() => '(?, ?, ?, ?, ?, ?)')
+            .map(() => '(?, ?, ?, ?, ?, ?, ?)')
             .join(', ')}
       `
       const paramCreateDate = Array.from({length: 6})
         .map((_, index) => [
           weekOId, // ::
+          clubOId,
           U.shiftDateValue(startDateVal, index),
           '',
           0,
@@ -300,6 +301,7 @@ export class WeekRecordDBService {
 
       const dateInfoArr: T.RecordDateInfo[] = resultArray.map(row => ({
         weekOId: row.weekOId,
+        clubOId: row.clubOId,
         dateVal: row.dateVal,
         enemyName: row.enemyName,
         pitchOrder: row.pitchOrder,

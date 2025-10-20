@@ -142,7 +142,9 @@ export const memberSlice = createSlice({
     // ::
     // memberRecentRecordArr 설정
     setMemberRecentRecordArr: (state, action: PayloadAction<ST.DailyRecordType[]>) => {
-      state.memberRecentRecordArr = action.payload
+      state.memberRecentRecordArr = action.payload.sort((a, b) => {
+        return b.dateVal - a.dateVal
+      })
     }
   }
 })

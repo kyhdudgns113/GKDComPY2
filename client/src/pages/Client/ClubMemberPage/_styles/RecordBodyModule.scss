@@ -4,6 +4,13 @@
   .Body {
     .ClubMember_Page {
       .RecordBody_Module {
+        ._show_comment_row {
+          background-color: v.$SAKURA_BG;
+          font-weight: 700;
+        }
+        ._tr_body_module {
+          position: relative;
+        }
         tr {
           border-color: v.$SAKURA_BORDER;
           border-bottom-width: 2px;
@@ -17,6 +24,10 @@
             text-align: center;
           }
 
+          ._cursor_pointer {
+            cursor: pointer;
+          }
+
           ._td_br_2 {
             border-color: v.$SAKURA_BORDER;
             border-right-width: 2px;
@@ -24,6 +35,33 @@
           ._td_br_4 {
             border-color: v.$SAKURA_BORDER;
             border-right-width: 4px;
+          }
+          ._floatter_comment {
+            background-color: white;
+            border-color: oklch(0.5 0.2 240);
+            border-radius: 8px;
+            border-width: 3px;
+
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+
+            color: oklch(0.5 0.2 240);
+            display: flex;
+            font-weight: 400;
+
+            height: 120px;
+
+            overflow-y: auto;
+            padding-left: 6px;
+            padding-right: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+
+            position: absolute;
+            right: 14px;
+            top: -10px;
+            width: 150px;
+
+            z-index: 5;
           }
         }
       }
