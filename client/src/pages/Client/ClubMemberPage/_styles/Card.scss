@@ -16,7 +16,7 @@
 
         height: fit-content;
 
-        padding-bottom: 8px;
+        padding-bottom: 6px;
         width: fit-content;
 
         ._card_pos {
@@ -34,21 +34,23 @@
           border-color: #cccccc;
           border-bottom-width: 2px;
 
-          height: 48px;
+          height: 40px;
 
           text-align: center;
-          width: 128px;
+          width: 112px;
         }
         ._card_number {
           border-color: #000000;
           border-bottom-width: 2px;
 
-          height: 40px;
+          font-size: 14px;
+
+          height: 30px;
 
           margin-bottom: 4px;
 
           text-align: center;
-          width: 128px;
+          width: 112px;
         }
 
         ._card_skill_row {
@@ -58,8 +60,8 @@
 
           margin-top: 4px;
 
-          padding-left: 8px;
-          padding-right: 8px;
+          padding-left: 6px;
+          padding-right: 6px;
 
           width: fit-content;
 
@@ -71,7 +73,7 @@
             outline: none;
             padding-left: 4px;
 
-            width: 86px;
+            width: 80px;
           }
           ._card_skill_level {
             appearance: none;
@@ -84,7 +86,7 @@
 
             text-align: center;
 
-            width: 24px;
+            width: 20px;
           }
         }
       }

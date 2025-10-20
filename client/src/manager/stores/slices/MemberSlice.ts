@@ -11,6 +11,7 @@ import * as V from '@value'
 interface MemberState {
   clubMemberArr: ST.MemberType[]
   clubMemberOpened: ST.MemberType
+  memberDeck: ST.CardType[]
   memSortType: number
   memberRecentRecordArr: ST.DailyRecordType[]
 }
@@ -19,6 +20,7 @@ interface MemberState {
 const initialState: MemberState = {
   clubMemberArr: [],
   clubMemberOpened: NV.NULL_MEMBER(),
+  memberDeck: Array.from({length: 25}, (_, i) => NV.NULL_CARD(i)),
   memSortType: V.SORT_TYPE_NAME_ASC,
   memberRecentRecordArr: []
 }
@@ -93,10 +95,20 @@ export const memberSlice = createSlice({
     // clubMemberOpened 설정
     setClubMemberOpened: (state, action: PayloadAction<ST.MemberType>) => {
       state.clubMemberOpened = action.payload
+      state.memberDeck = Array.from({length: 25}, (_, i) => NV.NULL_CARD(i))
     },
     // clubMemberOpened 해제
     unselectClubMemberOpened: state => {
       state.clubMemberOpened = NV.NULL_MEMBER()
+    },
+    // ::
+    // memberDeck 초기화
+    resetMemberDeck: state => {
+      state.memberDeck = []
+    },
+    // memberDeck 설정
+    setMemberDeck: (state, action: PayloadAction<ST.CardType[]>) => {
+      state.memberDeck = action.payload
     },
     // ::
     // 정렬: 초기화

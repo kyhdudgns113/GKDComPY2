@@ -49,6 +49,7 @@
       "@value": ["src/base/values/values"],
 
       //
+      "@bases/*": ["src/base/*"],
       "@contexts/*": ["src/manager/contexts/*"],
       "@styles/*": ["src/base/styles/*"]
     }

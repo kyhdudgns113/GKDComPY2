@@ -16,7 +16,8 @@ export const NULL_AUTH_BODY = () => {
 export const NULL_CARD = (posIdx: number = 0) => {
   const ret: ST.CardType = {
     memOId: '',
-    cardName: null,
+    cardName: '',
+    cardNumber: null,
     posIdx: posIdx,
     skillIdxs: [0, 1, 2],
     skillLevels: [0, 0, 0]

@@ -1,15 +1,20 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
+
+import {positionValue} from '@bases/values/positionValues'
 
 import type {ChangeEvent, FC} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {CardType} from '@shareType'
 
 import '../_styles/Card.scss'
 
-type CardProps = DivCommonProps & {}
+type CardProps = DivCommonProps & {card: CardType}
 
-export const Card: FC<CardProps> = ({className, style, ...props}) => {
+export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
   const [cardName, setCardName] = useState<string>('')
   const [cardNumStr, setCardNumStr] = useState<string>('')
+
+  const {posIdx} = card
 
   const onChangeName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setCardName(e.currentTarget.value)
@@ -19,10 +24,16 @@ export const Card: FC<CardProps> = ({className, style, ...props}) => {
     setCardNumStr(e.currentTarget.value)
   }, [])
 
+  // 초기화: 카드의 정보
+  useEffect(() => {
+    setCardName(card.cardName || '')
+    setCardNumStr(card.cardNumber?.toString() || '')
+  }, [card])
+
   return (
     <div className={`Card ${className || ''}`} style={style} {...props}>
       {/* 1. 포지션 */}
-      <p className="_card_pos">SP1</p>
+      <p className="_card_pos">{positionValue[posIdx]}</p>
 
       {/* 2. 이름 */}
       <input
