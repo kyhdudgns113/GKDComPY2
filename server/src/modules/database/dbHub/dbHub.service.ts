@@ -240,16 +240,6 @@ export class DBHubService {
       throw errObj
     }
   }
-  async readClubMemberByMemOId(where: string, memOId: string) {
-    try {
-      const {member} = await this.memberDBService.readClubMemberByMemOId(where, memOId)
-      return {member}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
   async readCommMemberArrByCommOId(where: string, commOId: string) {
     try {
       const {commMemberArr} = await this.memberDBService.readCommMemberArrByCommOId(where, commOId)
@@ -260,10 +250,39 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readClubMemberByMemOId(where: string, memOId: string) {
+    try {
+      const {member} = await this.memberDBService.readClubMemberByMemOId(where, memOId)
+      return {member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async readMemberCardArrByMemOId(where: string, memOId: string) {
+    try {
+      const {cardArr} = await this.memberDBService.readMemberCardArrByMemOId(where, memOId)
+      return {cardArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async updateClubMemberInfo(where: string, dto: DTO.UpdateMemberInfoDTO) {
     try {
       await this.memberDBService.updateClubMemberInfo(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async updateMemberCard(where: string, dto: DTO.UpdateMemberCardDTO) {
+    try {
+      await this.memberDBService.updateMemberCard(where, dto)
       // ::
     } catch (errObj) {
       // ::
@@ -944,6 +963,51 @@ export class DBHubService {
         throw {
           gkd: {userErr: `권한이 없음`},
           gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_AUTHORITY',
+          gkdErrMsg: `권한이 없음`,
+          gkdStatus: {userOId, commAuth: user.commAuth, commOId: member.commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      return {user, member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+  async checkAuth_MemberWrite(where: string, jwtPayload: T.JwtPayloadType, memOId: string) {
+    const {userOId} = jwtPayload
+    try {
+      const {user} = await this.userDBService.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_USER_WRITE',
+          gkdErrMsg: `유저가 DB 에 없음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {member} = await this.memberDBService.readClubMemberByMemOId(where, memOId)
+      if (!member) {
+        throw {
+          gkd: {memberErr: `멤버가 DB 에 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_MEMBER_WRITE',
+          gkdErrMsg: `멤버가 DB 에 없음`,
+          gkdStatus: {memOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      if (user.commAuth !== AUTH_ADMIN && !(user.commOId === member.commOId && user.commAuth >= AUTH_SILVER)) {
+        throw {
+          gkd: {userErr: `권한이 없음`},
+          gkdErrCode: 'DBHUB_CHECK_MEMBER_AUTH_NO_AUTHORITY_WRITE',
           gkdErrMsg: `권한이 없음`,
           gkdStatus: {userOId, commAuth: user.commAuth, commOId: member.commOId},
           statusCode: 400,

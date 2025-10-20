@@ -82,6 +82,15 @@ export type UpdateMemberClubOIdDTO = {
   newClubOId: string
 }
 
+export type UpdateMemberCardDTO = {
+  memOId: string
+  posIdx: number
+  cardName: string
+  cardNumber: number | null
+  skillIdxs: number[]
+  skillLevels: number[]
+}
+
 export type UpdateMemberInfoDTO = {
   memOId: string
   memName: string

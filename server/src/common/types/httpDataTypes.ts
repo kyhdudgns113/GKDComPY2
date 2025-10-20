@@ -78,20 +78,18 @@ export type MoveClubMemberDataType = {
   memOId: string
 }
 
+export type ModifyMemberCardDataType = {
+  memOId: string
+  posIdx: number
+  cardName: string
+  cardNumber: number | null
+  skillIdxs: number[]
+  skillLevels: number[]
+}
+
 export type ModifyWeeklyInfoDataType = {
   weekOId: string
   weekComments: string
-}
-
-export type WriteDailyRecordDataType = {
-  weekOId: string
-  rowMemName: string
-  dateVal: number
-  result0: number
-  result1: number
-  result2: number
-  condError: number
-  comment: string
 }
 
 export type SaveClubMemberInfoDataType = {
@@ -112,4 +110,14 @@ export type SignInDataType = {
 export type SignUpDataType = {
   userId: string
   password: string
+}
+export type WriteDailyRecordDataType = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
 }

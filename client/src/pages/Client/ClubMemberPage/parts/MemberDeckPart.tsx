@@ -1,3 +1,6 @@
+import {useEffect} from 'react'
+
+import {useMemberCallbacksContext} from '@context'
 import {useMemberStates} from '@store'
 
 import {Card} from '../components'
@@ -10,7 +13,15 @@ import '../_styles/MemberDeckPart.scss'
 type MemberDeckPartProps = DivCommonProps & {}
 
 export const MemberDeckPart: FC<MemberDeckPartProps> = ({className, style, ...props}) => {
-  const {memberDeck} = useMemberStates()
+  const {clubMemberOpened, memberDeck} = useMemberStates()
+  const {loadMemberDeck} = useMemberCallbacksContext()
+
+  // 초기화: 덱 정보 불러오기
+  useEffect(() => {
+    if (clubMemberOpened.memOId) {
+      loadMemberDeck(clubMemberOpened.memOId)
+    }
+  }, [clubMemberOpened, loadMemberDeck])
 
   return (
     <div className={`MemberDeck_Part ${className || ''}`} style={style} {...props}>
@@ -36,19 +47,19 @@ export const MemberDeckPart: FC<MemberDeckPartProps> = ({className, style, ...pr
 
       {/* 2행: 타자 */}
       <div className={`_deck_row _deck_batter`}>
+        <Card card={memberDeck[11]} />
         <Card card={memberDeck[12]} />
         <Card card={memberDeck[13]} />
         <Card card={memberDeck[14]} />
         <Card card={memberDeck[15]} />
-        <Card card={memberDeck[16]} />
       </div>
 
       {/* 3행: 내야수 */}
       <div className={`_deck_row _deck_infield`}>
+        <Card card={memberDeck[16]} />
         <Card card={memberDeck[17]} />
         <Card card={memberDeck[18]} />
         <Card card={memberDeck[19]} />
-        <Card card={memberDeck[11]} />
       </div>
 
       {/* 4행: 외야수 */}

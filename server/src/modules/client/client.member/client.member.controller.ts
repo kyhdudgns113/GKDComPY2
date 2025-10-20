@@ -21,6 +21,14 @@ export class ClientMemberController {
 
   // PUT AREA:
 
+  @Put('/modifyMemberCard')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyMemberCard(@Headers() headers: any, @Body() data: HTTP.ModifyMemberCardDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.modifyMemberCard(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   @Put('/moveClubMember')
   @UseGuards(CheckJwtValidationGuard)
   async moveClubMember(@Headers() headers: any, @Body() data: HTTP.MoveClubMemberDataType) {
@@ -44,6 +52,14 @@ export class ClientMemberController {
   async loadClubMemberArr(@Headers() headers: any, @Param('clubOId') clubOId: string) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.loadClubMemberArr(jwtPayload, clubOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Get('/loadMemberDeck/:memOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadMemberDeck(@Headers() headers: any, @Param('memOId') memOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.loadMemberDeck(jwtPayload, memOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 

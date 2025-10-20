@@ -376,6 +376,62 @@ export class MemberDBService {
       connection.release()
     }
   }
+  async readMemberCardArrByMemOId(where: string, memOId: string) {
+    /**
+     * readMemberCardArrByMemOId
+     * - 해당 멤버의 카드들의 배열을 읽어온다.
+     *
+     * 입력값
+     * - memOId: string
+     *     + 멤버의 OId
+  
+    * 출력값
+    * - cardArr: T.CardType[]
+    *     + 해당 멤버의 카드들의 배열
+    *
+    * 작동 순서
+    * 1. cards를 조회 뙇!!
+    * 2. 결과를 T.CardType[] 타입으로 변환 뙇!!
+    * 3. 리턴 뙇!!
+    */
+    where = where + `/readMemberCardArrByMemOId`
+
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. cards를 조회 뙇!!
+      const query = `
+        SELECT * FROM cards WHERE memOId = ? ORDER BY posIdx ASC
+      `
+      const param = [memOId]
+      const [rows] = await connection.execute(query, param)
+      const resultArray = rows as RowDataPacket[]
+
+      if (resultArray.length === 0) {
+        return {cardArr: []}
+      }
+
+      // 2. 결과를 T.CardType[] 타입으로 변환 뙇!!
+      const cardArr: T.CardType[] = resultArray.map(row => ({
+        memOId,
+        cardName: row.cardName,
+        cardNumber: row.cardNumber,
+        posIdx: row.posIdx,
+        skillIdxs: [row.skillIdx0, row.skillIdx1, row.skillIdx2],
+        skillLevels: [row.skillLevel0, row.skillLevel1, row.skillLevel2]
+      }))
+
+      // 3. 리턴 뙇!!
+      return {cardArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 
   async updateClubMemberInfo(where: string, dto: DTO.UpdateMemberInfoDTO) {
     /**
@@ -418,6 +474,47 @@ export class MemberDBService {
 
       // 3. 리턴 뙇!!
       return {member}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+  async updateMemberCard(where: string, dto: DTO.UpdateMemberCardDTO) {
+    /**
+     * updateMemberCard
+     * - 멤버의 카드를 업데이트한다.
+     *
+     * 입력값
+     * - dto: DTO.UpdateMemberCardDTO
+     *     + memOId: string (멤버의 OId)
+     *     + posIdx: number (카드의 포지션)
+     *     + cardName: string (카드의 이름)
+     *     + cardNumber: number | null (카드의 번호)
+     *     + skillIdxs: number[] (카드의 스킬 인덱스)
+     *     + skillLevels: number[] (카드의 스킬 레벨)
+     *
+     * 작동 순서
+     * 1. 멤버의 카드 업데이트 쿼리 뙇!!
+     */
+    const connection = await this.dbService.getConnection()
+    const {memOId, posIdx, cardName, cardNumber, skillIdxs, skillLevels} = dto
+
+    try {
+      // 1. 멤버의 카드 업데이트 쿼리 뙇!!
+      const query = `
+        UPDATE cards 
+        SET cardName = ?, cardNumber = ?, skillIdx0 = ?, skillIdx1 = ?, skillIdx2 = ?, 
+        skillLevel0 = ?, skillLevel1 = ?, skillLevel2 = ?
+        WHERE memOId = ? AND posIdx = ?
+      `
+      const param = [cardName, cardNumber, skillIdxs[0], skillIdxs[1], skillIdxs[2], skillLevels[0], skillLevels[1], skillLevels[2], memOId, posIdx]
+      await connection.execute(query, param)
+
       // ::
     } catch (errObj) {
       // ::

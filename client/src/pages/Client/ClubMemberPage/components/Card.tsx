@@ -1,9 +1,10 @@
 import {useCallback, useEffect, useState} from 'react'
 
+import {useMemberCallbacksContext} from '@context'
 import {positionValue} from '@bases/values/positionValues'
 import {batterSkillEntire, batterSkillHero, batterSkillLegend, batterSkillPlatinum, pitcherSkillEntire} from '@bases/values/skillNames'
 
-import type {ChangeEvent, FC} from 'react'
+import type {ChangeEvent, FC, FocusEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 import type {CardType} from '@shareType'
 
@@ -12,6 +13,8 @@ import '../_styles/Card.scss'
 type CardProps = DivCommonProps & {card: CardType}
 
 export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
+  const {modifyMemberCard} = useMemberCallbacksContext()
+
   const [cardName, setCardName] = useState<string>('')
   const [cardNumStr, setCardNumStr] = useState<string>('')
   const [skillIdxs, setSkillIdxs] = useState<number[]>([0, 1, 2])
@@ -20,6 +23,26 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
   const {posIdx} = card
 
   const skillNames = posIdx < 11 ? pitcherSkillEntire : batterSkillEntire
+
+  const _executeModify = useCallback(
+    (memOId: string, posIdx: number, cardName: string, cardNumber: number | null, skillIdxs: number[], skillLevels: number[]) => {
+      modifyMemberCard(memOId, posIdx, cardName, cardNumber, skillIdxs, skillLevels)
+    },
+    [modifyMemberCard]
+  )
+
+  const onBlurInput = useCallback(
+    (memOId: string, posIdx: number, cardName: string, cardNumStr: string, skillIdxs: number[], skillLevels: number[]) =>
+      (e: FocusEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const cardNumber = cardNumStr ? parseInt(cardNumStr) : null
+
+        _executeModify(memOId, posIdx, cardName, cardNumber, skillIdxs, skillLevels)
+      },
+    [_executeModify] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   const onChangeName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setCardName(e.currentTarget.value)
@@ -30,25 +53,31 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
   }, [])
 
   const onChangeSkillIdx = useCallback(
-    (idx: number) => (e: ChangeEvent<HTMLSelectElement>) => {
-      setSkillIdxs(prev => {
-        const newSkillIdxs = [...prev]
-        newSkillIdxs[idx] = parseInt(e.currentTarget.value)
-        return newSkillIdxs
-      })
-    },
-    []
+    (memOId: string, posIdx: number, cardName: string, cardNumStr: string, skillIdxs: number[], skillLevels: number[]) =>
+      (e: ChangeEvent<HTMLSelectElement>) => {
+        const newSkillIdx = parseInt(e.currentTarget.value)
+        const newSkillIdxs = [...skillIdxs]
+        newSkillIdxs[posIdx] = newSkillIdx
+        setSkillIdxs(newSkillIdxs)
+
+        const cardNumber = cardNumStr ? parseInt(cardNumStr) : null
+        _executeModify(memOId, posIdx, cardName, cardNumber, newSkillIdxs, skillLevels)
+      },
+    [_executeModify] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onChangeSkillLevel = useCallback(
-    (idx: number) => (e: ChangeEvent<HTMLSelectElement>) => {
-      setSkillLevels(prev => {
-        const newSkillLevels = [...prev]
-        newSkillLevels[idx] = parseInt(e.currentTarget.value)
-        return newSkillLevels
-      })
-    },
-    []
+    (memOId: string, posIdx: number, cardName: string, cardNumStr: string, skillIdxs: number[], skillLevels: number[]) =>
+      (e: ChangeEvent<HTMLSelectElement>) => {
+        const newSkillLevel = parseInt(e.currentTarget.value)
+        const newSkillLevels = [...skillLevels]
+        newSkillLevels[posIdx] = newSkillLevel
+        setSkillLevels(newSkillLevels)
+
+        const cardNumber = cardNumStr ? parseInt(cardNumStr) : null
+        _executeModify(memOId, posIdx, cardName, cardNumber, skillIdxs, newSkillLevels)
+      },
+    [_executeModify] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   // 초기화: 카드의 정보
@@ -68,16 +97,20 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
       <input
         className="_card_name"
         maxLength={5}
+        onBlur={onBlurInput(card.memOId, posIdx, cardName, cardNumStr, skillIdxs, skillLevels)}
         onChange={onChangeName}
         placeholder="카드 이름"
+        tabIndex={10 + 2 * posIdx}
         value={cardName} // ::
       />
 
       {/* 3. 출소 번호 */}
       <input
         className="_card_number"
+        onBlur={onBlurInput(card.memOId, posIdx, cardName, cardNumStr, skillIdxs, skillLevels)}
         onChange={onChangeCardNumStr}
         placeholder="출소 번호"
+        tabIndex={10 + 2 * posIdx + 1}
         value={cardNumStr} // ::
       />
 
@@ -97,7 +130,11 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
         return (
           <div className="_card_skill_row" key={idx}>
             {/* 4-1. 스킬 이름 */}
-            <select className={`_card_skill_name ${cnBg}`} value={skillIdxs[idx]} onChange={onChangeSkillIdx(idx)}>
+            <select
+              className={`_card_skill_name ${cnBg}`}
+              value={skillIdxs[idx]}
+              onChange={onChangeSkillIdx(card.memOId, posIdx, cardName, cardNumStr, skillIdxs, skillLevels)}
+            >
               {skillNames.map((skillName, sIdx) => {
                 // 스킬이 겹치면 안된다
                 if (sIdx === skillIdxs[otherIdx1] || sIdx === skillIdxs[otherIdx2]) {
@@ -119,7 +156,11 @@ export const Card: FC<CardProps> = ({card, className, style, ...props}) => {
             </select>
 
             {/* 4-2. 스킬 레벨 */}
-            <select className="_card_skill_level" value={skillLevels[idx]} onChange={onChangeSkillLevel(idx)}>
+            <select
+              className="_card_skill_level"
+              value={skillLevels[idx]}
+              onChange={onChangeSkillLevel(card.memOId, posIdx, cardName, cardNumStr, skillIdxs, skillLevels)}
+            >
               <option value={0}>E</option>
               <option value={1}>D</option>
               <option value={2}>C</option>

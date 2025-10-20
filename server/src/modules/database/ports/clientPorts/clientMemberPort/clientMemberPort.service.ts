@@ -62,6 +62,72 @@ export class ClientMemberPortService {
   // PUT AREA:
 
   /**
+   * modifyMemberCard
+   * - 멤버 카드 수정 함수
+   *
+   * 입력값
+   * - memOId: string
+   *     + 멤버의 OId
+   * - posIdx: number
+   *     + 멤버의 포지션
+   * - cardName: string
+   *     + 멤버의 카드 이름
+   * - cardNumber: number | null
+   *     + 멤버의 카드 번호
+   * - skillIdxs: number[]
+   *     + 멤버의 스킬 인덱스
+   * - skillLevels: number[]
+   *     + 멤버의 스킬 레벨
+   *
+   * 출력값
+   * - memberDeck: T.MemberType[]
+   *     + 멤버의 카드 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 멤버 존재하는지 뙇!!
+   * 3. 멤버 카드 수정 뙇!!
+   * 4. 멤버 카드 배열 읽기 뙇!!
+   * 5. 리턴 뙇!!
+   */
+  async modifyMemberCard(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyMemberCardDataType) {
+    const where = `/client/member/modifyMemberCard`
+    const {memOId, posIdx, cardName, cardNumber, skillIdxs, skillLevels} = data
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_MemberWrite(where, jwtPayload, memOId)
+
+      // 2. 멤버 존재하는지 뙇!!
+      const {member} = await this.dbHubService.readClubMemberByMemOId(where, memOId)
+      if (!member) {
+        throw {
+          gkd: {memberErr: `멤버OId 의 멤버가 존재하지 않음`},
+          gkdErrCode: 'DBHUB_MODIFY_MEMBER_CARD_NO_MEMBER',
+          gkdErrMsg: `멤버OId 의 멤버가 존재하지 않음`,
+          gkdStatus: {memOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. 멤버 카드 수정 뙇!!
+      const dto: DTO.UpdateMemberCardDTO = {memOId, posIdx, cardName, cardNumber, skillIdxs, skillLevels}
+      await this.dbHubService.updateMemberCard(where, dto)
+
+      // 4. 멤버 카드 배열 읽기 뙇!!
+      const {cardArr: memberDeck} = await this.dbHubService.readMemberCardArrByMemOId(where, memOId)
+
+      // 5. 리턴 뙇!!
+      return {memberDeck}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
    * moveClubMember
    * - 멤버를 다른 클럽으로 이동시키는 함수
    *
@@ -204,6 +270,42 @@ export class ClientMemberPortService {
       const {clubMemberArr} = await this.dbHubService.readClubMemberArrByClubOId(where, clubOId)
 
       return {clubMemberArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadMemberDeck
+   * - 멤버의 카드 배열을 불러오는 함수
+   *
+   * 입력값
+   * - memOId: string
+   *     + 멤버의 OId
+   *
+   * 출력값
+   * - memberDeck: T.CardType[]
+   *     + 멤버의 카드 배열
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 멤버 카드 배열 읽기 뙇!!
+   * 3. 리턴 뙇!!
+   */
+  async loadMemberDeck(jwtPayload: T.JwtPayloadType, memOId: string) {
+    const where = `/client/member/loadMemberDeck`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_MemberRead(where, jwtPayload, memOId)
+
+      // 2. 멤버 카드 배열 읽기 뙇!!
+      const {cardArr: memberDeck} = await this.dbHubService.readMemberCardArrByMemOId(where, memOId)
+
+      // 3. 리턴 뙇!!
+      return {memberDeck}
       // ::
     } catch (errObj) {
       // ::

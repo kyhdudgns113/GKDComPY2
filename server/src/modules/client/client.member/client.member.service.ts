@@ -29,6 +29,17 @@ export class ClientMemberService {
 
   // PUT AREA:
 
+  async modifyMemberCard(jwtPayload: JwtPayloadType, data: HTTP.ModifyMemberCardDataType) {
+    try {
+      const {memberDeck} = await this.portService.modifyMemberCard(jwtPayload, data)
+      return {ok: true, body: {memberDeck}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async moveClubMember(jwtPayload: JwtPayloadType, data: HTTP.MoveClubMemberDataType) {
     try {
       const {clubMemberArr} = await this.portService.moveClubMember(jwtPayload, data)
@@ -57,6 +68,17 @@ export class ClientMemberService {
     try {
       const {clubMemberArr} = await this.portService.loadClubMemberArr(jwtPayload, clubOId)
       return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async loadMemberDeck(jwtPayload: JwtPayloadType, memOId: string) {
+    try {
+      const {memberDeck} = await this.portService.loadMemberDeck(jwtPayload, memOId)
+      return {ok: true, body: {memberDeck}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

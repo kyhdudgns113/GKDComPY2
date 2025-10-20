@@ -78,6 +78,15 @@ export type MoveClubMemberDataType = {
   memOId: string
 }
 
+export type ModifyMemberCardDataType = {
+  memOId: string
+  posIdx: number
+  cardName: string
+  cardNumber: number | null
+  skillIdxs: number[]
+  skillLevels: number[]
+}
+
 export type ModifyWeeklyInfoDataType = {
   weekOId: string
   weekComments: string
