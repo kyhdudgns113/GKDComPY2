@@ -8,6 +8,7 @@ import type {TableBodyCommonProps} from '@prop'
 import * as V from '@value'
 
 import '../_styles/RecordBodyModule.scss'
+import {Icon} from '@component'
 
 type RecordBodyModuleProps = TableBodyCommonProps & {}
 
@@ -56,6 +57,7 @@ export const RecordBodyModule: FC<RecordBodyModuleProps> = ({className, style, .
             {isShowCmt && (
               <div className="_floatter_comment" onClick={e => e.stopPropagation()}>
                 <p>{dailyRecord.comment}</p>
+                <Icon iconName="close" className="_close_icon" />
               </div>
             )}
           </tr>
