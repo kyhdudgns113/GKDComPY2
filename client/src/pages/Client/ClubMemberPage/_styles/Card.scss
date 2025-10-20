@@ -19,6 +19,10 @@
         padding-bottom: 6px;
         width: fit-content;
 
+        &:focus-within {
+          background-color: v.$SAKURA_BG;
+        }
+
         ._card_pos {
           border-color: #000000;
           border-bottom-width: 2px;
@@ -31,6 +35,7 @@
           width: 100%;
         }
         input._card_name {
+          background-color: white;
           border-color: #cccccc;
           border-bottom-width: 2px;
 
@@ -40,6 +45,7 @@
           width: 112px;
         }
         ._card_number {
+          background-color: white;
           border-color: #000000;
           border-bottom-width: 2px;
 
@@ -78,6 +84,7 @@
           ._card_skill_level {
             appearance: none;
 
+            background-color: white;
             border-color: #000000;
             border-width: 2px;
             border-left-width: 0px;
@@ -87,6 +94,18 @@
             text-align: center;
 
             width: 20px;
+          }
+          ._opt_legend {
+            background-color: oklch(0.9 0.1 300);
+          }
+          ._opt_platinum {
+            background-color: oklch(0.9 0.1 90);
+          }
+          ._opt_hero {
+            background-color: oklch(0.9 0.1 120);
+          }
+          ._opt_normal {
+            background-color: white;
           }
         }
       }
