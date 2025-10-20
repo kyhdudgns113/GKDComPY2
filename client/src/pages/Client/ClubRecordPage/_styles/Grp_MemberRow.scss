@@ -12,6 +12,22 @@
         &:hover {
           background-color: v.$SAKURA_BG;
         }
+        &.__five {
+          border-bottom-width: 4px;
+          border-color: v.$SAKURA_BORDER_DEEP_50;
+        }
+        &.__ten {
+          border-bottom-width: 4px;
+          border-color: oklch(0.7227 0.192 149.58);
+        }
+        &.__twenty {
+          border-bottom-width: 4px;
+          border-color: oklch(0.6231 0.188 259.81);
+        }
+        &.__thirty {
+          border-bottom-width: 4px;
+          border-color: oklch(0.6268 0.2325 303.9);
+        }
 
         td {
           padding-top: 1px;
@@ -21,7 +37,7 @@
         }
 
         .td_member_name {
-          padding-left: 2px;
+          padding-left: 4px;
           padding-right: 2px;
 
           text-align: left;

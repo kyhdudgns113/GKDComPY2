@@ -14,7 +14,7 @@
             table-layout: fixed;
 
             thead {
-              background-color: white;
+              background-color: v.$SAKURA_BG;
 
               position: sticky;
               top: 0;
@@ -73,7 +73,7 @@
                 font-size: 14px;
 
                 &:hover {
-                  background-color: v.$SAKURA_BG_30;
+                  background-color: v.$SAKURA_BG_70;
                 }
 
                 &.__blue {

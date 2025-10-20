@@ -55,8 +55,8 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
-  const onClickIcon = useCallback(
-    (member: MemberType) => (e: MouseEvent<HTMLImageElement>) => {
+  const onClickMember = useCallback(
+    (member: MemberType) => (e: MouseEvent<HTMLTableRowElement>) => {
       e.stopPropagation()
       dispatch(setClubMemberOpened(member))
     },
@@ -88,7 +88,11 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
           const isBottomGreen = !isBottomBlue && memIdx % 5 === 4
 
           return (
-            <tr className={`tr_body ${isBottomBlue ? '__blue' : isBottomGreen ? '__green' : ''}`} key={memIdx}>
+            <tr
+              className={`tr_body ${isBottomBlue ? '__blue' : isBottomGreen ? '__green' : ''}`}
+              key={memIdx}
+              onClick={onClickMember(member)} // ::
+            >
               <td className={`_td_crown `}>
                 {member.position === SV.MEMBER_POSITION_GOLD ? (
                   <GoldCrown />
@@ -103,9 +107,9 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
               <td className="_td_pitcherPower">{member.pitcherPower.toLocaleString()}</td>
               <td className="_td_info">
                 {member.memberComment.length > 0 ? (
-                  <IconFilled className="_icon_info" iconName="info" onClick={onClickIcon(member)} />
+                  <IconFilled className="_icon_info" iconName="info" />
                 ) : (
-                  <Icon className="_icon_info" iconName="info" onClick={onClickIcon(member)} />
+                  <Icon className="_icon_info" iconName="info" />
                 )}
               </td>
             </tr>

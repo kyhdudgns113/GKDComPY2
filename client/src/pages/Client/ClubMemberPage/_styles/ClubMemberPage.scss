@@ -1,5 +1,8 @@
+@use '../../../../base/styles/values.scss' as v;
+
 .ClubMember_Page.CliengPages {
   ._container_page {
+    color: v.$SAKURA_TEXT;
     display: flex;
     flex-direction: row;
 

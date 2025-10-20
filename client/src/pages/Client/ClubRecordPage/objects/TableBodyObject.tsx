@@ -15,11 +15,13 @@ type TableBodyObjectProps = TableBodyCommonProps & {
 export const TableBodyObject: FC<TableBodyObjectProps> = ({weekRow, className, style, ...props}) => {
   const {rowMemberArr} = useRecordStates()
 
+  const arrLen = rowMemberArr.length
+
   return (
     <tbody className={`TableBody_Object ${className || ''}`} style={style} {...props}>
       {/* 1. 멤버 기록 행 목록 */}
       {rowMemberArr.map((rowMember, rowIdx) => (
-        <MemberRowGroup key={rowIdx} rowMember={rowMember} weekRow={weekRow} />
+        <MemberRowGroup key={rowIdx} arrLen={arrLen} idx={rowIdx} rowMember={rowMember} weekRow={weekRow} />
       ))}
 
       {/* 2. 통계 행 */}

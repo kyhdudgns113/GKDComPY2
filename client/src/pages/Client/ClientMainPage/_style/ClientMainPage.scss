@@ -28,6 +28,8 @@
           border-radius: 10px;
           border-width: 4px;
 
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+
           color: v.$SAKURA_TEXT;
           cursor: default;
 
@@ -39,6 +41,12 @@
           overflow: auto;
 
           position: relative;
+
+          transition: box-shadow 0.3s ease;
+
+          &:hover {
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+          }
 
           ._title_part {
             border-color: v.$SAKURA_BORDER;

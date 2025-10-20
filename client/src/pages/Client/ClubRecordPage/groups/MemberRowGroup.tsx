@@ -15,11 +15,13 @@ import * as V from '@value'
 import '../_styles/Grp_MemberRow.scss'
 
 type MemberRowGroupProps = TableRowCommonProps & {
+  arrLen: number // 당장은 안쓰임
+  idx: number
   rowMember: RowMemberType
   weekRow: WeekRowType
 }
 
-export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, className, style, ...props}) => {
+export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, rowMember, weekRow, className, style, ...props}) => {
   const {dailyRecordMap} = useRecordStates()
   const {incStaticDraw, incStaticLose, incStaticMiss, incStaticCond, setRowMemberOpened, setDayIdxSelected} = useRecordActions()
   const {openModalModifyRowMembeInfo, openModalRecord} = useModalActions()
@@ -33,6 +35,13 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
 
   const {rowMemName, batterPower, pitcherPower, position} = rowMember
   const rowMemTotal = batterPower + pitcherPower
+
+  const isThirty = rowIdx % 30 === 29
+  const isTwenty = rowIdx % 20 === 19 && !isThirty
+  const isTen = rowIdx % 10 === 9 && !isTwenty && !isThirty
+  const isFive = rowIdx % 5 === 4 && !isTen && !isTwenty && !isThirty
+
+  const bottomBorderCN = isThirty ? '__thirty' : isTwenty ? '__twenty' : isTen ? '__ten' : isFive ? '__five' : ''
 
   const onClickMemberInfo = useCallback(
     (rowMember: RowMemberType) => (e: MouseEvent<HTMLTableCellElement>) => {
@@ -117,7 +126,7 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({rowMember, weekRow, cla
   }, [dailyRecordMap, rowMember, weekRow, dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <tr className={`MemberRow_Group ${rowMember.rowMemName || '<<ERROR>>'} ${className || ''}`} style={style} {...props}>
+    <tr className={`MemberRow_Group ${rowIdx}/${arrLen} ${bottomBorderCN} ${className || ''}`} style={style} {...props}>
       {/* 0~4 열: 주간 통계 */}
       <td className="td_week_condError _total td_br_2">{weekResult.sumCond > 0 ? weekResult.sumCond : ''}</td>
       <td className="td_week_draw _total td_br_2">{weekResult.sumDraw > 0 ? weekResult.sumDraw : ''}</td>
