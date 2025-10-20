@@ -1,6 +1,7 @@
 export type CardType = {
+  cardName: string
+  cardNumber: number | null // 레전드 출소 번호. 공란이면 null
   memOId: string
-  cardName: string | null // DB 에 null 로 저장되었을 수 있다.
   posIdx: number
   skillIdxs: number[]
   skillLevels: number[]

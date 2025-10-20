@@ -29,6 +29,7 @@ CREATE TABLE cards (
   memOId CHAR(24) NOT NULL,
   
   cardName VARCHAR(255),
+  cardNumber INT DEFAULT NULL,
   posIdx INT NOT NULL,
   skillIdx0 INT DEFAULT 0,
   skillIdx1 INT DEFAULT 1,

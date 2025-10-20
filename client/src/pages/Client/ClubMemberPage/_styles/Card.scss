@@ -1,0 +1,93 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .Card {
+        align-items: center;
+        border-color: #000000;
+        border-radius: 12px;
+        border-width: 2px;
+
+        color: #000000;
+
+        display: flex;
+        flex-direction: column;
+
+        height: fit-content;
+
+        padding-bottom: 8px;
+        width: fit-content;
+
+        ._card_pos {
+          border-color: #000000;
+          border-bottom-width: 2px;
+
+          color: #888888;
+
+          font-size: 14px;
+
+          text-align: center;
+          width: 100%;
+        }
+        input._card_name {
+          border-color: #cccccc;
+          border-bottom-width: 2px;
+
+          height: 48px;
+
+          text-align: center;
+          width: 128px;
+        }
+        ._card_number {
+          border-color: #000000;
+          border-bottom-width: 2px;
+
+          height: 40px;
+
+          margin-bottom: 4px;
+
+          text-align: center;
+          width: 128px;
+        }
+
+        ._card_skill_row {
+          display: flex;
+          flex-direction: row;
+          font-size: 16px;
+
+          margin-top: 4px;
+
+          padding-left: 8px;
+          padding-right: 8px;
+
+          width: fit-content;
+
+          ._card_skill_name {
+            appearance: none;
+            border-color: #000000;
+            border-width: 2px;
+
+            outline: none;
+            padding-left: 4px;
+
+            width: 86px;
+          }
+          ._card_skill_level {
+            appearance: none;
+
+            border-color: #000000;
+            border-width: 2px;
+            border-left-width: 0px;
+
+            outline: none;
+
+            text-align: center;
+
+            width: 24px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -89,6 +89,7 @@ export class MemberDBService {
         member.deck.push({
           memOId,
           cardName: '',
+          cardNumber: null,
           posIdx: i,
           skillIdxs: [0, 1, 2],
           skillLevels: [0, 0, 0]
@@ -133,7 +134,7 @@ export class MemberDBService {
         SELECT 
           m.memOId, m.batterPower, m.clubOId, m.commOId, 
           m.memberComment, m.memName, m.position, m.pitcherPower,
-          c.cardName, c.posIdx, 
+          c.cardName, c.cardNumber, c.posIdx, 
           c.skillIdx0, c.skillIdx1, c.skillIdx2,
           c.skillLevel0, c.skillLevel1, c.skillLevel2
         FROM members m
@@ -177,6 +178,7 @@ export class MemberDBService {
           member.deck.push({
             memOId,
             cardName: row.cardName || '',
+            cardNumber: row.cardNumber,
             posIdx: row.posIdx,
             skillIdxs: [row.skillIdx0, row.skillIdx1, row.skillIdx2],
             skillLevels: [row.skillLevel0, row.skillLevel1, row.skillLevel2]
@@ -200,7 +202,6 @@ export class MemberDBService {
       connection.release()
     }
   }
-
   async readCommMemberArrByCommOId(where: string, commOId: string) {
     /**
      * readCommMemberArrByCommOId
@@ -226,7 +227,7 @@ export class MemberDBService {
         SELECT 
           m.memOId, m.batterPower, m.clubOId, m.commOId, 
           m.memberComment, m.memName, m.position, m.pitcherPower,
-          c.cardName, c.posIdx, 
+          c.cardName, c.cardNumber, c.posIdx, 
           c.skillIdx0, c.skillIdx1, c.skillIdx2,
           c.skillLevel0, c.skillLevel1, c.skillLevel2
         FROM members m
@@ -270,6 +271,7 @@ export class MemberDBService {
           member.deck.push({
             memOId,
             cardName: row.cardName || '',
+            cardNumber: row.cardNumber,
             posIdx: row.posIdx,
             skillIdxs: [row.skillIdx0, row.skillIdx1, row.skillIdx2],
             skillLevels: [row.skillLevel0, row.skillLevel1, row.skillLevel2]
@@ -317,7 +319,7 @@ export class MemberDBService {
         SELECT 
           m.memOId, m.batterPower, m.clubOId, m.commOId, 
           m.memberComment, m.memName, m.position, m.pitcherPower,
-          c.cardName, c.posIdx, 
+          c.cardName, c.cardNumber, c.posIdx, 
           c.skillIdx0, c.skillIdx1, c.skillIdx2,
           c.skillLevel0, c.skillLevel1, c.skillLevel2
         FROM members m
@@ -354,6 +356,7 @@ export class MemberDBService {
           member.deck.push({
             memOId,
             cardName: row.cardName || '',
+            cardNumber: row.cardNumber,
             posIdx: row.posIdx,
             skillIdxs: [row.skillIdx0, row.skillIdx1, row.skillIdx2],
             skillLevels: [row.skillLevel0, row.skillLevel1, row.skillLevel2]
@@ -425,7 +428,6 @@ export class MemberDBService {
       connection.release()
     }
   }
-
   async updateMemberClubOId(where: string, dto: DTO.UpdateMemberClubOIdDTO) {
     /**
      * updateMemberClubOId
