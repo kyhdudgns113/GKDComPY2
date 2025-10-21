@@ -1,0 +1,124 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubMember_Page {
+      .Card {
+        align-items: center;
+        border-color: #000000;
+        border-radius: 12px;
+        border-width: 2px;
+
+        box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.5);
+
+        color: #000000;
+
+        display: flex;
+        flex-direction: column;
+
+        height: fit-content;
+
+        padding-bottom: 6px;
+
+        transition: background-color 0.2s ease-in-out;
+
+        width: fit-content;
+
+        &:focus-within {
+          background-color: v.$SAKURA_BG;
+        }
+
+        ._card_pos {
+          border-color: #000000;
+          border-bottom-width: 2px;
+
+          color: #888888;
+          cursor: default;
+
+          font-size: 14px;
+
+          text-align: center;
+          width: 100%;
+        }
+        input._card_name {
+          background-color: white;
+          border-color: #cccccc;
+          border-bottom-width: 2px;
+
+          cursor: default;
+
+          height: 40px;
+
+          text-align: center;
+          width: 112px;
+        }
+        ._card_number {
+          background-color: white;
+          border-color: #000000;
+          border-bottom-width: 2px;
+
+          cursor: default;
+
+          font-size: 14px;
+
+          height: 30px;
+
+          margin-bottom: 4px;
+
+          text-align: center;
+          width: 112px;
+        }
+
+        ._card_skill_row {
+          display: flex;
+          flex-direction: row;
+          font-size: 16px;
+
+          margin-top: 4px;
+
+          padding-left: 6px;
+          padding-right: 6px;
+
+          width: fit-content;
+
+          ._card_skill_name {
+            appearance: none;
+            border-color: #000000;
+            border-width: 2px;
+
+            outline: none;
+            padding-left: 4px;
+
+            width: 80px;
+          }
+          ._card_skill_level {
+            appearance: none;
+
+            background-color: white;
+            border-color: #000000;
+            border-width: 2px;
+            border-left-width: 0px;
+
+            outline: none;
+
+            text-align: center;
+
+            width: 20px;
+          }
+          ._opt_legend {
+            background-color: oklch(0.9 0.1 300);
+          }
+          ._opt_platinum {
+            background-color: oklch(0.9 0.1 90);
+          }
+          ._opt_hero {
+            background-color: oklch(0.9 0.1 120);
+          }
+          ._opt_normal {
+            background-color: white;
+          }
+        }
+      }
+    }
+  }
+}

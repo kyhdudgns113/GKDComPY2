@@ -8,9 +8,9 @@ import * as V from '@value'
 
 // State 타입 정의
 interface ModalState {
-  clubSelected: ST.ClubType
+  clubSelected: ST.ClubType // 메인 페이지에서 수정할때 쓴다.
   modalName: string
-  userSelected: ST.UserType
+  userSelected: ST.UserType // 메인 페이지에서 수정할때 쓴다.
 }
 
 // 초기 상태
@@ -38,6 +38,14 @@ export const modalSlice = createSlice({
     openModalAddMember: state => {
       state.modalName = V.MODAL_NAME_ADD_MEMBER
     },
+    // 행 멤버 추가 모달 열기
+    openModalAddRowMember: state => {
+      state.modalName = V.MODAL_NAME_ADD_ROW_MEMBER
+    },
+    // 멤버 삭제 모달 열기
+    openModalDelMember: state => {
+      state.modalName = V.MODAL_NAME_DEL_MEMBER
+    },
     // 유저 추가 모달 열기
     openModalAddUser: state => {
       state.modalName = V.MODAL_NAME_ADD_USER
@@ -46,9 +54,25 @@ export const modalSlice = createSlice({
     openModalModifyClub: state => {
       state.modalName = V.MODAL_NAME_MODIFY_CLUB
     },
+    // 대전 기록 일간 정보 수정 모달 열기
+    openModalModifyDailyInfo: state => {
+      state.modalName = V.MODAL_NAME_MODIFY_DAILY_INFO
+    },
+    // 행 멤버 수정 모달 열기
+    openModalModifyRowMembeInfo: state => {
+      state.modalName = V.MODAL_NAME_MODIFY_ROW_MEMBER_INFO
+    },
     // 유저 수정 모달 열기
     openModalModifyUser: state => {
       state.modalName = V.MODAL_NAME_MODIFY_USER
+    },
+    // 주간 정보 수정 모달 열기
+    openModalModifyWeeklyInfo: state => {
+      state.modalName = V.MODAL_NAME_MODIFY_WEEKLY_INFO
+    },
+    // 대전기록 모달 열기
+    openModalRecord: state => {
+      state.modalName = V.MODAL_NAME_RECORD
     },
     // AREA2: 정보 영역
     // 선택: 수정할 클럽

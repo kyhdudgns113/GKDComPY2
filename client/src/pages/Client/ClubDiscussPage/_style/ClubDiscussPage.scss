@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: row;
 
-    gap: 120px;
+    gap: 80px;
 
     margin-top: 24px;
 
@@ -14,7 +14,7 @@
     .ClubDoc_SubPage {
       border-color: v.$SAKURA_BORDER;
       border-radius: 10px;
-      border-width: 2px;
+      border-width: 4px;
 
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 
@@ -40,7 +40,7 @@
     .ClubChatRoom_SubPage {
       border-color: v.$SAKURA_BORDER;
       border-radius: 10px;
-      border-width: 2px;
+      border-width: 4px;
 
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 
@@ -51,7 +51,7 @@
 
       transition: box-shadow 0.4s ease;
 
-      width: 320px;
+      width: 400px;
 
       &:hover {
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);

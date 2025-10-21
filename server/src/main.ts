@@ -26,13 +26,18 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document)
 
     // 서버 실행
-    await app.listen(serverPort).catch(errObj => {
-      console.log(`\n\n[main.ts] listen 에서 에러 발생: ${errObj}`)
+    await app
+      .listen(serverPort) // ::
+      .catch(errObj => {
+        console.log(`\n\n[main.ts] listen 에서 에러 발생: ${errObj}`)
 
-      Object.keys(errObj).forEach(key => {
-        console.log(`   ${key}: ${errObj[key]}`)
+        Object.keys(errObj).forEach(key => {
+          console.log(`   ${key}: ${errObj[key]}`)
+        })
       })
-    })
+      .finally(() => {
+        console.log(`\n    [GKDComPY] 서버 실행 완료!!\n\n`)
+      })
     // ::
   } catch (errObj) {
     // ::

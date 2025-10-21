@@ -11,6 +11,7 @@ export const store = configureStore({
     Document: Slices.docSlice.reducer,
     Member: Slices.memberSlice.reducer,
     Modal: Slices.modalSlice.reducer,
+    Record: Slices.recordSlice.reducer,
     Template: Slices.templateSlice.reducer,
     Test: Slices.testSlice.reducer
   }
@@ -30,6 +31,7 @@ export const useCommunityStates = () => useAppSelector(state => state.Community)
 export const useDocumentStates = () => useAppSelector(state => state.Document)
 export const useMemberStates = () => useAppSelector(state => state.Member)
 export const useModalStates = () => useAppSelector(state => state.Modal)
+export const useRecordStates = () => useAppSelector(state => state.Record)
 export const useTemplateStates = () => useAppSelector(state => state.Template)
 export const useTestStates = () => useAppSelector(state => state.Test)
 
@@ -41,5 +43,6 @@ export const useCommunityActions = () => Slices.communitySlice.actions
 export const useDocumentActions = () => Slices.docSlice.actions
 export const useMemberActions = () => Slices.memberSlice.actions
 export const useModalActions = () => Slices.modalSlice.actions
+export const useRecordActions = () => Slices.recordSlice.actions
 export const useTemplateActions = () => Slices.templateSlice.actions
 export const useTestActions = () => Slices.testSlice.actions

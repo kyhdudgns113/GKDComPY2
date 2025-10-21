@@ -1,0 +1,24 @@
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      width: 100%;
+
+      ._container_page {
+        display: flex;
+        flex-direction: row;
+
+        gap: 26px;
+
+        height: fit-content;
+
+        justify-content: center;
+
+        margin-left: 230px;
+        margin-right: auto;
+        margin-top: 16px;
+
+        width: fit-content;
+      }
+    }
+  }
+}

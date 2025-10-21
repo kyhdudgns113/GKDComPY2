@@ -1,0 +1,50 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .CommentRow_Group {
+        height: 120px;
+
+        ._blank_comment {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+
+          font-size: 18px;
+          font-weight: 700;
+
+          justify-content: center;
+        }
+
+        .td_weekly_comment {
+          font-size: 14px;
+          padding-left: 8px;
+          padding-right: 8px;
+
+          transition: background-color 0.15s ease;
+
+          &:hover {
+            background-color: v.$SAKURA_BG;
+          }
+        }
+        .td_add_row_member {
+          font-size: 18px;
+          font-weight: 700;
+          text-align: center;
+        }
+        .td_day_comment {
+          font-size: 14px;
+          padding-left: 8px;
+          padding-right: 8px;
+
+          transition: background-color 0.15s ease;
+
+          &:hover {
+            background-color: v.$SAKURA_BG;
+          }
+        }
+      }
+    }
+  }
+}

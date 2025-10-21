@@ -121,6 +121,7 @@ CREATE TABLE cards (
   memOId CHAR(24) NOT NULL,
   
   cardName VARCHAR(255),
+  cardNumber INT DEFAULT NULL,
   posIdx INT NOT NULL,
   skillIdx0 INT DEFAULT 0,
   skillIdx1 INT DEFAULT 1,
@@ -147,6 +148,7 @@ CREATE TABLE weekRows (
   endDateVal INT NOT NULL,
   startDateVal INT NOT NULL,
   title VARCHAR(255) NOT NULL,
+  weekComments VARCHAR(255) NOT NULL,
 
   CONSTRAINT fk_weekRows_clubOId
     FOREIGN KEY (clubOId)
@@ -161,6 +163,7 @@ CREATE TABLE weekRows (
 -- 9. weekRowDateInfos 테이블 (weekRows 참조)
 CREATE TABLE weekRowDateInfos (
   weekOId CHAR(24) NOT NULL,
+  clubOId CHAR(24) NOT NULL,
   dateVal INT NOT NULL,
   enemyName VARCHAR(255) NOT NULL,
   pitchOrder INT NOT NULL,
@@ -173,7 +176,14 @@ CREATE TABLE weekRowDateInfos (
     ON UPDATE CASCADE
     ON DELETE CASCADE,
 
-  CONSTRAINT unique_weekRowDateInfo_weekOId_dateVal UNIQUE (weekOId, dateVal)
+  CONSTRAINT fk_weekRowDateInfos_clubOId
+    FOREIGN KEY (clubOId)
+    REFERENCES clubs (clubOId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+
+  CONSTRAINT unique_weekRowDateInfo_weekOId_dateVal UNIQUE (weekOId, dateVal),
+  CONSTRAINT unique_weekRowDateInfo_clubOId_dateVal UNIQUE (clubOId, dateVal)
 
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
 
@@ -184,7 +194,6 @@ CREATE TABLE rowMemberInfos (
   pitcherPower INT NOT NULL,
   position INT NOT NULL,
   rowMemName VARCHAR(255) NOT NULL,
-  rowIdx INT NOT NULL,
   weekOId CHAR(24) NOT NULL,
 
   CONSTRAINT fk_rowMemberInfos_weekOId
@@ -199,9 +208,7 @@ CREATE TABLE rowMemberInfos (
 
 -- 11. dailyRecords 테이블 (weekRows, clubs 참조)
 CREATE TABLE dailyRecords (
-  dailyOId CHAR(24) NOT NULL PRIMARY KEY,
-
-  clubOId CHAR(24) NOT NULL,
+  clubOId CHAR(24) NOT NULL, -- 어느 클럽에서 발생한 기록인지 빠르게 알기위해 필요함
   comment TEXT NOT NULL,
   condError INT NOT NULL,
   dateVal INT NOT NULL,
@@ -224,9 +231,15 @@ CREATE TABLE dailyRecords (
     ON UPDATE CASCADE
     ON DELETE CASCADE,
 
-  CONSTRAINT unique_dailyRecords_rowMemName_dateVal UNIQUE (rowMemName, dateVal)
+  CONSTRAINT fk_dailyRecords_rowMemName
+    FOREIGN KEY (weekOId, rowMemName)
+    REFERENCES rowMemberInfos (weekOId, rowMemName)
+    ON UPDATE CASCADE
+
+  CONSTRAINT unique_dailyRecords_rowMemName_dateVal UNIQUE (rowMemName, dateVal, weekOId)
 
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
+
 
 -- 12. docs 테이블 (clubs 참조)
 CREATE TABLE docs (

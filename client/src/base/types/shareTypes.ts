@@ -1,6 +1,7 @@
 export type CardType = {
+  cardName: string
+  cardNumber: number | null // 레전드 출소 번호. 공란이면 null
   memOId: string
-  cardName: string | null // DB 에 null 로 저장되었을 수 있다.
   posIdx: number
   skillIdxs: number[]
   skillLevels: number[]
@@ -45,6 +46,19 @@ export type CommunityType = {
   subClubOId: string // 후보군 더미클럽
 }
 
+export type DailyRecordType = {
+  clubOId: string
+  comment: string
+  condError: number
+  dateVal: number
+  memOId: string | null
+  result0: number
+  result1: number
+  result2: number
+  rowMemName: string
+  weekOId: string
+}
+
 export type DocumentType = {
   documentOId: string
   clubOId: string
@@ -64,9 +78,37 @@ export type MemberType = {
   pitcherPower: number
 }
 
+export type RecordDateInfo = {
+  clubOId: string
+  comments: string
+  dailyOrder: string
+  dateVal: number
+  enemyName: string
+  pitchOrder: number
+  weekOId: string
+}
+
+export type RowMemberType = {
+  batterPower: number
+  memOId: string
+  pitcherPower: number
+  position: number
+  rowMemName: string
+  weekOId: string
+}
+
 export type UserType = {
   commAuth: number
   commOId: string
   userOId: string
   userId: string
+}
+
+export type WeekRowType = {
+  clubOId: string
+  endDateVal: number
+  startDateVal: number
+  title: string
+  weekComments: string
+  weekOId: string
 }

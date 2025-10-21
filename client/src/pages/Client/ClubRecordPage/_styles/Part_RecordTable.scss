@@ -1,0 +1,18 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .RecordTable_Part {
+        border-collapse: collapse;
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 10px;
+        border-width: 6px;
+
+        cursor: default;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}

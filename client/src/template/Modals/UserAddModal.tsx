@@ -69,7 +69,7 @@ export const UserAddModal: FC<UserAddModalProps> = ({className, style, ...props}
   return (
     <Modal
       className={`UserAdd_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={() => dispatch(closeModal())}
+      onClose={() => {}}
       onKeyDown={onKeyDownModal(commOId, userId, password)}
       style={style}
       {...props} // ::

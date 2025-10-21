@@ -1,4 +1,5 @@
 import {Module} from '@nestjs/common'
+import {GKDLockModule} from '@modules/gkdLock'
 import {DBHubModule} from './dbHub'
 
 import * as P from './ports'
@@ -6,6 +7,7 @@ import * as P from './ports'
 @Module({
   imports: [
     DBHubModule,
+    GKDLockModule,
     // ::
     P.AdminPortsModule,
     P.ClientPortsModule,
@@ -22,6 +24,7 @@ import * as P from './ports'
     P.ClientCommPortService,
     P.ClientDocPortService,
     P.ClientMemberPortService,
+    P.ClientRecordPortService,
     P.JwtPortService,
     P.SocketPortService
   ],
@@ -34,6 +37,7 @@ import * as P from './ports'
     P.ClientCommPortService,
     P.ClientDocPortService,
     P.ClientMemberPortService,
+    P.ClientRecordPortService,
     P.JwtPortService,
     P.SocketPortService
   ]

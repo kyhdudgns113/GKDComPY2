@@ -1,0 +1,61 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .MemberRow_Group {
+        cursor: default;
+        font-size: 14px;
+
+        transition: background-color 0.15s ease;
+
+        &:hover {
+          background-color: v.$SAKURA_BG;
+        }
+        &.__five {
+          border-bottom-width: 4px;
+          border-color: v.$SAKURA_BORDER_DEEP_50;
+        }
+        &.__ten {
+          border-bottom-width: 4px;
+          border-color: oklch(0.7227 0.192 149.58);
+        }
+        &.__twenty {
+          border-bottom-width: 4px;
+          border-color: oklch(0.6231 0.188 259.81);
+        }
+        &.__thirty {
+          border-bottom-width: 4px;
+          border-color: oklch(0.6268 0.2325 303.9);
+        }
+
+        td {
+          padding-top: 1px;
+          padding-bottom: 1px;
+
+          text-align: center;
+        }
+
+        .td_member_name {
+          padding-left: 4px;
+          padding-right: 2px;
+
+          text-align: left;
+        }
+        .td_member_total,
+        .td_member_pitcher {
+          text-align: right;
+          padding-right: 4px;
+        }
+        ._total {
+          font-weight: 700;
+        }
+
+        ._gold_crown,
+        ._silver_crown {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

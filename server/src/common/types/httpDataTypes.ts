@@ -21,6 +21,22 @@ export type AddCommUserDataType = {
   password: string
 }
 
+export type AddNextWeekDataType = {
+  clubOId: string
+}
+
+export type AddPrevWeekDataType = {
+  clubOId: string
+}
+
+export type AddRowMemberDataType = {
+  weekOId: string
+  rowMemName: string
+  batterPower: number
+  pitcherPower: number
+  position: number
+}
+
 export type ModifyClubDocDataType = {
   clubOId: string
   contents: string
@@ -38,6 +54,54 @@ export type ModifyCommUserDataType = {
   newCommAuth: number
 }
 
+export type ModifyDailyInfoDataType = {
+  weekOId: string
+  dateVal: number
+  enemyName: string
+  pitchOrder: number
+  dailyOrder: string
+  comments: string
+}
+
+export type ModifyRowMemberInfoDataType = {
+  weekOId: string
+  prevRowMemName: string
+  newRowMemName: string
+  batterPower: number
+  pitcherPower: number
+  position: number
+}
+
+export type MoveClubMemberDataType = {
+  prevClubOId: string
+  clubOId: string
+  memOId: string
+}
+
+export type ModifyMemberCardDataType = {
+  memOId: string
+  posIdx: number
+  cardName: string
+  cardNumber: number | null
+  skillIdxs: number[]
+  skillLevels: number[]
+}
+
+export type ModifyWeeklyInfoDataType = {
+  weekOId: string
+  weekComments: string
+}
+
+export type SaveClubMemberInfoDataType = {
+  clubOId: string
+  memOId: string
+  memName: string
+  batterPower: number
+  pitcherPower: number
+  memberComment: string
+  position: number
+}
+
 export type SignInDataType = {
   userId: string
   password: string
@@ -46,4 +110,14 @@ export type SignInDataType = {
 export type SignUpDataType = {
   userId: string
   password: string
+}
+export type WriteDailyRecordDataType = {
+  weekOId: string
+  rowMemName: string
+  dateVal: number
+  result0: number
+  result1: number
+  result2: number
+  condError: number
+  comment: string
 }

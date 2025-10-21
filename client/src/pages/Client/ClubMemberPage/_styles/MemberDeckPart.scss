@@ -1,5 +1,29 @@
 .MemberInfo_Subpage {
   .MemberDeck_Part {
-    width: 700px;
+    display: flex;
+    flex-direction: column;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    padding-left: 16px;
+
+    width: 750px;
+
+    ._deck_row {
+      display: flex;
+      flex-direction: row;
+
+      gap: 16px;
+
+      margin-top: 16px;
+      margin-bottom: 16px;
+
+      width: fit-content;
+
+      ._card_cp {
+        margin-left: 20px;
+      }
+    }
   }
 }

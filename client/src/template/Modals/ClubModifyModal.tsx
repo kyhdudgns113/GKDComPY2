@@ -72,7 +72,7 @@ export const ClubModifyModal: FC<ClubModifyModalProps> = ({className, style, ...
   return (
     <Modal
       className={`ClubModify_Modal __MODAL_COMMON ${className || ''}`}
-      onClose={onClose}
+      onClose={() => {}}
       onKeyDown={onKeyDownModal(clubSelected.clubOId, clubName)}
       style={style}
       {...props} // ::

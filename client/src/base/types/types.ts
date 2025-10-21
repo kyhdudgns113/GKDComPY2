@@ -14,8 +14,17 @@ export type LockType = {isLock: boolean; cnt: number}
 export type Setter<T> = Dispatch<SetStateAction<T>>
 export type SocketType = Socket<DefaultEventsMap, DefaultEventsMap> | null
 
+export type ClubPriorityType = {
+  [clubOId: string]: number
+}
 export type CommSettingType = {
   commName: string
   maxUsers: number
   maxClubs: number
+}
+export type RecordStatisticType = {
+  sumDraw: number
+  sumLose: number
+  sumMiss: number
+  sumCond: number
 }

@@ -1,0 +1,56 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .WeekRowList_SubPage {
+        align-items: center;
+
+        border-color: v.$SAKURA_BORDER;
+        border-width: 4px;
+
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+
+        padding-bottom: 16px;
+
+        transition: box-shadow 0.3s ease;
+
+        width: fit-content;
+
+        &:hover {
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        div._title_block_subpage {
+          align-content: center;
+
+          border-color: v.$SAKURA_BORDER;
+          border-bottom-width: 4px;
+
+          height: fit-content;
+
+          padding-top: 4px;
+          padding-bottom: 4px;
+          padding-left: 10px;
+          padding-right: 10px;
+          text-align: center;
+          user-select: none;
+
+          width: 100%;
+
+          p._title_subpage {
+            color: v.$SAKURA_TEXT;
+            cursor: pointer;
+
+            font-size: 22px;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}

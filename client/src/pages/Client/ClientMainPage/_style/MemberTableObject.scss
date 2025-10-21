@@ -1,0 +1,125 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClientMain_Page {
+      .MemberList_Part {
+        .MemberTable_Object {
+          max-height: 600px;
+          overflow-y: auto;
+
+          table {
+            border-collapse: collapse;
+
+            table-layout: fixed;
+
+            thead {
+              background-color: v.$SAKURA_BG;
+
+              position: sticky;
+              top: 0;
+              z-index: 2;
+
+              tr.tr_head {
+                font-size: 18px;
+
+                th._th_number {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 40px;
+                }
+                th._th_name {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 140px;
+                }
+                th._th_batterPower {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 56px;
+                }
+                th._th_pitcherPower {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 56px;
+                }
+                th._th_totalPower {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 56px;
+                }
+                th._th_club {
+                  border-color: v.$SAKURA_BORDER;
+                  border-right-width: 2px;
+                  width: 120px;
+                }
+                th._th_info {
+                  border-color: v.$SAKURA_BORDER;
+                  width: 28px;
+                }
+              }
+              tr.tr_head_shadow {
+                th {
+                  background-color: v.$SAKURA_BORDER;
+                  height: 6px;
+                }
+              }
+            }
+
+            tbody {
+              tr {
+                border-color: v.$SAKURA_BORDER;
+                border-bottom-width: 2px;
+                font-size: 14px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG_70;
+                }
+
+                &.__blue {
+                  border-color: oklch(0.8 0.5 240);
+                  border-bottom-width: 3px;
+                }
+                &.__green {
+                  border-color: oklch(0.8 0.5 120);
+                  border-bottom-width: 3px;
+                }
+
+                td._td_number {
+                  border-right-width: 2px;
+                  text-align: center;
+                }
+                td._td_name {
+                  border-right-width: 2px;
+                  padding-left: 6px;
+                }
+                td._td_batterPower {
+                  border-right-width: 2px;
+                  padding-right: 4px;
+                  text-align: right;
+                }
+                td._td_pitcherPower {
+                  border-right-width: 2px;
+                  padding-right: 4px;
+                  text-align: right;
+                }
+                td._td_totalPower {
+                  border-right-width: 2px;
+                  padding-right: 4px;
+                  text-align: right;
+                }
+                td._td_club {
+                  border-right-width: 2px;
+                  padding-left: 8px;
+                }
+                td._td_info {
+                  text-align: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
