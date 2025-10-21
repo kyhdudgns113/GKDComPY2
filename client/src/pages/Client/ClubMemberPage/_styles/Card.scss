@@ -9,7 +9,7 @@
         border-radius: 12px;
         border-width: 2px;
 
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.5);
 
         color: #000000;
 
@@ -20,13 +20,12 @@
 
         padding-bottom: 6px;
 
-        transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out;
 
         width: fit-content;
 
         &:focus-within {
           background-color: v.$SAKURA_BG;
-          box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
         }
 
         ._card_pos {

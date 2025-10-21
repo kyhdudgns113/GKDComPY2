@@ -7,15 +7,23 @@
         table.MemberTable_Part {
           border-collapse: collapse;
           border-color: v.$SAKURA_BORDER;
-          border-radius: 10px;
           border-width: 6px;
+
+          box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.2);
 
           cursor: default;
 
           height: fit-content;
 
           margin-top: 8px;
+
+          transition: box-shadow 0.2s ease;
+
           width: fit-content;
+
+          &:hover {
+            box-shadow: 0px 0px 8px 0 rgba(0, 0, 0, 0.4);
+          }
 
           thead {
             tr {
