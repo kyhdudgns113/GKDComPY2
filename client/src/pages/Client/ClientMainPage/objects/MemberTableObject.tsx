@@ -10,7 +10,7 @@ import '../_style/MemberTableObject.scss'
 type MemberTableObjectProps = DivCommonProps & {}
 
 export const MemberTableObject: FC<MemberTableObjectProps> = ({className, style, ...props}) => {
-  const {clubArr, commMemberArr} = useCommunityStates()
+  const {clubArr, commMemberArr, community} = useCommunityStates()
 
   return (
     <div className={`MemberTable_Object ${className || ''}`} style={style} {...props}>
@@ -38,14 +38,21 @@ export const MemberTableObject: FC<MemberTableObjectProps> = ({className, style,
         <tbody>
           {commMemberArr.map((member, memIdx) => {
             const club = clubArr.find(club => club.clubOId === member.clubOId) || NV.NULL_CLUB()
-            const clubName = club.clubName
+            let clubName = club.clubName
+
+            if (member.clubOId === community.banClubOId) {
+              clubName = '탈퇴'
+            } // ::
+            else if (member.clubOId === community.subClubOId) {
+              clubName = '후보군'
+            }
 
             const isBlue = memIdx % 10 === 9
             const isGreen = !isBlue && memIdx % 5 === 4
 
             return (
               <tr className={`tr_body ${isBlue ? '__blue' : isGreen ? '__green' : ''}`} key={memIdx}>
-                <td className="_td_number">{memIdx + 100}</td>
+                <td className="_td_number">{memIdx + 1}</td>
                 <td className="_td_name">{member.memName}</td>
                 <td className="_td_batterPower">{member.batterPower.toLocaleString()}</td>
                 <td className="_td_pitcherPower">{member.pitcherPower.toLocaleString()}</td>
