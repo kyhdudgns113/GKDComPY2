@@ -7,6 +7,8 @@ import {connection, Types} from 'mongoose'
 
 import * as S from '@secret'
 import * as ST from '@shareType'
+import * as U from '@util'
+
 import {WeeklyRecordDBService} from '@modules/mongoDB/schemas/weeklyRecordDB'
 import {DailyRecordDBService} from '@modules/mongoDB/schemas/dailyRecordDB'
 @Injectable()
@@ -283,7 +285,7 @@ export class WorkerService implements OnApplicationBootstrap {
   async loadWeeklyDB(clubArr: any[]) {
     const connection = await this.sqlService.getConnection()
 
-    console.log(`[Worker]: loadWeeklyDB 시작`)
+    console.log(`[Worker]: loadWeeklyDB 시작 `)
 
     try {
       const {weeklyRecordArr} = await this.weeklyMongoService.readWeeklyRecordArr()
@@ -292,55 +294,70 @@ export class WorkerService implements OnApplicationBootstrap {
       // weekRows 테이블 생성
       clubArr.forEach(async _club => {
         _club.weekRowsArr.forEach(async _weekRow => {
-          const weekOId = (_weekRow._id as Types.ObjectId).toString()
+          const weekOId = _weekRow.weekOId
           const clubOId = (_club._id as Types.ObjectId).toString()
           const weeklyRecord = weeklyRecordArr.find(
             weeklyRecord => weeklyRecord.clubOId === clubOId && weeklyRecord.start === _weekRow.start && weeklyRecord.end === _weekRow.end
           )
           const weekComments = weeklyRecord?.comment || ''
-          weeklyRecord!.weekOId = weekOId
+          if (!weeklyRecord) {
+            console.log(`  [WeekRows] 주간 기록이 없습니다. clubOId: ${clubOId}, start: ${_weekRow.start}, end: ${_weekRow.end}`)
+            return
+          }
 
           const query = `
             INSERT INTO weekRows
             (weekOId, clubOId, startDateVal, endDateVal, title, weekComments)
             VALUES (?, ?, ?, ?, ?, ?)
           `
-          const param = [weekOId, clubOId, _weekRow.start, _weekRow.end, _weekRow.title, weekComments]
+          const param = [weekOId, clubOId, _weekRow.start, _weekRow.end, _weekRow.start, weekComments]
           await connection.execute(query, param)
         })
       })
+
+      await U.sleep(5000)
 
       // weekRowDateInfos, rowMemberInfos 테이블 생성
       weeklyRecordArr.forEach(async _weeklyRecord => {
         const {rowInfo, colInfo, clubOId, weekOId} = _weeklyRecord
 
         rowInfo.membersInfo.forEach(async _memberInfo => {
-          const query = `
-            INSERT INTO rowMemberInfos
-            (batterPower, memOId, pitcherPower, position, rowMemName, weekOId)
-            VALUES (?, ?, ?, ?, ?, ?)
-          `
-          const param = [
-            _memberInfo.batterPower || 0,
-            _memberInfo.memOId,
-            _memberInfo.pitcherPower || 0,
-            _memberInfo.position,
-            _memberInfo.name,
-            weekOId
-          ]
-          await connection.execute(query, param)
+          try {
+            const query = `
+              INSERT INTO rowMemberInfos
+              (batterPower, memOId, pitcherPower, position, rowMemName, weekOId)
+              VALUES (?, ?, ?, ?, ?, ?)
+            `
+            const param = [
+              _memberInfo.batterPower || 0,
+              _memberInfo.memOId,
+              _memberInfo.pitcherPower || 0,
+              _memberInfo.position,
+              _memberInfo.name,
+              weekOId
+            ]
+            await connection.execute(query, param)
+          } catch (_unusedError) {
+            // DO NOTHING:
+          }
         })
 
         colInfo.dateInfo.forEach(async _dateInfo => {
-          const query = `
-            INSERT INTO weekRowDateInfos
-            (weekOId, clubOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-          `
-          const param = [weekOId, clubOId, _dateInfo.date, _dateInfo.enemyName, _dateInfo.pitchOrder || 0, _dateInfo.order, _dateInfo.comments]
-          await connection.execute(query, param)
+          try {
+            const query = `
+              INSERT INTO weekRowDateInfos
+              (weekOId, clubOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
+              VALUES (?, ?, ?, ?, ?, ?, ?)
+            `
+            const param = [weekOId, clubOId, _dateInfo.date, _dateInfo.enemyName, _dateInfo.pitchOrder || 0, _dateInfo.order, _dateInfo.comments]
+            await connection.execute(query, param)
+          } catch (_unusedError) {
+            // DO NOTHING:
+          }
         })
       })
+
+      await U.sleep(5000)
 
       dailyRecordArr.forEach(async _dailyRecord => {
         try {

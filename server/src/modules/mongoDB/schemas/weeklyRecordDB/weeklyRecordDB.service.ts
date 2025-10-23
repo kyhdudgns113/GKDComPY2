@@ -15,7 +15,7 @@ export class WeeklyRecordDBService {
 
   async readWeeklyRecordArr() {
     try {
-      const weeklyRecordArr = await this.weeklyModel.find().sort({name: 1})
+      const weeklyRecordArr = await this.weeklyModel.find().limit(1000000)
       return {weeklyRecordArr}
     } catch (errObj) {
       console.log(`  [WeeklyRecordMongoDB] readWeeklyRecordArr Error: ${errObj}`)

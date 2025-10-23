@@ -12,7 +12,7 @@ export class DailyRecordDBService {
 
   async readDailyRecordArr() {
     try {
-      const dailyRecordArr = await this.dailyRecordModel.find().sort({name: 1})
+      const dailyRecordArr = await this.dailyRecordModel.find().limit(1000000)
       return {dailyRecordArr}
     } catch (errObj) {
       console.log(`  [DailyRecordMongoDB] readDailyRecordArr Error: ${errObj}`)

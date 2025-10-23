@@ -17,7 +17,7 @@ export const WeekRowArrPart: FC<WeekRowArrPartProps> = ({className, style, ...pr
   const navigate = useNavigate()
 
   const onClickWeekRow = useCallback(
-    (clubOId: string, weekOId: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (clubOId: string, weekOId: string) => (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
       if (weekOId === '') {
         return
@@ -33,13 +33,13 @@ export const WeekRowArrPart: FC<WeekRowArrPartProps> = ({className, style, ...pr
         {weekRowArr.map((weekRow, rowIdx) => {
           const isOpened = weekOIdOpened === weekRow.weekOId
           return (
-            <button
+            <div
               className={`_week_row ${isOpened ? '_opened' : ''}`}
               key={rowIdx}
               onClick={onClickWeekRow(clubOpened.clubOId, weekRow.weekOId)} // ::
             >
               {weekRow.title}
-            </button>
+            </div>
           )
         })}
       </div>
