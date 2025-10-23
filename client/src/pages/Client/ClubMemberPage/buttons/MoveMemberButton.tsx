@@ -1,4 +1,6 @@
-import type {FC} from 'react'
+import {useCallback} from 'react'
+
+import type {FC, MouseEvent} from 'react'
 import type {SpanCommonProps} from '@prop'
 import type {Setter} from '@type'
 
@@ -10,9 +12,17 @@ type MoveMemberButtonProps = SpanCommonProps & {
 }
 
 export const MoveMemberButton: FC<MoveMemberButtonProps> = ({setter, className, style, ...props}) => {
+  const onClickMoveIcon = useCallback(
+    (e: MouseEvent<HTMLSpanElement>) => {
+      e.stopPropagation()
+      setter(prev => !prev)
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   return (
     <Icon
-      onClick={() => setter(prev => !prev)}
+      onClick={onClickMoveIcon}
       className={`MoveMember_Button ${className || ''}`}
       iconName="delivery_truck_speed"
       style={style}
