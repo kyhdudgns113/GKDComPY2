@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 
 import {useMemberCallbacksContext} from '@context'
-import {useClubStates} from '@store'
+import {useAppDispatch, useClubStates, useMemberActions} from '@store'
 
 import {AddMemberButton} from '../buttons'
 import {MemberTablePart} from '../parts'
@@ -15,7 +15,9 @@ type MemberListSubpageProps = DivCommonProps & {}
 
 export const MemberListSubpage: FC<MemberListSubpageProps> = ({className, style, ...props}) => {
   const {clubOpened} = useClubStates()
+  const {resetClubMemberArr} = useMemberActions()
   const {loadClubMemberArr} = useMemberCallbacksContext()
+  const dispatch = useAppDispatch()
 
   // 초기화: 멤버 목록 불러오기
   useEffect(() => {
@@ -28,7 +30,11 @@ export const MemberListSubpage: FC<MemberListSubpageProps> = ({className, style,
     }
 
     loadClubMemberArr(clubOpened.clubOId)
-  }, [clubOpened, loadClubMemberArr])
+
+    return () => {
+      dispatch(resetClubMemberArr())
+    }
+  }, [clubOpened, dispatch, loadClubMemberArr]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`MemberList_Subpage ${className || ''}`} style={style} {...props}>

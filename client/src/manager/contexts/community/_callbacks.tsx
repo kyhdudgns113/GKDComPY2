@@ -34,7 +34,7 @@ export const useCommunityCallbacksContext = () => useContext(CommunityCallbacksC
 
 export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useDispatch()
-  const {setClubArr, setCommunity, setUserArr, setCommMemberArr} = useCommunityActions()
+  const {setBanClub, setClubArr, setCommunity, setSubClub, setUserArr, setCommMemberArr} = useCommunityActions()
 
   // POST AREA:
 
@@ -154,11 +154,13 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         .then(res => {
           const {ok, body, statusCode, gkdErrMsg, message} = res
           if (ok) {
-            const {community, clubArr, userArr, commMemberArr} = body
+            const {banClub, community, clubArr, userArr, commMemberArr, subClub} = body
             dispatch(setCommunity(community))
             dispatch(setClubArr(clubArr))
             dispatch(setUserArr(userArr))
             dispatch(setCommMemberArr(commMemberArr))
+            dispatch(setBanClub(banClub))
+            dispatch(setSubClub(subClub))
             return true
           } // ::
           else {

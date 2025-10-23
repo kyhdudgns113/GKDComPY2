@@ -1,6 +1,6 @@
 import {useCommunityStates, useTemplateStates} from '@store'
 import {LefterToggleButton} from './buttons'
-import {MainPageRow, EntireMemberRow, ClubRow} from './rows'
+import {MainPageRow, EntireMemberRow, ClubRow, SubMemberRow, BanMemberRow} from './rows'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -22,6 +22,8 @@ export const Lefter: FC<LefterProps> = ({className, style, ...props}) => {
         {clubArr.map((club, clubIdx) => (
           <ClubRow key={clubIdx} club={club} />
         ))}
+        <SubMemberRow />
+        <BanMemberRow />
       </div>
 
       {/* 2. 토글 버튼 */}

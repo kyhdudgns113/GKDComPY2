@@ -26,13 +26,13 @@ export class WorkerService implements OnApplicationBootstrap {
   // AREA1: 서버 시작시 실행하는 영역
   async onApplicationBootstrap() {
     try {
-      const {communityArr} = await this.loadCommunity()
-      const {clubArr} = await this.loadClub(communityArr)
-      await this.loadUser()
-      await this.loadChatDB()
-      await this.loadMember()
-      await this.loadDocDB()
-      await this.loadWeeklyDB(clubArr)
+      // const {communityArr} = await this.loadCommunity()
+      // const {clubArr} = await this.loadClub(communityArr)
+      // await this.loadUser()
+      // await this.loadChatDB()
+      // await this.loadMember()
+      // await this.loadDocDB()
+      // await this.loadWeeklyDB(clubArr)
       // ::
     } catch (errObj) {
       // ::
