@@ -26,13 +26,13 @@ export class WorkerService implements OnApplicationBootstrap {
   // AREA1: 서버 시작시 실행하는 영역
   async onApplicationBootstrap() {
     try {
-      // const {communityArr} = await this.loadCommunity()
-      // const {clubArr} = await this.loadClub(communityArr)
-      // await this.loadUser()
-      // await this.loadChatDB()
-      // await this.loadMember()
-      // await this.loadDocDB()
-      // await this.loadWeeklyDB(clubArr)
+      const {communityArr} = await this.loadCommunity()
+      const {clubArr} = await this.loadClub(communityArr)
+      await this.loadUser()
+      await this.loadChatDB()
+      await this.loadMember()
+      await this.loadDocDB()
+      await this.loadWeeklyDB(clubArr)
       // ::
     } catch (errObj) {
       // ::
@@ -312,7 +312,14 @@ export class WorkerService implements OnApplicationBootstrap {
             (batterPower, memOId, pitcherPower, position, rowMemName, weekOId)
             VALUES (?, ?, ?, ?, ?, ?)
           `
-          const param = [_memberInfo.batterPower, _memberInfo.memOId, _memberInfo.pitcherPower, _memberInfo.position, _memberInfo.name, weekOId]
+          const param = [
+            _memberInfo.batterPower || 0,
+            _memberInfo.memOId,
+            _memberInfo.pitcherPower || 0,
+            _memberInfo.position,
+            _memberInfo.name,
+            weekOId
+          ]
           await connection.execute(query, param)
         })
 
@@ -322,7 +329,7 @@ export class WorkerService implements OnApplicationBootstrap {
             (weekOId, clubOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
             VALUES (?, ?, ?, ?, ?, ?, ?)
           `
-          const param = [weekOId, clubOId, _dateInfo.date, _dateInfo.enemyName, _dateInfo.pitchOrder, _dateInfo.order, _dateInfo.comments]
+          const param = [weekOId, clubOId, _dateInfo.date, _dateInfo.enemyName, _dateInfo.pitchOrder || 0, _dateInfo.order, _dateInfo.comments]
           await connection.execute(query, param)
         })
       })

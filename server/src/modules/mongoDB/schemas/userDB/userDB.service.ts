@@ -9,8 +9,17 @@ export class UserDBService {
 
   async readUserArr() {
     try {
-      const userArr = await this.userModel.find().sort({name: 1})
+      const userArr = await this.userModel.find()
+
+      const user = userArr[0]
+
+      console.log(`  [UserMongoDB] user: ${user}`)
+      Object.keys(user).forEach(key => {
+        console.log(`  [UserMongoDB] ${key}: ${user[key]}`)
+      })
+
       return {userArr}
+      // ::
     } catch (errObj) {
       console.log(`  [UserMongoDB] readUserArr Error: ${errObj}`)
       if (typeof errObj === 'string') {
