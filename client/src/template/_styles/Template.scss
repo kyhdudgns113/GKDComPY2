@@ -36,23 +36,6 @@
     position: relative;
 
     width: 100%;
-
-    .Lefter {
-      display: flex;
-      flex-direction: row;
-
-      height: fit-content;
-
-      left: 0px;
-      position: absolute;
-      top: 12px;
-
-      user-select: none;
-
-      width: fit-content;
-
-      z-index: 20;
-    }
   }
 
   .Footer {

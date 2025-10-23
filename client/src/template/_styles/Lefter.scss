@@ -3,11 +3,30 @@
 .Template {
   .Body {
     .Lefter {
+      display: flex;
+      flex-direction: row;
+
+      height: fit-content;
+
+      // left: 0px;
+      // position: absolute;
+      // top: 12px;
+      position: fixed;
+      top: 84px;
+      left: 0px;
+
+      user-select: none;
+
+      width: fit-content;
+
+      z-index: 20;
+
       ._container_lefter {
         background-color: v.$SAKURA_BG;
 
         border-color: v.$SAKURA_BORDER;
-        border-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
         border-width: 2px;
 
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
