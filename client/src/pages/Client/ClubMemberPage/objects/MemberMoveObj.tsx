@@ -13,7 +13,7 @@ import type {MemberType} from '@shareType'
 type MemberMoveObjProps = DivCommonProps & {}
 
 export const MemberMoveObj: FC<MemberMoveObjProps> = ({className, style, ...props}) => {
-  const {clubArr} = useCommunityStates()
+  const {clubArr, community} = useCommunityStates()
   const {clubOpened} = useClubStates()
   const {clubMemberOpened} = useMemberStates()
   const {moveClubMember} = useMemberCallbacksContext()
@@ -43,6 +43,7 @@ export const MemberMoveObj: FC<MemberMoveObjProps> = ({className, style, ...prop
       <p className="_title_obj">어디로 이동할까요?</p>
 
       <div className="_club_list_obj">
+        {/* 1. 목적지 행: 클럽 리스트 */}
         {clubArr.map((club, clubIdx) => {
           if (club.clubOId === clubOpened.clubOId) {
             return null
@@ -60,6 +61,32 @@ export const MemberMoveObj: FC<MemberMoveObjProps> = ({className, style, ...prop
             </div>
           )
         })}
+
+        {/* 2. 목적지 행: 후보군 */}
+        {clubOpened.clubOId !== community.subClubOId && (
+          <div className="_club_row_obj">
+            <p className="_club_name_row">후보군</p>
+
+            <Icon
+              iconName="local_shipping"
+              className="_icon_row"
+              onClick={onClickMove(clubMemberOpened, clubOpened.clubOId, community.subClubOId, '후보군')}
+            />
+          </div>
+        )}
+
+        {/* 3. 목적지 행: 탈퇴 */}
+        {clubOpened.clubOId !== community.banClubOId && (
+          <div className="_club_row_obj">
+            <p className="_club_name_row">탈퇴</p>
+
+            <Icon
+              iconName="local_shipping"
+              className="_icon_row"
+              onClick={onClickMove(clubMemberOpened, clubOpened.clubOId, community.banClubOId, '탈퇴')}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

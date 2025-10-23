@@ -79,7 +79,7 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
               투수
             </th>
             <th className="_th_info" onClick={onClickTotal} onMouseDown={e => e.preventDefault()}>
-              -
+              T
             </th>
           </tr>
           <tr className="tr_head_shadow">

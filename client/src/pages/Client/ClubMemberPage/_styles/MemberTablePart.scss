@@ -35,7 +35,7 @@
           }
 
           thead {
-            background-color: v.$SAKURA_BG;
+            background-color: v.$SAKURA_BG_30;
             position: sticky;
             top: 0;
             z-index: 2;
@@ -58,7 +58,7 @@
               ._th_crown {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
-                width: 36px;
+                width: 30px;
               }
               ._th_name {
                 border-color: v.$SAKURA_BORDER;
@@ -66,7 +66,11 @@
                 cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 160px;
+                width: 140px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_batterPower {
                 border-color: v.$SAKURA_BORDER;
@@ -74,7 +78,11 @@
                 cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 64px;
+                width: 58px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_pitcherPower {
                 border-color: v.$SAKURA_BORDER;
@@ -82,14 +90,22 @@
                 cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 64px;
+                width: 58px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_info {
                 cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
                 user-select: none;
-                width: 36px;
+                width: 30px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
             }
           }
