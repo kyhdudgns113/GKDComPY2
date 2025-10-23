@@ -245,13 +245,13 @@ export class WorkerService implements OnApplicationBootstrap {
       const valCardParams: any[] = []
 
       memberArr.forEach(async _member => {
-        _member.deck.forEach(async _card => {
+        _member.deck.forEach(async (_card, _cardIdx) => {
           valCardArr.push(`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
           valCardParams.push(
             (_member._id as Types.ObjectId).toString(),
             _card.name,
             null,
-            _card.posIdx,
+            _cardIdx,
             _card.skillIdxs[0],
             _card.skillIdxs[1],
             _card.skillIdxs[2],
