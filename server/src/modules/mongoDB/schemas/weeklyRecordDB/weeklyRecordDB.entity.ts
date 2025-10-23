@@ -103,5 +103,8 @@ export class WeeklyRecord extends Document {
 
   @Prop({type: RecordColInfo, default: () => {}})
   colInfo: RecordColInfo
+
+  @Prop({type: String, default: ''})
+  weekOId: string
 }
 export const WeeklyRecordSchema = SchemaFactory.createForClass(WeeklyRecord)

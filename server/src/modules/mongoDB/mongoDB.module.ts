@@ -1,45 +1,29 @@
 import {Module} from '@nestjs/common'
-import {
-  ChatDBModule,
-  ChatDBService,
-  ClubDBModule,
-  ClubDBService,
-  CommunityDBModule,
-  CommunityDBService,
-  DailyRecordDBModule,
-  DailyRecordDBService,
-  GDocumentDBService,
-  GDocumentModule,
-  MemberDBModule,
-  MemberDBService,
-  UserDBModule,
-  UserDBService,
-  WeeklyRecordDBModule,
-  WeeklyRecordDBService
-} from './schemas'
+
+import * as M from './schemas'
 
 @Module({
-  imports: [ChatDBModule, ClubDBModule, CommunityDBModule, DailyRecordDBModule, GDocumentModule, MemberDBModule, UserDBModule, WeeklyRecordDBModule],
-  controllers: [],
-  providers: [
-    ChatDBService,
-    ClubDBService,
-    CommunityDBService,
-    DailyRecordDBService,
-    GDocumentDBService,
-    MemberDBService,
-    UserDBService,
-    WeeklyRecordDBService
+  imports: [
+    M.ChatDBModule,
+    M.ClubDBModule,
+    M.CommunityDBModule,
+    M.DailyRecordDBModule,
+    M.GDocumentModule,
+    M.MemberDBModule,
+    M.UserDBModule,
+    M.WeeklyRecordDBModule
   ],
+  controllers: [],
+  providers: [],
   exports: [
-    ChatDBService,
-    ClubDBService,
-    CommunityDBService,
-    DailyRecordDBService,
-    GDocumentDBService,
-    MemberDBService,
-    UserDBService,
-    WeeklyRecordDBService
+    M.ChatDBModule,
+    M.ClubDBModule,
+    M.CommunityDBModule,
+    M.DailyRecordDBModule,
+    M.GDocumentModule,
+    M.MemberDBModule,
+    M.UserDBModule,
+    M.WeeklyRecordDBModule
   ]
 })
 export class MongoDBModule {}

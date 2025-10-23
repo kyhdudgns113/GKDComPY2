@@ -9,6 +9,7 @@ import {mongodbUrl} from '@secret'
   imports: [
     M.AdminModule, // ::
     M.ClientModule,
+    M.MongoDBModule,
     M.SocketModule,
     M.WorkerModule,
     MongooseModule.forRoot(mongodbUrl)

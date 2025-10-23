@@ -36,7 +36,9 @@ async function bootstrap() {
         })
       })
       .finally(() => {
-        console.log(`\n    [GKDComPY] 서버 실행 완료!!\n\n`)
+        console.log(`\n    [GKDComPY] 서버 실행 완료!!`)
+        console.log(`    [GKDComPY] 포트: ${serverPort}`)
+        console.log(`    [GKDComPY] 초기화 작업이 백그라운드에서 실행됩니다...\n`)
       })
     // ::
   } catch (errObj) {
