@@ -11,13 +11,6 @@ export class UserDBService {
     try {
       const userArr = await this.userModel.find()
 
-      const user = userArr[0]
-
-      console.log(`  [UserMongoDB] user: ${user}`)
-      Object.keys(user).forEach(key => {
-        console.log(`  [UserMongoDB] ${key}: ${user[key]}`)
-      })
-
       return {userArr}
       // ::
     } catch (errObj) {

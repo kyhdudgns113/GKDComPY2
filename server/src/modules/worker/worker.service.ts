@@ -86,7 +86,15 @@ export class WorkerService implements OnApplicationBootstrap {
 
       clubArr.forEach(async _club => {
         let comm = communityArr.find(comm => (comm._id as Types.ObjectId).toString() === _club.commOId) || null
-        const clubIdx = comm?.clubOIdsArr.findIndex(clubOId => clubOId === (_club._id as Types.ObjectId).toString()) || 0
+        let clubIdx = comm?.clubOIdsArr.findIndex(clubOId => clubOId === (_club._id as Types.ObjectId).toString()) - 1 || 0
+        const clubName = _club.name
+
+        if (clubName === '후보군') {
+          clubIdx = -1
+        } // ::
+        else if (clubName === '탈퇴') {
+          clubIdx = -2
+        }
 
         const query = `
           INSERT INTO clubs
