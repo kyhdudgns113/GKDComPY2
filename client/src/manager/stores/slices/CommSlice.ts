@@ -11,19 +11,23 @@ import type {AdminStates} from '../store'
 
 // State 타입 정의
 interface CommunityState {
+  banClub: ST.ClubType
   clubArr: ST.ClubType[]
   commMemberArr: ST.MemberType[]
   commMemberSortMode: number
   community: ST.CommunityType
+  subClub: ST.ClubType
   userArr: ST.UserType[]
 }
 
 // 초기 상태
 const initialState: CommunityState = {
+  banClub: NV.NULL_CLUB(),
   clubArr: [],
   commMemberArr: [],
   commMemberSortMode: V.COMM_MEMBER_SORT_MODE_CLUB,
   community: NV.NULL_COMMUNITY(),
+  subClub: NV.NULL_CLUB(),
   userArr: []
 }
 
@@ -32,6 +36,11 @@ export const communitySlice = createSlice({
   name: 'community',
   initialState,
   reducers: {
+    // banClub 설정
+    setBanClub: (state, action: PayloadAction<ST.ClubType>) => {
+      state.banClub = action.payload
+    },
+    // ::
     // clubArr 설정
     setClubArr: (state, action: PayloadAction<ST.ClubType[]>) => {
       state.clubArr = action.payload
@@ -84,6 +93,11 @@ export const communitySlice = createSlice({
     // 공동체 멤버 이름순 정렬모드로 설정
     setCommMemberSortModeName: state => {
       state.commMemberSortMode = V.COMM_MEMBER_SORT_MODE_NAME
+    },
+    // ::
+    // subClub 설정
+    setSubClub: (state, action: PayloadAction<ST.ClubType>) => {
+      state.subClub = action.payload
     }
     // ::
   }

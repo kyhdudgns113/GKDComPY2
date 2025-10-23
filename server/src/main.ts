@@ -36,7 +36,8 @@ async function bootstrap() {
         })
       })
       .finally(() => {
-        console.log(`\n    [GKDComPY] 서버 실행 완료!!\n\n`)
+        console.log(`\n    [GKDComPY] 서버 실행 완료!!`)
+        console.log(`    [GKDComPY] 포트: ${serverPort}`)
       })
     // ::
   } catch (errObj) {

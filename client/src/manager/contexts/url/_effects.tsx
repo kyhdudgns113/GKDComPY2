@@ -13,7 +13,7 @@ export const UrlEffectsContext = createContext<ContextType>({})
 export const useUrlEffectsContext = () => useContext(UrlEffectsContext)
 
 export const UrlEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {clubArr} = useCommunityStates()
+  const {banClub, clubArr, community, subClub} = useCommunityStates()
   const {setClubOpened, resetClubOpened} = useClubActions()
   const {setWeekOIdOpened, resetWeekOIdOpened} = useRecordActions()
 
@@ -46,6 +46,12 @@ export const UrlEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           dispatch(resetWeekOIdOpened())
         }
       } // ::
+      else if (clubOId === community.banClubOId) {
+        dispatch(setClubOpened(banClub))
+      } // ::
+      else if (clubOId === community.subClubOId) {
+        dispatch(setClubOpened(subClub))
+      } // ::
       else {
         dispatch(resetClubOpened())
         dispatch(resetWeekOIdOpened())
@@ -55,7 +61,7 @@ export const UrlEffectsProvider: FC<PropsWithChildren> = ({children}) => {
       dispatch(resetClubOpened())
       dispatch(resetWeekOIdOpened())
     }
-  }, [clubArr, location, dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [banClub, clubArr, community, subClub, location, dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
   //
   return <UrlEffectsContext.Provider value={{}}>{children}</UrlEffectsContext.Provider>
 }

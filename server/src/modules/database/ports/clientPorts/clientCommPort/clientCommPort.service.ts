@@ -216,7 +216,9 @@ export class ClientCommPortService {
    * 3. 클럽 배열 뙇!!
    * 4. 유저 배열 뙇!!
    * 5. 공동체 멤버 배열 뙇!!
-   * 6. 리턴 뙇!!
+   * 6. 탈퇴 클럽 뙇!!
+   * 7. 후보군 클럽 뙇!!
+   * 8. 리턴 뙇!!
    */
   async loadUsersCommunity(jwtPayload: T.JwtPayloadType) {
     const where = `/client/community/loadUsersCommunity`
@@ -228,6 +230,17 @@ export class ClientCommPortService {
       // 2. 공동체 정보 뙇!!
       const {community} = await this.dbHubService.readCommunityByCommOId(where, commOId)
 
+      if (!community) {
+        throw {
+          gkd: {communityErr: `공동체가 존재하지 않음`},
+          gkdErrCode: 'CLIENT_loadUsersCommunity_NoCommunity',
+          gkdErrMsg: `공동체가 존재하지 않음`,
+          gkdStatus: {commOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
       // 3. 클럽 배열 뙇!!
       const {clubArr} = await this.dbHubService.readClubArrByCommOId(where, commOId)
 
@@ -237,8 +250,14 @@ export class ClientCommPortService {
       // 5. 공동체 멤버 배열 뙇!!
       const {commMemberArr} = await this.dbHubService.readCommMemberArrByCommOId(where, commOId)
 
-      // 6. 리턴 뙇!!
-      return {clubArr, community, commMemberArr, userArr}
+      // 6. 탈퇴 클럽 뙇!!
+      const {club: banClub} = await this.dbHubService.readClubByClubOId(where, community.banClubOId)
+
+      // 7. 후보군 클럽 뙇!!
+      const {club: subClub} = await this.dbHubService.readClubByClubOId(where, community.subClubOId)
+
+      // 8. 리턴 뙇!!
+      return {banClub, clubArr, community, commMemberArr, subClub, userArr}
       // ::
     } catch (errObj) {
       // ::

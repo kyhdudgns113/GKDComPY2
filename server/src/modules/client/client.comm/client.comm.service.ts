@@ -61,8 +61,8 @@ export class ClientCommService {
 
   async loadUsersCommunity(jwtPayload: JwtPayloadType) {
     try {
-      const {clubArr, community, commMemberArr, userArr} = await this.portService.loadUsersCommunity(jwtPayload)
-      return {ok: true, body: {clubArr, community, commMemberArr, userArr}, gkdErrMsg: '', statusCode: 200}
+      const {banClub, clubArr, community, commMemberArr, subClub, userArr} = await this.portService.loadUsersCommunity(jwtPayload)
+      return {ok: true, body: {banClub, clubArr, community, commMemberArr, subClub, userArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

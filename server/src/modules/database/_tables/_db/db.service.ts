@@ -19,8 +19,8 @@ export class DBService implements OnModuleInit, OnModuleDestroy {
         database: mysqlTestDB,
         port: mysqlTestPort,
         waitForConnections: true,
-        connectionLimit: 100, // 동시에 열 수 있는 연결 수 증가
-        queueLimit: 100, // 대기열 제한 추가
+        connectionLimit: 500, // 동시에 열 수 있는 연결 수 증가
+        queueLimit: 500, // 대기열 제한 추가
         multipleStatements: true
       })
     }
@@ -35,12 +35,12 @@ export class DBService implements OnModuleInit, OnModuleDestroy {
         database: mysqlDB,
         port: mysqlPort,
         waitForConnections: true,
-        connectionLimit: 100, // 연결 수 증가
-        queueLimit: 100, // 대기열 제한 추가
+        connectionLimit: 500, // 연결 수 증가
+        queueLimit: 500, // 대기열 제한 추가
         multipleStatements: true,
         // 연결 풀 초과 시 에러 대신 대기하도록 설정
-        idleTimeout: 300000, // 5분
-        maxIdle: 10, // 최대 유휴 연결 수
+        idleTimeout: 3000000, // 50분
+        maxIdle: 50, // 최대 유휴 연결 수
         enableKeepAlive: true,
         keepAliveInitialDelay: 0
       })
