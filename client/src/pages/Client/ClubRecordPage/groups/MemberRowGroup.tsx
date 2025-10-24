@@ -27,6 +27,7 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, ro
   const {openModalModifyRowMembeInfo, openModalRecord} = useModalActions()
 
   const [condArr, setCondArr] = useState<string[]>(Array(6).fill(''))
+  const [isOKArr, setIsOKArr] = useState<boolean[]>(Array(6).fill(false))
   const [resultsArr, setResultsArr] = useState<string[][]>(Array(6).fill(Array(3).fill('')))
   const [mentsArr, setMentsArr] = useState<string[]>(Array(6).fill(''))
   const [weekResult, setWeekResult] = useState<T.RecordStatisticType>({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0})
@@ -67,6 +68,7 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, ro
     const {rowMemName} = rowMember
 
     const newCondArr = Array.from({length: 6}, () => '')
+    const newIsOKArr = Array.from({length: 6}, () => false)
     const newResultsArr = Array.from({length: 6}, () => Array.from({length: 3}, () => ''))
     const newMentsArr = Array.from({length: 6}, () => '')
     const newWeekResult: T.RecordStatisticType = {sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}
@@ -107,6 +109,9 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, ro
                 dispatch(incStaticMiss(i))
                 newWeekResult.sumMiss += 1
                 break
+              case '△':
+                newIsOKArr[i] = true
+                break
               default:
                 break
             }
@@ -119,6 +124,7 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, ro
     }
 
     setCondArr(newCondArr)
+    setIsOKArr(newIsOKArr)
     setResultsArr(newResultsArr)
     setMentsArr(newMentsArr)
     setWeekResult(newWeekResult)
@@ -139,106 +145,106 @@ export const MemberRowGroup: FC<MemberRowGroupProps> = ({arrLen, idx: rowIdx, ro
       <td className="td_member_name td_br_2" onClick={onClickMemberInfo(rowMember)}>
         {rowMemName}
       </td>
-      <td className="td_member_pitcher td_br_2" onClick={onClickMemberInfo(rowMember)}>
+      <td className="td_member_pitcher td_br_2 _small" onClick={onClickMemberInfo(rowMember)}>
         {pitcherPower.toLocaleString()}
       </td>
-      <td className="td_member_total td_br_6" onClick={onClickMemberInfo(rowMember)}>
+      <td className="td_member_total td_br_6 _small" onClick={onClickMemberInfo(rowMember)}>
         {rowMemTotal.toLocaleString()}
       </td>
-      {/* 9~13 열: 월요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 0)}>
+      {/* 9~13 열: 월요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[0] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 0)}>
         {condArr[0]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 0)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[0] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 0)}>
         {resultsArr[0][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 0)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[0] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 0)}>
         {resultsArr[0][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 0)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[0] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 0)}>
         {resultsArr[0][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 0)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[0] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 0)}>
         {mentsArr[0]}
       </td>
-      {/* 14~18 열: 화요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 1)}>
+      {/* 14~18 열: 화요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[1] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 1)}>
         {condArr[1]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 1)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[1] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 1)}>
         {resultsArr[1][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 1)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[1] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 1)}>
         {resultsArr[1][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 1)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[1] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 1)}>
         {resultsArr[1][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 1)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[1] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 1)}>
         {mentsArr[1]}
       </td>
-      {/* 19~23 열: 수요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 2)}>
+      {/* 19~23 열: 수요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[2] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 2)}>
         {condArr[2]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 2)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[2] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 2)}>
         {resultsArr[2][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 2)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[2] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 2)}>
         {resultsArr[2][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 2)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[2] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 2)}>
         {resultsArr[2][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 2)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[2] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 2)}>
         {mentsArr[2]}
       </td>
-      {/* 24~28 열: 목요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 3)}>
+      {/* 24~28 열: 목요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[3] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 3)}>
         {condArr[3]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 3)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[3] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 3)}>
         {resultsArr[3][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 3)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[3] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 3)}>
         {resultsArr[3][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 3)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[3] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 3)}>
         {resultsArr[3][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 3)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[3] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 3)}>
         {mentsArr[3]}
       </td>
-      {/* 29~33 열: 금요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 4)}>
+      {/* 29~33 열: 금요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[4] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 4)}>
         {condArr[4]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 4)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[4] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 4)}>
         {resultsArr[4][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 4)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[4] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 4)}>
         {resultsArr[4][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 4)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[4] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 4)}>
         {resultsArr[4][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 4)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[4] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 4)}>
         {mentsArr[4]}
       </td>
-      {/* 34~38 열: 토요알 */}
-      <td className="td_day_condError td_br_2" onClick={onClickRecord(rowMember, 5)}>
+      {/* 34~38 열: 토요일 */}
+      <td className={`td_day_condError td_br_2 ${isOKArr[5] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 5)}>
         {condArr[5]}
       </td>
-      <td className="td_day_draw td_br_2" onClick={onClickRecord(rowMember, 5)}>
+      <td className={`td_day_draw td_br_2 ${isOKArr[5] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 5)}>
         {resultsArr[5][0]}
       </td>
-      <td className="td_day_lose td_br_2" onClick={onClickRecord(rowMember, 5)}>
+      <td className={`td_day_lose td_br_2 ${isOKArr[5] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 5)}>
         {resultsArr[5][1]}
       </td>
-      <td className="td_day_miss td_br_2" onClick={onClickRecord(rowMember, 5)}>
+      <td className={`td_day_miss td_br_2 ${isOKArr[5] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 5)}>
         {resultsArr[5][2]}
       </td>
-      <td className="td_day_ments td_br_4" onClick={onClickRecord(rowMember, 5)}>
+      <td className={`td_day_ments td_br_4 ${isOKArr[5] ? '_ok' : ''}`} onClick={onClickRecord(rowMember, 5)}>
         {mentsArr[5]}
       </td>
     </tr>
