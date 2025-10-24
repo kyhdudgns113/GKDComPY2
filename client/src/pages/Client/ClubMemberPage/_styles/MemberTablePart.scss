@@ -58,7 +58,7 @@
               ._th_crown {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
-                width: 30px;
+                width: 26px;
               }
               ._th_name {
                 border-color: v.$SAKURA_BORDER;
@@ -101,7 +101,7 @@
                 font-size: 18px;
                 font-weight: 700;
                 user-select: none;
-                width: 30px;
+                width: 26px;
 
                 &:hover {
                   background-color: v.$SAKURA_BG;
@@ -140,7 +140,7 @@
               ._td_name {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
-                padding-left: 8px;
+                padding-left: 6px;
               }
               ._td_batterPower {
                 border-color: v.$SAKURA_BORDER;
@@ -161,7 +161,7 @@
 
                 ._icon_info {
                   color: v.$SAKURA_TEXT;
-                  cursor: pointer;
+                  cursor: default;
                   font-size: 20px;
                 }
               }

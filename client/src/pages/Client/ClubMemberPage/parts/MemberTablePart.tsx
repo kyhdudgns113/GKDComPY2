@@ -94,10 +94,11 @@ export const MemberTablePart: FC<MemberTablePartProps> = ({className, style, ...
           {clubMemberArr.map((member, memIdx) => {
             const isBottomBlue = memIdx % 10 === 9
             const isBottomGreen = !isBottomBlue && memIdx % 5 === 4
+            const isLast = memIdx === clubMemberArr.length - 1
 
             return (
               <tr
-                className={`tr_body ${isBottomBlue ? '__blue' : isBottomGreen ? '__green' : ''}`}
+                className={`tr_body ${isLast ? '' : isBottomBlue ? '__blue' : isBottomGreen ? '__green' : ''}`}
                 key={memIdx}
                 onClick={onClickMember(member)} // ::
               >
