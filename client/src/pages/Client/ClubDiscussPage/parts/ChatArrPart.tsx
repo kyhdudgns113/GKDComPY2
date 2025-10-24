@@ -1,9 +1,9 @@
-import {useEffect} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useAuthStatesContext, useChatStatesContext} from '@context'
 import {useChatStates} from '@store'
 
 import {ChatPrevLoadButton} from '../buttons'
-import {ChatMyObject, ChatOtherObject} from '../objects'
+import {ChatDateObject, ChatMyObject, ChatOtherObject} from '../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -19,7 +19,8 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
 
   let lastUserOId = ''
   let lastDateValue = new Date(0).valueOf()
-  let lastMinute = 0
+  let lastMinute = -1
+  let lastYMD = 0
 
   // 상위 컴포넌트 스크롤 안되게 하기
   useEffect(() => {
@@ -46,24 +47,36 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
       {isLoadButton && <ChatPrevLoadButton />}
 
       {chatArr.map((chat, idx) => {
+        const returnArr = []
+
         const chatDate = new Date(chat.date)
+
+        const chatYMD = chatDate.getFullYear() * 10000 + (chatDate.getMonth() + 1) * 100 + chatDate.getDate()
 
         const isSameUserWithLast = chat.userOId === lastUserOId
         const isSameMinute = chatDate.getMinutes() === lastMinute
         const isSimilarTime = chatDate.valueOf() - lastDateValue < 1000 * 60 * 3
+        const isSameYMD = chatYMD === lastYMD
 
         const isSameArea = isSameUserWithLast && isSameMinute && isSimilarTime
 
         lastUserOId = chat.userOId
         lastDateValue = chatDate.valueOf()
         lastMinute = chatDate.getMinutes()
+        lastYMD = chatYMD
+
+        if (!isSameYMD) {
+          returnArr.push(<ChatDateObject key={idx} date={chatDate} />)
+        }
 
         if (chat.userOId === userOId) {
-          return <ChatMyObject chat={chat} key={idx} />
+          returnArr.push(<ChatMyObject chat={chat} />)
         } // ::
         else {
-          return <ChatOtherObject chat={chat} isSameArea={isSameArea} key={idx} />
+          returnArr.push(<ChatOtherObject chat={chat} isSameArea={isSameArea} />)
         }
+
+        return <Fragment key={idx}>{returnArr}</Fragment>
       })}
     </div>
   )

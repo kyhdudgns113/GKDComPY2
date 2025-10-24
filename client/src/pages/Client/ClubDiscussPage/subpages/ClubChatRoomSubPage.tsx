@@ -35,6 +35,7 @@ export const ClubChatRoomSubPage: FC<ClubChatRoomSubPageProps> = ({club, classNa
       dispatch(resetChatQueue())
     }
   }, [clubOpened, dispatch, loadClubChatArr]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className={`ClubChatRoom_SubPage ${className || ''}`} style={style} {...props}>
       {/* 1. 타이틀 */}

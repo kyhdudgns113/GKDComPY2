@@ -4,7 +4,7 @@
   .Body {
     .ClubMember_Page {
       .MemberList_Subpage {
-        table.MemberTable_Part {
+        .MemberTable_Part {
           border-collapse: collapse;
           border-color: v.$SAKURA_BORDER;
           border-width: 6px;
@@ -16,6 +16,9 @@
           height: fit-content;
 
           margin-top: 8px;
+          max-height: 700px;
+
+          overflow-y: auto;
 
           transition: box-shadow 0.2s ease;
 
@@ -25,11 +28,24 @@
             box-shadow: 0px 0px 8px 0 rgba(0, 0, 0, 0.4);
           }
 
-          thead {
-            tr {
-              border-color: v.$SAKURA_BORDER;
-              border-bottom-width: 4px;
+          table {
+            border-collapse: collapse;
+            border-color: v.$SAKURA_BORDER;
+            table-layout: fixed;
+          }
 
+          thead {
+            background-color: v.$SAKURA_BG_30;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+
+            tr.tr_head_shadow {
+              background-color: v.$SAKURA_BORDER;
+              height: 6px;
+            }
+
+            tr.tr_head {
               th {
                 padding-top: 2px;
                 padding-bottom: 2px;
@@ -42,34 +58,54 @@
               ._th_crown {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
-                width: 36px;
+                width: 26px;
               }
               ._th_name {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
+                cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 160px;
+                width: 140px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_batterPower {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
+                cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 64px;
+                width: 58px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_pitcherPower {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
+                cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
-                width: 64px;
+                width: 58px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
               ._th_info {
+                cursor: pointer;
                 font-size: 18px;
                 font-weight: 700;
                 user-select: none;
-                width: 36px;
+                width: 26px;
+
+                &:hover {
+                  background-color: v.$SAKURA_BG;
+                }
               }
             }
           }
@@ -92,10 +128,8 @@
               }
 
               td {
+                font-size: 14px;
                 height: fit-content;
-
-                padding-top: 1px;
-                padding-bottom: 1px;
               }
 
               ._td_crown {
@@ -106,7 +140,7 @@
               ._td_name {
                 border-color: v.$SAKURA_BORDER;
                 border-right-width: 2px;
-                padding-left: 8px;
+                padding-left: 6px;
               }
               ._td_batterPower {
                 border-color: v.$SAKURA_BORDER;
@@ -127,7 +161,8 @@
 
                 ._icon_info {
                   color: v.$SAKURA_TEXT;
-                  cursor: pointer;
+                  cursor: default;
+                  font-size: 20px;
                 }
               }
             }

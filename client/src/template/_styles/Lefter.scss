@@ -1,20 +1,43 @@
 @use '../../base/styles/values.scss' as v;
 
+$LEFTER_HEIGHT: 600px;
+$LEFTER_WIDTH: 220px;
+
 .Template {
   .Body {
     .Lefter {
+      display: flex;
+      flex-direction: row;
+
+      height: fit-content;
+
+      // left: 0px;
+      // position: absolute;
+      // top: 12px;
+      position: fixed;
+      top: 84px;
+      left: 0px;
+
+      user-select: none;
+
+      width: fit-content;
+
+      z-index: 20;
+
       ._container_lefter {
         background-color: v.$SAKURA_BG;
 
         border-color: v.$SAKURA_BORDER;
-        border-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
         border-width: 2px;
 
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
 
-        height: 600px;
+        height: $LEFTER_HEIGHT;
 
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: scroll;
 
         padding-top: 12px;
 
@@ -34,7 +57,7 @@
         &._open {
           visibility: visible;
           transform: translateX(0);
-          width: 200px;
+          width: $LEFTER_WIDTH;
         }
 
         ._row {
@@ -61,9 +84,27 @@
           }
 
           ._title_row {
-            padding-left: 8px;
+            padding-left: 12px;
             padding-top: 5px;
             padding-bottom: 5px;
+          }
+
+          ._selected_padding {
+            padding-left: 12px;
+
+            transition: transform 0.3s ease, visibility 0.3s ease, width 0.3s ease;
+
+            &._selected {
+              transform: translateX(0);
+              visibility: visible;
+              width: fit-content;
+            }
+
+            &._unselected {
+              transform: translateX(-100%);
+              visibility: hidden;
+              width: 0;
+            }
           }
         }
 
@@ -71,7 +112,7 @@
           border-color: #dddddd;
           border-bottom-width: 1px;
           flex-direction: column;
-          font-size: 18px;
+          font-size: 22px;
 
           &:hover {
             background-color: transparent;
@@ -83,19 +124,26 @@
             flex-direction: row;
             width: 100%;
 
-            ._button_toggle_row {
-              font-size: 32px;
-              margin-left: auto;
-            }
+            transition: transform 0.3s ease;
 
             &:hover {
               background-color: v.$SAKURA_BG_30;
             }
+
+            ._button_toggle_row {
+              font-size: 32px;
+              margin-left: auto;
+            }
           }
 
           ._part_row_club {
+            align-items: center;
             border-color: #dddddd;
             border-top-width: 1px;
+
+            display: flex;
+            flex-direction: row;
+            font-size: 18px;
 
             padding-left: 40px;
             padding-top: 5px;
@@ -105,6 +153,15 @@
 
             &:hover {
               background-color: v.$SAKURA_BG_30;
+            }
+
+            ._icon_selected {
+              font-size: 24px;
+              font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 2000, 'opsz' 24;
+              margin-left: auto;
+              margin-right: 20px;
+
+              transition: 0.3s ease;
             }
           }
         }

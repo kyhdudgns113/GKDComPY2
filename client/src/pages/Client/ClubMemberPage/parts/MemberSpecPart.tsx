@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 
 import {useMemberStates} from '@store'
 
 import {CancelInfoButton, CloseInfoButton, DeleteMemberButton, MoveMemberButton, SaveInfoButton} from '../buttons'
 import {MemberCommentObj, MemberMoveObj, MemberRecentRecordObj, MemberValueObject} from '../objects'
 
-import type {FC} from 'react'
+import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import '../_styles/MemberSpecPart.scss'
@@ -18,6 +18,11 @@ export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...pr
   const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false)
   const [memName, setMemName] = useState<string>('')
 
+  const onClickPart = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    setIsMoveOpen(false)
+  }, [])
+
   // 초기화: memName
   useEffect(() => {
     /**
@@ -29,7 +34,7 @@ export const MemberSpecPart: FC<MemberSpecPartProps> = ({className, style, ...pr
   }, [clubMemberArr, clubMemberOpened])
 
   return (
-    <div className={`MemberSpec_Part ${className || ''}`} style={style} {...props}>
+    <div className={`MemberSpec_Part ${className || ''}`} onClick={onClickPart} style={style} {...props}>
       {/* 1. 헤더: 타이틀, 삭제, 이동, 닫기 버튼 */}
       <div className="_header_part">
         <p className="_title_part"> {memName} </p>

@@ -48,7 +48,7 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
   const onKeyDownModal = useCallback(
     (weekOId: string, rowMemName: string, dateVal: number, result0: number, result1: number, result2: number, condError: number, comment: string) =>
       (e: KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if ((e.key === 'Enter' && !e.shiftKey) || (e.ctrlKey && (e.key === 's' || e.key === 'S'))) {
           e.preventDefault()
           e.stopPropagation()
 
@@ -197,6 +197,7 @@ export const RecordModal: FC<RecordModalProps> = ({className, style, ...props}) 
         <div className="_label_block_form">
           <label htmlFor="comment">코멘트</label>
           <textarea
+            autoFocus
             className="_textarea_comment_form"
             id="comment_modal"
             onChange={e => setComment(e.currentTarget.value)}

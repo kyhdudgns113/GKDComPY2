@@ -10,7 +10,7 @@
         transition: background-color 0.15s ease;
 
         &:hover {
-          background-color: v.$SAKURA_BG;
+          background-color: v.$SAKURA_BG !important;
         }
         &.__five {
           border-bottom-width: 4px;
@@ -30,13 +30,23 @@
         }
 
         td {
+          font-weight: 700;
           padding-top: 1px;
           padding-bottom: 1px;
 
           text-align: center;
         }
 
+        ._ok {
+          background-color: #d8d8d8;
+        }
+
+        ._small {
+          font-size: 13px;
+        }
+
         .td_member_name {
+          font-weight: 400;
           padding-left: 4px;
           padding-right: 2px;
 
@@ -44,6 +54,7 @@
         }
         .td_member_total,
         .td_member_pitcher {
+          font-weight: 400;
           text-align: right;
           padding-right: 4px;
         }
