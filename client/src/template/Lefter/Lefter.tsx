@@ -19,10 +19,10 @@ export const Lefter: FC<LefterProps> = ({className, style, ...props}) => {
       <div className={`_container_lefter ${isLefterOpen ? '_open' : '_close'}`}>
         <MainPageRow />
         <EntireMemberRow />
-        <SubMemberRow />
         {clubArr.map((club, clubIdx) => (
           <ClubRow key={clubIdx} club={club} />
         ))}
+        <SubMemberRow />
         <BanMemberRow />
       </div>
 

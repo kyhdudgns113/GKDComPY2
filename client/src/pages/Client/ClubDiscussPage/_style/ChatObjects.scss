@@ -6,8 +6,6 @@
 
   font-size: 14px;
 
-  margin-top: 8px;
-
   width: fit-content;
 
   ._content_container {
@@ -31,6 +29,7 @@
   @extend .__Common_Chat_Object_Styles;
 
   margin-left: auto;
+  margin-top: 8px;
 
   ._content_container {
     border-color: oklch(0.7 0.05 205);
@@ -42,6 +41,8 @@
 
 .ChatOther_Object {
   @extend .__Common_Chat_Object_Styles;
+
+  margin-top: 4px;
 
   ._user_name_object {
     cursor: default;
