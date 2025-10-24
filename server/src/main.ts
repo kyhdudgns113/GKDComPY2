@@ -1,7 +1,7 @@
 import {NestFactory} from '@nestjs/core'
 import {AppModule} from './app.module'
 import {CorsOptions} from '@nestjs/common/interfaces/external/cors-options.interface'
-import {adminURL, clientURL, serverPort} from './common/secret'
+import {adminURL, clientURL, clientTestURL, serverPort} from './common/secret'
 import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger'
 
 async function bootstrap() {
@@ -9,7 +9,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     // CORS 설정
     const corsOptions: CorsOptions = {
-      origin: [adminURL, clientURL],
+      origin: [adminURL, clientURL, clientTestURL],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true
     }

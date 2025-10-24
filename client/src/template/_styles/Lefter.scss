@@ -1,5 +1,8 @@
 @use '../../base/styles/values.scss' as v;
 
+$LEFTER_HEIGHT: 600px;
+$LEFTER_WIDTH: 220px;
+
 .Template {
   .Body {
     .Lefter {
@@ -31,10 +34,10 @@
 
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
 
-        height: 600px;
+        height: $LEFTER_HEIGHT;
 
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
 
         padding-top: 12px;
 
@@ -54,7 +57,7 @@
         &._open {
           visibility: visible;
           transform: translateX(0);
-          width: 210px;
+          width: $LEFTER_WIDTH;
         }
 
         ._row {
