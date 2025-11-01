@@ -1,11 +1,12 @@
 import {useCommunityStates, useTemplateStates} from '@store'
 import {LefterToggleButton} from './buttons'
-import {MainPageRow, EntireMemberRow, ClubRow, SubMemberRow, BanMemberRow} from './rows'
+import {MainPageRow, EntireMemberRow, ClubRow, SubMemberRow, BanMemberRow, CommDocRow} from './rows'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import '../_styles/Lefter.scss'
+import './Lefter.scss'
+import './rows/_style/LefterRowCommonStyle.scss'
 
 type LefterProps = DivCommonProps & {}
 
@@ -19,6 +20,7 @@ export const Lefter: FC<LefterProps> = ({className, style, ...props}) => {
       <div className={`_container_lefter ${isLefterOpen ? '_open' : '_close'}`}>
         <MainPageRow />
         <EntireMemberRow />
+        <CommDocRow />
         {clubArr.map((club, clubIdx) => (
           <ClubRow key={clubIdx} club={club} />
         ))}
