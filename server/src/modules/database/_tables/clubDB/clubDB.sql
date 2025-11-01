@@ -14,7 +14,7 @@ CREATE TABLE clubs (
     FOREIGN KEY (commOId)
     REFERENCES communities (commOId)
     ON UPDATE CASCADE
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
 
   CONSTRAINT unique_commOId_clubName UNIQUE (commOId, clubName)
   

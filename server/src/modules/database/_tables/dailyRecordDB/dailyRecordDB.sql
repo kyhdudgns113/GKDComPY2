@@ -25,7 +25,7 @@ CREATE TABLE dailyRecords (
   CONSTRAINT fk_dailyRecords_rowMemName
     FOREIGN KEY (weekOId, rowMemName)
     REFERENCES rowMemberInfos (weekOId, rowMemName)
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
 
   CONSTRAINT unique_dailyRecords_rowMemName_dateVal UNIQUE (rowMemName, dateVal, weekOId)
 
