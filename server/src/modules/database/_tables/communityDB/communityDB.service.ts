@@ -257,13 +257,17 @@ export class CommunityDBService {
       const paramRead = [commOId]
       const [resultRows] = await connection.execute(queryRead, paramRead)
       const resultArray = resultRows as RowDataPacket[]
+
       if (resultArray.length === 0) {
         const queryCreate = 'INSERT INTO commDocs (commOId, contents) VALUES (?, ?)'
         const paramCreate = [commOId, '']
         await connection.execute(queryCreate, paramCreate)
-      }
-      const {contents} = resultArray[0]
-      return {contents}
+        return {contents: ''}
+      } // ::
+      else {
+        const {contents} = resultArray[0]
+        return {contents}
+      } // ::
       // ::
     } catch (errObj) {
       // ::
