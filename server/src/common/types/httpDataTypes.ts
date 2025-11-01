@@ -47,6 +47,11 @@ export type ModifyCommClubDataType = {
   newClubName: string
 }
 
+export type ModifyCommDocDataType = {
+  commOId: string
+  contents: string
+}
+
 export type ModifyCommUserDataType = {
   userOId: string
   newUserId: string

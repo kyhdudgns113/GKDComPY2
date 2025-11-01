@@ -22,11 +22,33 @@ export class ClientDocumentService {
     }
   }
 
+  async modifyCommDocument(jwtPayload: JwtPayloadType, data: HTTP.ModifyCommDocDataType) {
+    try {
+      await this.portService.modifyCommDocument(jwtPayload, data)
+      return {ok: true, body: {}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadClubDocument(jwtPayload: JwtPayloadType, clubOId: string) {
     try {
       const {contents} = await this.portService.loadClubDocument(jwtPayload, clubOId)
+      return {ok: true, body: {contents}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async loadCommDocument(jwtPayload: JwtPayloadType, commOId: string) {
+    try {
+      const {contents} = await this.portService.loadCommDocument(jwtPayload, commOId)
       return {ok: true, body: {contents}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {

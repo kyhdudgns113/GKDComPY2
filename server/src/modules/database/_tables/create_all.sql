@@ -20,6 +20,18 @@ CREATE TABLE communities (
   
 )   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
 
+CREATE TABLE commDocs (
+  commOId CHAR(24) NOT NULL PRIMARY KEY,
+  contents TEXT NOT NULL,
+
+  CONSTRAINT fk_commDocs_commOId
+    FOREIGN KEY (commOId)
+    REFERENCES communities (commOId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+
+)   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
+
 -- 2. users 테이블 (communities와 독립적)
 CREATE TABLE users (
   userOId CHAR(24) NOT NULL PRIMARY KEY,

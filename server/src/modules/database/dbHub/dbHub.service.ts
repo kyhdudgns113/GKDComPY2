@@ -160,6 +160,26 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readCommunityDocument(where: string, commOId: string) {
+    try {
+      const {contents} = await this.communityDBService.readCommunityDocument(where, commOId)
+      return {contents}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateCommunityDocument(where: string, dto: DTO.UpdateCommDocDTO) {
+    try {
+      await this.communityDBService.updateCommunityDocument(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   // AREA4: DailyRecord Area
 

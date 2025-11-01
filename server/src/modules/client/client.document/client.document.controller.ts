@@ -18,6 +18,14 @@ export class ClientDocumentController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Put('/modifyCommDocument')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyCommDocument(@Headers() headers: any, @Body() data: HTTP.ModifyCommDocDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientDocumentService.modifyCommDocument(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadClubDocument/:clubOId')
@@ -25,6 +33,14 @@ export class ClientDocumentController {
   async loadClubDocument(@Headers() headers: any, @Param('clubOId') clubOId: string) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientDocumentService.loadClubDocument(jwtPayload, clubOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Get('/loadCommDocument/:commOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadCommDocument(@Headers() headers: any, @Param('commOId') commOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientDocumentService.loadCommDocument(jwtPayload, commOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }

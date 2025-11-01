@@ -65,6 +65,37 @@ export class ClientDocPortService {
     }
   }
 
+  /**
+   * modifyCommDocument
+   * - 공동체 문서 수정 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 수정할 공동체의 OId
+   * - contents: string
+   *     + 공동체 문서 내용
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 공동체 문서 수정 뙇!!
+   */
+  async modifyCommDocument(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyCommDocDataType) {
+    const where = `/client/document/modifyCommDocument`
+    const {commOId, contents} = data
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_CommWrite(where, jwtPayload, commOId)
+
+      // 2. 공동체 문서 수정 뙇!!
+      const dto: DTO.UpdateCommDocDTO = {commOId, contents}
+      await this.dbHubService.updateCommunityDocument(where, dto)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // GET AREA:
 
   /**
@@ -92,6 +123,41 @@ export class ClientDocPortService {
 
       // 2. 클럽 문서 내용 뙇!!
       const {contents} = await this.dbHubService.readDocumentByClubOId(where, clubOId)
+
+      // 3. 리턴 뙇!!
+      return {contents}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadCommDocument
+   * - 공동체 문서 내용 읽기 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 공동체 OId
+   *
+   * 출력값
+   * - contents: string
+   *     + 공동체 문서 내용
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 공동체 문서 내용 뙇!!
+   * 3. 리턴 뙇!!
+   */
+  async loadCommDocument(jwtPayload: T.JwtPayloadType, commOId: string) {
+    const where = `/client/document/loadCommDocument/${commOId}`
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_CommRead(where, jwtPayload, commOId)
+
+      // 2. 공동체 문서 내용 뙇!!
+      const {contents} = await this.dbHubService.readCommunityDocument(where, commOId)
 
       // 3. 리턴 뙇!!
       return {contents}

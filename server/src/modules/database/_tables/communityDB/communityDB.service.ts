@@ -214,7 +214,6 @@ export class CommunityDBService {
       connection.release()
     }
   }
-
   async readCommunityByCommOId(where: string, commOId: string) {
     /**
      * readCommunityByCommOId
@@ -241,6 +240,48 @@ export class CommunityDBService {
 
       const community: T.CommunityType = {commOId, commName, maxUsers, maxClubs, banClubOId, subClubOId}
       return {community}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+  async readCommunityDocument(where: string, commOId: string) {
+    const connection = await this.dbService.getConnection()
+    try {
+      const queryRead = 'SELECT contents FROM commDocs WHERE commOId = ?'
+      const paramRead = [commOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+      if (resultArray.length === 0) {
+        const queryCreate = 'INSERT INTO commDocs (commOId, contents) VALUES (?, ?)'
+        const paramCreate = [commOId, '']
+        await connection.execute(queryCreate, paramCreate)
+      }
+      const {contents} = resultArray[0]
+      return {contents}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async updateCommunityDocument(where: string, dto: DTO.UpdateCommDocDTO) {
+    const connection = await this.dbService.getConnection()
+    try {
+      const {commOId, contents} = dto
+      const queryUpdate = 'UPDATE commDocs SET contents = ? WHERE commOId = ?'
+      const paramUpdate = [contents, commOId]
+      await connection.execute(queryUpdate, paramUpdate)
       // ::
     } catch (errObj) {
       // ::
