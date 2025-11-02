@@ -1,0 +1,19 @@
+.Template {
+  .Body {
+    .ClientCommDoc_Page {
+      .HeaderBtnRow_Part {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+
+        height: fit-content;
+
+        position: absolute;
+        right: 0px;
+        top: 4px;
+
+        width: fit-content;
+      }
+    }
+  }
+}

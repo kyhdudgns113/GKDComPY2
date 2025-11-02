@@ -4,25 +4,57 @@
   .Body {
     .ClientCommDoc_Page {
       ._container_page {
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 10px;
+        border-width: 4px;
+
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+        cursor: default;
+
         display: flex;
         flex-direction: column;
 
         height: fit-content;
 
+        margin-top: 16px;
+
+        padding-top: 4px;
+        padding-bottom: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+
         width: fit-content;
 
+        transition: box-shadow 0.4s ease;
+
+        &:focus-within,
+        &:hover {
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+        }
+
         ._header_page {
+          align-items: center;
           display: flex;
           flex-direction: row;
 
           height: fit-content;
 
+          justify-content: center;
+          position: relative;
+
           width: 100%;
         }
 
         ._title_page {
-          font-size: 24px;
-          font-weight: 400;
+          color: v.$SAKURA_TEXT;
+
+          font-size: 28px;
+          font-weight: 700;
+
+          text-align: center;
+
+          width: 100%;
         }
       }
     }
