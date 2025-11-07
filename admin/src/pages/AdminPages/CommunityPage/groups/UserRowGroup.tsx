@@ -17,6 +17,17 @@ export const UserRowGroup: FC<UserRowGroupProps> = ({user, className, style, ...
 
   const dispatch = useAppDispatch()
 
+  const onClickDeleteUser = useCallback(
+    (user: UserType) => (e: MouseEvent<HTMLSpanElement>) => {
+      e.stopPropagation()
+
+      if (confirm(`${user.userId} 유저를 삭제하시겠습니까?`)) {
+        console.log(`${user.userId}`)
+      }
+    },
+    []
+  )
+
   const onClickUserRow = useCallback(
     (user: UserType) => (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
@@ -55,6 +66,8 @@ export const UserRowGroup: FC<UserRowGroupProps> = ({user, className, style, ...
     >
       <p className="_title_group">{user.userId}</p>
       {user.commAuth !== AUTH_NORMAL && <Icon iconName="crown" className={`_crown_icon ${crownColor}`} />}
+
+      <Icon iconName="cancel" className="_delete_icon" onClick={onClickDeleteUser(user)} />
     </div>
   )
 }

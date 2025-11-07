@@ -19,6 +19,8 @@ type ContextType = {
   loadCommArr: () => Promise<boolean>
   loadCommClubArr: (commOId: string) => Promise<boolean>
   loadCommUserArr: (commOId: string) => Promise<boolean>
+
+  deleteCommunityUser: (userOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const CommunityCallbacksContext = createContext<ContextType>({
@@ -30,7 +32,9 @@ export const CommunityCallbacksContext = createContext<ContextType>({
 
   loadCommArr: () => Promise.resolve(false),
   loadCommClubArr: () => Promise.resolve(false),
-  loadCommUserArr: () => Promise.resolve(false)
+  loadCommUserArr: () => Promise.resolve(false),
+
+  deleteCommunityUser: () => Promise.resolve(false),
 })
 
 export const useCommunityCallbacksContext = () => useContext(CommunityCallbacksContext)
@@ -231,6 +235,33 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
     [dispatch]
   )
 
+  // DELETE AREA:
+
+  const deleteCommunityUser = useCallback(
+    async (userOId: string) => {
+      const url = `/admin/community/deleteCommUser/${userOId}`
+      return F.delWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {userArr} = body
+            dispatch(setCommUserArr(userArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // prettier-ignore
   const value: ContextType = {
     addCommunity,
@@ -241,7 +272,9 @@ export const CommunityCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
     loadCommArr,
     loadCommClubArr,
-    loadCommUserArr
+    loadCommUserArr,
+
+    deleteCommunityUser,
   }
   return <CommunityCallbacksContext.Provider value={value}>{children}</CommunityCallbacksContext.Provider>
 }
