@@ -6,6 +6,8 @@ import {useAppDispatch, useTemplateActions} from '@store'
 import type {FC, MouseEvent} from 'react'
 import type {SpanCommonProps} from '@prop'
 
+import './LefterToggleButton.scss'
+
 type LefterToggleButtonProps = SpanCommonProps & {}
 
 export const LefterToggleButton: FC<LefterToggleButtonProps> = ({className, style, ...props}) => {

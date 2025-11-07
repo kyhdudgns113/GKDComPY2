@@ -1,3 +1,4 @@
+export * from './ClientCommDocPage'
 export * from './ClientMainPage'
 export * from './ClientRootPage'
 export * from './ClubDiscussPage'

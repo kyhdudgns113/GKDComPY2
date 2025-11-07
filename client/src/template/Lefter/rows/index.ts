@@ -1,4 +1,5 @@
 export * from './BanMemberRow'
+export * from './CommDocRow'
 export * from './ClubRow'
 export * from './EntireMemberRow'
 export * from './MainPageRow'

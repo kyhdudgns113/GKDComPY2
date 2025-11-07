@@ -70,10 +70,10 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
         }
 
         if (chat.userOId === userOId) {
-          returnArr.push(<ChatMyObject chat={chat} />)
+          returnArr.push(<ChatMyObject chat={chat} key={idx} />)
         } // ::
         else {
-          returnArr.push(<ChatOtherObject chat={chat} isSameArea={isSameArea} />)
+          returnArr.push(<ChatOtherObject chat={chat} isSameArea={isSameArea} key={idx} />)
         }
 
         return <Fragment key={idx}>{returnArr}</Fragment>
