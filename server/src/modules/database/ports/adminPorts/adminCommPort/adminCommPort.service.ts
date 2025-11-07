@@ -347,4 +347,65 @@ export class AdminCommPortService {
       throw errObj
     }
   }
+
+  // DELETE AREA:
+
+  /**
+   * deleteCommUser
+   * - 공동체 유저 삭제 함수
+   *
+   * 입력값
+   * - userOId: string
+   *     + 삭제할 유저의 OId
+   *
+   * 출력값
+   * - userArr: T.UserType[]
+   *     + 삭제된 이후 공동체에 속한 유저들의 배열(이름순으로 정리)
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. 유저 존재하는지 뙇!!
+   * 3. 유저 삭제 뙇!!
+   * 4. 공동체 유저 배열 읽기 뙇!!
+   * 5. 이름순으로 정렬 뙇!!
+   * 6. 반환 뙇!!
+   */
+  async deleteCommUser(jwtPayload: JwtPayloadType, userOId: string) {
+    const where = `/admin/community/deleteCommUser/${userOId}`
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkUserAdmin(where, jwtPayload)
+
+      // 2. 유저 존재하는지 뙇!!
+      const {user} = await this.dbHubService.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {userErr: `유저가 존재하지 않음`},
+          gkdErrCode: 'ADMIN_DELETE_COMM_USER_NO_USER',
+          gkdErrMsg: `유저가 존재하지 않음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {commOId} = user
+
+      // 3. 유저 삭제 뙇!!
+      await this.dbHubService.deleteUser(where, userOId)
+
+      // 4. 공동체 유저 배열 읽기 뙇!!
+      const {userArr} = await this.dbHubService.readUserArrByCommOId(where, commOId)
+
+      // 5. 이름순으로 정렬 뙇!!
+      userArr.sort((a, b) => a.userId.localeCompare(b.userId))
+
+      // 6. 반환 뙇!!
+      return {userArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 }

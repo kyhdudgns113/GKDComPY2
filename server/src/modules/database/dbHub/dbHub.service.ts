@@ -392,6 +392,16 @@ export class DBHubService {
     }
   }
 
+  async deleteUser(where: string, userOId: string) {
+    try {
+      await this.userDBService.deleteUser(where, userOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA3: WeekRecord Area
 
   async createWeekRow(where: string, dto: DTO.CreateWeekRowDTO) {

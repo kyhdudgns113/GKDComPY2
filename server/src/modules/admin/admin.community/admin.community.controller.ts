@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {AdminCommunityService} from './admin.community.service'
 
 import {CheckAdminGuard} from '@commons/guards'
@@ -67,6 +67,16 @@ export class AdminCommunityController {
   async loadCommUserArr(@Headers() headers: any, @Param('commOId') commOId: string) {
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.loadCommUserArr(jwtPayload, commOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // DELETE AREA:
+
+  @Delete('/deleteCommUser/:userOId')
+  @UseGuards(CheckAdminGuard)
+  async deleteCommUser(@Headers() headers: any, @Param('userOId') userOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.adminCommunityService.deleteCommUser(jwtPayload, userOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }

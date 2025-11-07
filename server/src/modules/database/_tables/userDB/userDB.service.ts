@@ -388,4 +388,53 @@ export class UserDBService {
       connection.release()
     }
   }
+
+  async deleteUser(where: string, userOId: string) {
+    /**
+     * deleteUser
+     * - 유저 삭제 함수
+     *
+     * 입력값
+     * - userOId: string
+     *     + 삭제할 유저의 OId
+     *
+     * 작동 순서
+     * 1. 유저 존재하는지 확인
+     * 2. 데이터베이스에서 삭제
+     */
+
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 유저 존재하는지 확인
+      const queryRead = 'SELECT userOId FROM users WHERE userOId = ?'
+      const paramRead = [userOId]
+      const [resultRows] = await connection.execute(queryRead, paramRead)
+      const resultArray = resultRows as RowDataPacket[]
+
+      if (resultArray.length === 0) {
+        throw {
+          gkd: {userErr: `유저가 존재하지 않음`},
+          gkdErrCode: 'USERDB_DELETE_USER_NO_USER',
+          gkdErrMsg: `유저가 존재하지 않음`,
+          gkdStatus: {userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2. 데이터베이스에서 삭제
+      const queryDelete = 'DELETE FROM users WHERE userOId = ?'
+      const paramDelete = [userOId]
+      await connection.execute(queryDelete, paramDelete)
+
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 }

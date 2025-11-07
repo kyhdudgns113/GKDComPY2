@@ -91,4 +91,17 @@ export class AdminCommunityService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // DELETE AREA:
+
+  async deleteCommUser(jwtPayload: JwtPayloadType, userOId: string) {
+    try {
+      const {userArr} = await this.portService.deleteCommUser(jwtPayload, userOId)
+      return {ok: true, body: {userArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }
