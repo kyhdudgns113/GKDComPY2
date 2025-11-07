@@ -3,6 +3,7 @@ import {Icon} from '@component'
 import {AUTH_ADMIN, AUTH_SILVER, AUTH_GOLD, AUTH_NORMAL} from '@secret'
 import {useAppDispatch} from '@store'
 import {openModalModifyUser, selectUser} from '@store'
+import {useCommunityCallbacksContext} from '@context'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -13,6 +14,8 @@ type UserRowGroupProps = DivCommonProps & {
 }
 
 export const UserRowGroup: FC<UserRowGroupProps> = ({user, className, style, ...props}) => {
+  const {deleteCommunityUser} = useCommunityCallbacksContext()
+
   const [crownColor, setCrownColor] = useState<string>('_color_normal')
 
   const dispatch = useAppDispatch()
@@ -22,10 +25,14 @@ export const UserRowGroup: FC<UserRowGroupProps> = ({user, className, style, ...
       e.stopPropagation()
 
       if (confirm(`${user.userId} 유저를 삭제하시겠습니까?`)) {
-        console.log(`${user.userId}`)
+        deleteCommunityUser(user.userOId).then(res => {
+          if (res) {
+            alert(`${user.userId} 유저 삭제 성공`)
+          }
+        })
       }
     },
-    []
+    [deleteCommunityUser]
   )
 
   const onClickUserRow = useCallback(
