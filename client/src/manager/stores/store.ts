@@ -41,6 +41,7 @@ export const useChatActions = () => Slices.chatSlice.actions
 export const useClubActions = () => Slices.clubSlice.actions
 export const useCommunityActions = () => Slices.communitySlice.actions
 export const useDocumentActions = () => Slices.docSlice.actions
+export const useEMemberActions = () => Slices.eMemberSlice.actions
 export const useMemberActions = () => Slices.memberSlice.actions
 export const useModalActions = () => Slices.modalSlice.actions
 export const useRecordActions = () => Slices.recordSlice.actions

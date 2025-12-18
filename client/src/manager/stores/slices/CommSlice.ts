@@ -13,7 +13,7 @@ import type {AdminStates} from '../store'
 interface CommunityState {
   banClub: ST.ClubType
   clubArr: ST.ClubType[]
-  commMemberArr: ST.MemberType[]
+  commMemberArr: ST.MemberType[] // 메인 페이지의 전체 멤버 목록 확인에 사용
   commMemberSortMode: number
   community: ST.CommunityType
   subClub: ST.ClubType

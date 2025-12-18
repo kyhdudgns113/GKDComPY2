@@ -65,6 +65,15 @@ export type DocumentType = {
   contents: string
 }
 
+export type EMemberType = {
+  batterPower: number
+  clubOId: string
+  memName: string
+  memOId: string
+  position: number
+  pitcherPower: number
+}
+
 export type MemberType = {
   batterPower: number
   clubOId: string
