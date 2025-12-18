@@ -2,15 +2,47 @@
   .Body {
     .EntireMember_Page {
       .ClubMemberList_Part {
+        border-radius: 10px;
+        border-width: 4px;
         display: flex;
         flex-direction: column;
 
         height: fit-content;
+
+        padding-bottom: 32px;
+
         width: fit-content;
 
         ._title_part {
+          border-bottom-width: 4px;
+
           font-size: 24px;
           font-weight: 700;
+
+          padding-top: 4px;
+          padding-bottom: 6px;
+
+          text-align: center;
+          width: 100%;
+        }
+
+        ._width_number_part {
+          width: 32px;
+        }
+        ._width_name_part {
+          width: 100px;
+        }
+        ._width_batter_part {
+          width: 56px;
+        }
+        ._width_pitcher_part {
+          width: 56px;
+        }
+        ._width_total_part {
+          width: 56px;
+        }
+        ._width_club_name_part {
+          width: 100px;
         }
       }
     }

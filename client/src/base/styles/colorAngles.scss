@@ -13,9 +13,6 @@ div[class*='block_'] {
     var(--gkd-block-l-bdr, #{$block_l_bdr}) var(--gkd-block-c-bdr, #{$block_c_bdr}) var(--gkd-block-angle, 0deg) / var(--gkd-block-tp, 1)
   );
 
-  border-radius: 8px;
-  // border-width: 2px;
-
   color: oklch(var(--gkd-block-l-bdr, #{$block_l_bdr}) var(--gkd-block-c-bdr, #{$block_c_bdr}) var(--gkd-block-angle, 0deg));
 }
 

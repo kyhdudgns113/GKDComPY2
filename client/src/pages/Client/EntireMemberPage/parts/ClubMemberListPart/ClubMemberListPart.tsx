@@ -1,5 +1,6 @@
 import {useAppSelector} from '@store'
 
+import {ArrHeaderObj} from '../../objects'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -18,10 +19,21 @@ export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorI
   const angle = Math.floor(360 / numClubs) * colorIdx
 
   const club = clubArr.find(club => club.clubOId === clubOId) || NV.NULL_CLUB()
+  const clubName = club.clubName || '후보군'
+
+  const cnAngle = `block_angle_${angle}`
 
   return (
-    <div className={`ClubMemberList_Part block_angle_${angle}`} {...props}>
-      <p className="_title_part">{club.clubName || '후보군'}</p>
+    <div className={`ClubMemberList_Part ${cnAngle}`} {...props}>
+      {/* 1. 타이틀 */}
+      <p className="_title_part">{clubName}</p>
+
+      {/* 2. 배열 헤더 */}
+      <ArrHeaderObj className={cnAngle} clubName={clubName} />
+
+      {/* 3. 멤버행 배열 */}
+
+      {/* 4. 드래그 드랍용 빈 공간 = padding 으로 대체한다 */}
     </div>
   )
 }
