@@ -17,7 +17,7 @@ function App() {
 
         <Route path="main" element={<P.ClientMainPage />} />
 
-        <Route path="entireMember" element={<P.NullPage />} />
+        <Route path="entireMember" element={<P.EntireMemberPage />} />
 
         <Route path="commonDoc" element={<P.ClientCommDocPage />} />
 

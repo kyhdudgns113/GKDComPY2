@@ -1,0 +1,24 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .EntireMember_Page {
+      ._container_page {
+        align-items: center;
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+
+        height: 700px;
+
+        width: 700px;
+      }
+
+      ._title_page {
+        color: v.$SAKURA_TEXT;
+        font-size: 28px;
+        font-weight: 700;
+      }
+    }
+  }
+}

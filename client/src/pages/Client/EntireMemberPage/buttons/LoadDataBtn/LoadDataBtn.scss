@@ -1,0 +1,29 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .EntireMember_Page {
+      .LoadData_Btn {
+        background-color: v.$SAKURA_BG;
+        border-color: v.$SAKURA_BORDER;
+        border-radius: 8px;
+        border-width: 3px;
+
+        color: v.$SAKURA_TEXT;
+        cursor: pointer;
+
+        font-weight: 700;
+
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        &:hover {
+          background-color: v.$SAKURA_BG_50;
+        }
+      }
+    }
+  }
+}
+

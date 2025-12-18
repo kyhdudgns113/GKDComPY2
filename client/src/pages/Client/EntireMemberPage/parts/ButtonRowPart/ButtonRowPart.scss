@@ -1,0 +1,14 @@
+.Template {
+  .Body {
+    .EntireMember_Page {
+      .ButtonRow_Part {
+        display: flex;
+        flex-direction: row;
+
+        gap: 8px;
+
+        margin-top: 32px;
+      }
+    }
+  }
+}
