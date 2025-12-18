@@ -19,16 +19,16 @@ export const eMemberSlice = createSlice({
   name: 'eMember',
   initialState,
   reducers: {
-    moveEMember: (state, action: PayloadAction<{prevClubOId: string; memOId: string; newClubOId: string; newIdx: number | null}>) => {
-      const {prevClubOId, memOId, newClubOId, newIdx} = action.payload
+    moveEMember: (state, action: PayloadAction<{prevClubOId: string; memName: string; newClubOId: string; newIdx: number | null}>) => {
+      const {prevClubOId, memName, newClubOId, newIdx} = action.payload
 
-      const eMember = state.eMembers[prevClubOId].find(eMember => eMember.memOId === memOId)
+      const eMember = state.eMembers[prevClubOId].find(eMember => eMember.memName === memName)
       if (!eMember) {
         return
       }
 
       // 기존 클럽에서 멤버 제거
-      state.eMembers[prevClubOId] = state.eMembers[prevClubOId].filter(eMember => eMember.memOId !== memOId)
+      state.eMembers[prevClubOId] = state.eMembers[prevClubOId].filter(eMember => eMember.memName !== memName)
 
       // 새로운 클럽에 멤버 추가
       if (newIdx === null) {
@@ -53,7 +53,6 @@ export const eMemberSlice = createSlice({
           batterPower: eMember.batterPower,
           clubOId: eMember.clubOId,
           memName: eMember.memName,
-          memOId: eMember.memOId,
           position: eMember.position,
           pitcherPower: eMember.pitcherPower
         }
