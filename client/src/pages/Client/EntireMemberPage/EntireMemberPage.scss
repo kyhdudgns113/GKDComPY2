@@ -19,6 +19,12 @@
         font-size: 28px;
         font-weight: 700;
       }
+
+      ._container_club_arr_part {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+      }
     }
   }
 }

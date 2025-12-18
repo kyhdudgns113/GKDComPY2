@@ -4,6 +4,14 @@
       .ClubMemberList_Part {
         display: flex;
         flex-direction: column;
+
+        height: fit-content;
+        width: fit-content;
+
+        ._title_part {
+          font-size: 24px;
+          font-weight: 700;
+        }
       }
     }
   }

@@ -1,0 +1,46 @@
+$block_l_bg: 0.97;
+$block_c_bg: 0.07;
+$block_l_bdr: 0.72;
+$block_c_bdr: 0.18;
+$block_tp: 0.6;
+$block_tp_white: 0.7;
+
+div[class*='block_'] {
+  background-color: oklch(
+    var(--gkd-block-l-bg, #{$block_l_bg}) var(--gkd-block-c-bg, #{$block_c_bg}) var(--gkd-block-angle, 0deg) / var(--gkd-block-tp, 1)
+  );
+  border-color: oklch(
+    var(--gkd-block-l-bdr, #{$block_l_bdr}) var(--gkd-block-c-bdr, #{$block_c_bdr}) var(--gkd-block-angle, 0deg) / var(--gkd-block-tp, 1)
+  );
+
+  border-radius: 8px;
+  // border-width: 2px;
+
+  color: oklch(var(--gkd-block-l-bdr, #{$block_l_bdr}) var(--gkd-block-c-bdr, #{$block_c_bdr}) var(--gkd-block-angle, 0deg));
+}
+
+@for $i from 0 through 360 {
+  div.block_angle_#{$i} {
+    --gkd-block-l-bg: #{$block_l_bg};
+    --gkd-block-c-bg: #{$block_c_bg};
+    --gkd-block-l-bdr: #{$block_l_bdr};
+    --gkd-block-c-bdr: #{$block_c_bdr};
+    --gkd-block-angle: #{$i}deg;
+  }
+
+  div.block_angle_#{$i}_transparent,
+  div.block_angle_#{$i}_tp {
+    --gkd-block-l-bg: #{$block_l_bg};
+    --gkd-block-c-bg: #{$block_c_bg};
+    --gkd-block-l-bdr: #{$block_l_bdr};
+    --gkd-block-c-bdr: #{$block_c_bdr};
+    --gkd-block-angle: #{$i}deg;
+    --gkd-block-tp: #{$block_tp};
+  }
+}
+
+@for $i from 0 through 100 {
+  div.tp_#{$i} {
+    --gkd-block-tp: #{calc($i / 100)};
+  }
+}

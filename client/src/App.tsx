@@ -6,6 +6,7 @@ import * as P from '@page'
 
 import '@styles/App.css'
 import '@styles/App.scss'
+import '@styles/colorAngles.scss'
 
 function App() {
   return (
