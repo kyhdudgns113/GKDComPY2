@@ -29,7 +29,7 @@ export const Lefter: FC<LefterProps> = ({className, style, ...props}) => {
       </div>
 
       {/* 2. 토글 버튼 */}
-      <LefterToggleButton />
+      <LefterToggleButton className={isLefterOpen ? '_open' : '_close'} />
     </div>
   )
 }

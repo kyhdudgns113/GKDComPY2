@@ -25,24 +25,29 @@
           text-align: center;
           width: 100%;
         }
-
-        ._width_number_part {
-          width: 32px;
-        }
         ._width_name_part {
-          width: 100px;
+          border-right-width: 2px;
+
+          text-align: center;
+
+          width: 140px;
         }
-        ._width_batter_part {
-          width: 56px;
-        }
+        ._width_batter_part,
         ._width_pitcher_part {
-          width: 56px;
+          border-right-width: 2px;
+          text-align: center;
+          width: 50px;
         }
         ._width_total_part {
-          width: 56px;
+          text-align: center;
+          width: 50px;
         }
-        ._width_club_name_part {
-          width: 100px;
+
+        ._test_member_row_part {
+          display: flex;
+          flex-direction: row;
+
+          font-size: 14px;
         }
       }
     }

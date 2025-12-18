@@ -11,13 +11,6 @@
         display: flex;
         flex-direction: row;
 
-        gap: 8px;
-
-        padding-left: 4px;
-        padding-right: 4px;
-        padding-top: 2px;
-        padding-bottom: 2px;
-
         font-weight: 700;
 
         ._name_header,
@@ -27,6 +20,10 @@
         ._club_name_header {
           font-weight: 700;
           text-align: center;
+        }
+
+        ._bd_right {
+          border-right-width: 2px;
         }
       }
     }

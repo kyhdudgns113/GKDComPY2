@@ -9,6 +9,7 @@ export const store = configureStore({
     Club: Slices.clubSlice.reducer,
     Community: Slices.communitySlice.reducer,
     Document: Slices.docSlice.reducer,
+    EMember: Slices.eMemberSlice.reducer,
     Member: Slices.memberSlice.reducer,
     Modal: Slices.modalSlice.reducer,
     Record: Slices.recordSlice.reducer,

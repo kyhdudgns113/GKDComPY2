@@ -1,6 +1,6 @@
 import {useAppSelector} from '@store'
 
-import {ArrHeaderObj} from '../../objects'
+import {ArrHeaderObj, EMemberRowObj} from '../../objects'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -15,6 +15,7 @@ type ClubMemberListPartProps = DivCommonProps & {
 
 export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorIdx, ...props}) => {
   const clubArr = useAppSelector(state => state.Community.clubArr)
+  const eMemberArr = useAppSelector(state => state.EMember.eMembers[clubOId] || [])
   const numClubs = clubArr.length + 1 // 클럽수 + 후보군 (탈퇴는 안 셈)
   const angle = Math.floor(360 / numClubs) * colorIdx
 
@@ -29,9 +30,20 @@ export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorI
       <p className="_title_part">{clubName}</p>
 
       {/* 2. 배열 헤더 */}
-      <ArrHeaderObj className={cnAngle} clubName={clubName} />
+      <ArrHeaderObj className={cnAngle} />
 
       {/* 3. 멤버행 배열 */}
+      {eMemberArr.map((eMember, eMemberIdx) => (
+        <EMemberRowObj key={eMemberIdx} clubOId={clubOId} eMember={eMember} posIdx={eMemberIdx} />
+      ))}
+
+      {/* 3.5. 테스트용 멤버행 */}
+      <div className="_test_member_row_part">
+        <p className="_name_row _width_name_part">테스트멤버의닉네임</p>
+        <p className="_batter_row _width_batter_part">12,345</p>
+        <p className="_pitcher_row _width_pitcher_part">12,345</p>
+        <p className="_total_row _width_total_part">12,345</p>
+      </div>
 
       {/* 4. 드래그 드랍용 빈 공간 = padding 으로 대체한다 */}
     </div>

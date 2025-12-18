@@ -40,23 +40,25 @@ $LEFTER_WIDTH: 220px;
 
       padding-top: 12px;
 
-      transition: box-shadow 0.4s ease, visibility 0.7s ease, transform 0.7s ease, width 0.7s ease;
+      transition: box-shadow 0.4s ease, visibility 0.7s ease, transform 0.7s ease, opacity 0.7s ease;
+
+      width: $LEFTER_WIDTH;
 
       &:hover {
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
       }
 
       &._close {
-        visibility: hidden;
+        // visibility: hidden;
         transform: translateX(-200px);
+        opacity: 0;
         pointer-events: none;
-        width: 0px;
       }
 
       &._open {
-        visibility: visible;
+        // visibility: visible;
         transform: translateX(0);
-        width: $LEFTER_WIDTH;
+        opacity: 1;
       }
     }
   }

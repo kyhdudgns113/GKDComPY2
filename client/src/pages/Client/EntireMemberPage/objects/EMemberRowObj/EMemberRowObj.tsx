@@ -12,7 +12,7 @@ type EMemberRowObjProps = Omit<DivCommonProps, 'style'> & {
 
 /* eslint-disable */
 export const EMemberRowObj: FC<EMemberRowObjProps> = ({clubOId, eMember, posIdx, className, ...props}) => {
-  const {memName, batterPower, pitcherPower, position} = eMember
+  const {memName, batterPower, pitcherPower} = eMember
   const totalPower = batterPower + pitcherPower
 
   return (

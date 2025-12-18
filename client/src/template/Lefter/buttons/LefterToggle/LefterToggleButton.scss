@@ -18,11 +18,18 @@
 
       padding: 4px;
 
-      transition: box-shadow 0.4s ease;
+      transition: box-shadow 0.4s ease, transform 0.7s ease;
 
       &:hover {
         background-color: v.$SAKURA_BG_30;
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+      }
+
+      &._open {
+        transform: translateX(0);
+      }
+      &._close {
+        transform: translateX(-200px);
       }
     }
   }
