@@ -39,11 +39,20 @@ export class EMemberDBService {
       // 2. 새로운 eMembers 삽입 뙇!!
       if (eMemberArr.length > 0) {
         const queryInsert = `
-          INSERT INTO eMembers (commOId, memName, clubOId, prevClubOId, batterPower, pitcherPower, position)
-          VALUES ${eMemberArr.map(() => '(?, ?, ?, ?, ?, ?, ?)').join(', ')}
+          INSERT INTO eMembers (commOId, memName, clubOId, prevClubOId, batterPower, pitcherPower, position, posIdx)
+          VALUES ${eMemberArr.map(() => '(?, ?, ?, ?, ?, ?, ?, ?)').join(', ')}
         `
         const paramInsert = eMemberArr.flatMap(eMember => {
-          return [commOId, eMember.memName, eMember.clubOId, eMember.prevClubOId, eMember.batterPower, eMember.pitcherPower, eMember.position]
+          return [
+            commOId,
+            eMember.memName,
+            eMember.clubOId,
+            eMember.prevClubOId,
+            eMember.batterPower,
+            eMember.pitcherPower,
+            eMember.position,
+            eMember.posIdx
+          ]
         })
         await connection.execute(queryInsert, paramInsert)
       }
@@ -84,7 +93,7 @@ export class EMemberDBService {
 
     try {
       // 1. eMembers 조회 뙇!!
-      const query = `SELECT * FROM eMembers WHERE commOId = ? ORDER BY clubOId, position ASC`
+      const query = `SELECT * FROM eMembers WHERE commOId = ? ORDER BY clubOId, posIdx ASC`
       const param = [commOId]
       const [rows] = await connection.execute(query, param)
       const resultArray = rows as RowDataPacket[]
@@ -100,6 +109,7 @@ export class EMemberDBService {
         memName: row.memName,
         pitcherPower: row.pitcherPower,
         position: row.position,
+        posIdx: row.posIdx,
         prevClubOId: row.prevClubOId
       }))
 

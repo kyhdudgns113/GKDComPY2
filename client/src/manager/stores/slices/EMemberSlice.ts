@@ -45,7 +45,7 @@ export const eMemberSlice = createSlice({
     setEMembersFromArr: (state, action: PayloadAction<ST.MemberType[]>) => {
       const newEMembers: {[clubOId: string]: ST.EMemberType[]} = {}
 
-      action.payload.forEach(member => {
+      action.payload.forEach((member, memIdx) => {
         if (!newEMembers[member.clubOId]) {
           newEMembers[member.clubOId] = []
         }
@@ -55,6 +55,7 @@ export const eMemberSlice = createSlice({
           memName: member.memName,
           pitcherPower: member.pitcherPower,
           position: member.position,
+          posIdx: memIdx,
           prevClubOId: member.clubOId
         }
         newEMembers[member.clubOId].push(newEMember)

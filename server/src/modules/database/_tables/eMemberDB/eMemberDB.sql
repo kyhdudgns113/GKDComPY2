@@ -7,6 +7,7 @@ CREATE TABLE eMembers (
   batterPower INT NOT NULL,
   pitcherPower INT NOT NULL,
   position INT NOT NULL,
+  posIdx INT NOT NULL,
 
   CONSTRAINT fk_eMembers_commOId
     FOREIGN KEY (commOId)
