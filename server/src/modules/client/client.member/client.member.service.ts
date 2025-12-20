@@ -62,6 +62,17 @@ export class ClientMemberService {
     }
   }
 
+  async saveEMembers(jwtPayload: JwtPayloadType, data: HTTP.SaveEMembersDataType) {
+    try {
+      const {success} = await this.portService.saveEMembers(jwtPayload, data.commOId, data.eMemberArr)
+      return {ok: true, body: {success}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadClubMemberArr(jwtPayload: JwtPayloadType, clubOId: string) {

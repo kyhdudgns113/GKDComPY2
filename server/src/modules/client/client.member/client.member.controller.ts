@@ -45,6 +45,14 @@ export class ClientMemberController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Put('/saveEMembers')
+  @UseGuards(CheckJwtValidationGuard)
+  async saveEMembers(@Headers() headers: any, @Body() data: HTTP.SaveEMembersDataType) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.saveEMembers(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadClubMemberArr/:clubOId')

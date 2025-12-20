@@ -16,6 +16,7 @@ type ContextType = {
   modifyMemberCard: (memOId: string, posIdx: number, cardName: string, cardNumber: number | null, skillIdxs: number[], skillLevels: number[]) => Promise<boolean>
   moveClubMember: (prevClubOId: string, clubOId: string, memOId: string) => Promise<boolean>
   saveClubMemberInfo: (member: ST.MemberType) => Promise<boolean>
+  saveEMembers: (commOId: string, eMembers: {[clubOId: string]: ST.EMemberType[]}) => Promise<boolean>
 
   loadClubMemberArr: (clubOId: string) => Promise<boolean>
   loadMemberDeck: (memOId: string) => Promise<boolean>
@@ -29,6 +30,7 @@ export const MemberCallbacksContext = createContext<ContextType>({
   modifyMemberCard: () => Promise.resolve(false),
   moveClubMember: () => Promise.resolve(false),
   saveClubMemberInfo: () => Promise.resolve(false),
+  saveEMembers: () => Promise.resolve(false),
 
   loadClubMemberArr: () => Promise.resolve(false),
   loadMemberDeck: () => Promise.resolve(false),
@@ -152,6 +154,34 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const saveEMembers = useCallback(
+    async (commOId: string, eMembers: {[clubOId: string]: ST.EMemberType[]}) => {
+      const url = `/client/member/saveEMembers`
+
+      // eMembers 객체를 배열로 변환
+      const eMemberArr: ST.EMemberType[] = Object.values(eMembers).flat()
+
+      const data: HTTP.SaveEMembersDataType = {commOId, eMemberArr}
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // GET AREA:
 
   const loadClubMemberArr = useCallback(
@@ -239,6 +269,7 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     modifyMemberCard,
     moveClubMember,
     saveClubMemberInfo,
+    saveEMembers,
 
     loadClubMemberArr,
     loadMemberDeck, 

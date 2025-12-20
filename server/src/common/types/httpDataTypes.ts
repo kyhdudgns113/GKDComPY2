@@ -107,6 +107,18 @@ export type SaveClubMemberInfoDataType = {
   position: number
 }
 
+export type SaveEMembersDataType = {
+  commOId: string
+  eMemberArr: Array<{
+    batterPower: number
+    clubOId: string
+    memName: string
+    pitcherPower: number
+    position: number
+    prevClubOId: string
+  }>
+}
+
 export type SignInDataType = {
   userId: string
   password: string

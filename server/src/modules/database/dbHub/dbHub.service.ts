@@ -25,6 +25,7 @@ export class DBHubService {
     private readonly dailyRecordDBService: TB.DailyRecordDBService,
     private readonly docDBService: TB.DocDBService,
 
+    private readonly eMemberDBService: TB.EMemberDBService,
     private readonly memberDBService: TB.MemberDBService,
     private readonly userDBService: TB.UserDBService,
     private readonly weekRecordDBService: TB.WeekRecordDBService
@@ -322,6 +323,30 @@ export class DBHubService {
   async deleteClubMember(where: string, memOId: string) {
     try {
       await this.memberDBService.deleteClubMember(where, memOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA1-1: EMember Area
+
+  async createOrUpdateEMembers(where: string, commOId: string, eMemberArr: T.EMemberType[]) {
+    try {
+      const {success} = await this.eMemberDBService.createOrUpdateEMembers(where, commOId, eMemberArr)
+      return {success}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readEMemberArrByCommOId(where: string, commOId: string) {
+    try {
+      const {eMemberArr} = await this.eMemberDBService.readEMemberArrByCommOId(where, commOId)
+      return {eMemberArr}
       // ::
     } catch (errObj) {
       // ::

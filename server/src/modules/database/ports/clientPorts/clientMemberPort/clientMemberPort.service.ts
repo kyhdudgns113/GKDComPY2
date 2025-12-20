@@ -257,6 +257,44 @@ export class ClientMemberPortService {
     }
   }
 
+  /**
+   * saveEMembers
+   * - 전체 멤버 페이지의 멤버 정보를 저장하는 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 공동체의 OId
+   * - eMemberArr: T.EMemberType[]
+   *     + 저장할 전체 멤버 배열
+   *
+   * 출력값
+   * - success: boolean
+   *     + 저장 성공 여부
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. eMembers 저장 뙇!!
+   * 3. 리턴 뙇!!
+   */
+  async saveEMembers(jwtPayload: T.JwtPayloadType, commOId: string, eMemberArr: T.EMemberType[]) {
+    const where = `/client/member/saveEMembers`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_CommWrite(where, jwtPayload, commOId)
+
+      // 2. eMembers 저장 뙇!!
+      await this.dbHubService.createOrUpdateEMembers(where, commOId, eMemberArr)
+
+      // 3. 리턴 뙇!!
+      return {success: true}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // GET AREA:
 
   async loadClubMemberArr(jwtPayload: T.JwtPayloadType, clubOId: string) {

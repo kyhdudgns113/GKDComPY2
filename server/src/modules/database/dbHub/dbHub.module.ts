@@ -10,6 +10,7 @@ import * as TB from '../_tables'
     TB.CommunityDBModule,
     TB.DailyRecordDBModule,
     TB.DocDBModule,
+    TB.EMemberDBModule,
     TB.MemberDBModule,
     TB.UserDBModule,
     TB.WeekRecordDBModule
