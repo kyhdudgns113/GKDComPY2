@@ -47,9 +47,9 @@ export const EMemberRowObj: FC<EMemberRowObjProps> = ({
     (e: DragEvent<HTMLDivElement>) => {
       setIsDragging(true)
       e.dataTransfer.effectAllowed = 'move'
-      e.dataTransfer.setData('text/plain', JSON.stringify({prevClubOId: eMember.prevClubOId, memName}))
+      e.dataTransfer.setData('text/plain', JSON.stringify({prevClubOId: clubOId, memName}))
     },
-    [eMember.prevClubOId, memName]
+    [clubOId, memName]
   )
 
   const onDragEnd = useCallback(() => {

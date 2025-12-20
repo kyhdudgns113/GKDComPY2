@@ -30,8 +30,15 @@ export const eMemberSlice = createSlice({
         return
       }
 
+      eMember.clubOId = newClubOId
+
       // 기존 클럽에서 멤버 제거
       state.eMembers[prevClubOId] = state.eMembers[prevClubOId].filter(eMember => eMember.memName !== memName)
+
+      // 기존 클럽의 posIdx 업데이트
+      state.eMembers[prevClubOId].forEach((member, idx) => {
+        member.posIdx = idx
+      })
 
       // 새로운 클럽에 멤버 추가
       if (newIdx === null) {
@@ -40,6 +47,11 @@ export const eMemberSlice = createSlice({
       else {
         state.eMembers[newClubOId].splice(newIdx, 0, eMember)
       }
+
+      // 새로운 클럽의 posIdx 업데이트
+      state.eMembers[newClubOId].forEach((member, idx) => {
+        member.posIdx = idx
+      })
     },
 
     setEMembers: (state, action: PayloadAction<{[clubOId: string]: ST.EMemberType[]}>) => {
