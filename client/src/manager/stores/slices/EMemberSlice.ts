@@ -3,15 +3,18 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 import * as ST from '@shareType'
+import * as V from '@value'
 
 // State 타입 정의
 interface EMemberState {
   eMembers: {[clubOId: string]: ST.EMemberType[]}
+  sortTypes: {[clubOId: string]: number}
 }
 
 // 초기 상태
 const initialState: EMemberState = {
-  eMembers: {}
+  eMembers: {},
+  sortTypes: {}
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -44,6 +47,7 @@ export const eMemberSlice = createSlice({
     },
     setEMembersFromArr: (state, action: PayloadAction<ST.MemberType[]>) => {
       const newEMembers: {[clubOId: string]: ST.EMemberType[]} = {}
+      const newSortTypes: {[clubOId: string]: number} = {}
 
       action.payload.forEach((member, memIdx) => {
         if (!newEMembers[member.clubOId]) {
@@ -59,9 +63,60 @@ export const eMemberSlice = createSlice({
           prevClubOId: member.clubOId
         }
         newEMembers[member.clubOId].push(newEMember)
+        newSortTypes[member.clubOId] = V.SORT_TYPE_USER_SETTING
       })
 
       state.eMembers = newEMembers
+      state.sortTypes = newSortTypes
+    },
+
+    sortEMembersByBatterPower: (state, action: PayloadAction<string>) => {
+      const clubOId = action.payload
+
+      if (state.sortTypes[clubOId] === V.SORT_TYPE_BATTER_ASC) {
+        state.sortTypes[clubOId] = V.SORT_TYPE_BATTER_DESC
+        state.eMembers[clubOId].sort((a, b) => b.batterPower - a.batterPower)
+      } // ::
+      else {
+        state.sortTypes[clubOId] = V.SORT_TYPE_BATTER_ASC
+        state.eMembers[clubOId].sort((a, b) => a.batterPower - b.batterPower)
+      }
+    },
+    sortEMembersByPitcherPower: (state, action: PayloadAction<string>) => {
+      const clubOId = action.payload
+
+      if (state.sortTypes[clubOId] === V.SORT_TYPE_PITCHER_ASC) {
+        state.sortTypes[clubOId] = V.SORT_TYPE_PITCHER_DESC
+        state.eMembers[clubOId].sort((a, b) => b.pitcherPower - a.pitcherPower)
+      } // ::
+      else {
+        state.sortTypes[clubOId] = V.SORT_TYPE_PITCHER_ASC
+        state.eMembers[clubOId].sort((a, b) => a.pitcherPower - b.pitcherPower)
+      }
+    },
+    sortEMembersByTotalPower: (state, action: PayloadAction<string>) => {
+      const clubOId = action.payload
+
+      if (state.sortTypes[clubOId] === V.SORT_TYPE_TOTAL_ASC) {
+        state.sortTypes[clubOId] = V.SORT_TYPE_TOTAL_DESC
+        state.eMembers[clubOId].sort((a, b) => b.batterPower + b.pitcherPower - (a.batterPower + a.pitcherPower))
+      } // ::
+      else {
+        state.sortTypes[clubOId] = V.SORT_TYPE_TOTAL_ASC
+        state.eMembers[clubOId].sort((a, b) => a.batterPower + a.pitcherPower - (b.batterPower + b.pitcherPower))
+      }
+    },
+    sortEMembersByName: (state, action: PayloadAction<string>) => {
+      const clubOId = action.payload
+
+      if (state.sortTypes[clubOId] === V.SORT_TYPE_NAME_ASC) {
+        state.sortTypes[clubOId] = V.SORT_TYPE_NAME_DESC
+        state.eMembers[clubOId].sort((a, b) => b.memName.localeCompare(a.memName))
+      } // ::
+      else {
+        state.sortTypes[clubOId] = V.SORT_TYPE_NAME_ASC
+        state.eMembers[clubOId].sort((a, b) => a.memName.localeCompare(b.memName))
+      }
     }
   }
 })

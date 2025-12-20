@@ -36,8 +36,9 @@ export const [
   SORT_TYPE_PITCHER_ASC,
   SORT_TYPE_PITCHER_DESC,
   SORT_TYPE_TOTAL_ASC,
-  SORT_TYPE_TOTAL_DESC
-] = [0, 1, 2, 3, 4, 5, 6, 7]
+  SORT_TYPE_TOTAL_DESC,
+  SORT_TYPE_USER_SETTING
+] = [0, 1, 2, 3, 4, 5, 6, 7, 1000]
 
 export const getResultString = (result: number) => {
   switch (result) {

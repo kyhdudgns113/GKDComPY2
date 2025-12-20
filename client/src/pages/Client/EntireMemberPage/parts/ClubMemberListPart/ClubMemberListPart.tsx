@@ -30,7 +30,7 @@ export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorI
       <p className="_title_part">{clubName}</p>
 
       {/* 2. 배열 헤더 */}
-      <ArrHeaderObj className={cnAngle} />
+      <ArrHeaderObj clubOId={clubOId} className={cnAngle} />
 
       {/* 3. 멤버행 배열 */}
       {eMemberArr.map((eMember, eMemberIdx) => (
