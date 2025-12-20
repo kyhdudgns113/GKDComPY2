@@ -71,6 +71,14 @@ export class ClientMemberController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Get('/loadEMembers/:commOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadEMembers(@Headers() headers: any, @Param('commOId') commOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientMemberService.loadEMembers(jwtPayload, commOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // DELETE AREA:
 
   @Delete('/removeClubMember/:clubOId/:memOId')

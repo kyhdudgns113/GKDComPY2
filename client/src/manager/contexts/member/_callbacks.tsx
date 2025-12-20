@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useAppDispatch, useMemberActions} from '@store'
+import {useAppDispatch, useMemberActions, useEMemberActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -19,6 +19,7 @@ type ContextType = {
   saveEMembers: (commOId: string, eMembers: {[clubOId: string]: ST.EMemberType[]}) => Promise<boolean>
 
   loadClubMemberArr: (clubOId: string) => Promise<boolean>
+  loadEMembers: (commOId: string) => Promise<boolean>
   loadMemberDeck: (memOId: string) => Promise<boolean>
 
   removeClubMember: (clubOId: string, memOId: string) => Promise<boolean>
@@ -33,6 +34,7 @@ export const MemberCallbacksContext = createContext<ContextType>({
   saveEMembers: () => Promise.resolve(false),
 
   loadClubMemberArr: () => Promise.resolve(false),
+  loadEMembers: () => Promise.resolve(false),
   loadMemberDeck: () => Promise.resolve(false),
   
   removeClubMember: () => Promise.resolve(false),
@@ -43,6 +45,7 @@ export const useMemberCallbacksContext = () => useContext(MemberCallbacksContext
 export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
   const {setClubMemberArr, setMemberDeck, unselectClubMemberOpened} = useMemberActions()
+  const {setEMembers} = useEMemberActions()
 
   // POST AREA:
 
@@ -209,6 +212,31 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const loadEMembers = useCallback(
+    async (commOId: string) => {
+      const url = `/client/member/loadEMembers/${commOId}`
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {eMembers} = body
+            dispatch(setEMembers(eMembers))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   const loadMemberDeck = useCallback(
     async (memOId: string) => {
       const url = `/client/member/loadMemberDeck/${memOId}`
@@ -272,7 +300,8 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     saveEMembers,
 
     loadClubMemberArr,
-    loadMemberDeck, 
+    loadEMembers,
+    loadMemberDeck,
 
     removeClubMember,
   }

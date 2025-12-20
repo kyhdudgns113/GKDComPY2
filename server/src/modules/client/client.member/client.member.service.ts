@@ -97,6 +97,17 @@ export class ClientMemberService {
     }
   }
 
+  async loadEMembers(jwtPayload: JwtPayloadType, commOId: string) {
+    try {
+      const {eMembers} = await this.portService.loadEMembers(jwtPayload, commOId)
+      return {ok: true, body: {eMembers}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // DELETE AREA:
 
   async removeClubMember(jwtPayload: JwtPayloadType, clubOId: string, memOId: string) {

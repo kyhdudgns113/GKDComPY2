@@ -71,13 +71,14 @@ export class EMemberDBService {
      *     + 공동체의 OId
      *
      * 출력값
-     * - eMemberArr: T.EMemberType[]
-     *     + 전체 멤버 배열
+     * - eMembers: {[clubOId: string]: T.EMemberType[]}
+     *     + 클럽별로 그룹화된 전체 멤버 객체
      *
      * 작동 순서
      * 1. eMembers 조회 뙇!!
      * 2. 결과를 T.EMemberType[] 타입으로 변환 뙇!!
-     * 3. 리턴 뙇!!
+     * 3. clubOId별로 그룹화 뙇!!
+     * 4. 리턴 뙇!!
      */
     const connection = await this.dbService.getConnection()
 
@@ -89,7 +90,7 @@ export class EMemberDBService {
       const resultArray = rows as RowDataPacket[]
 
       if (resultArray.length === 0) {
-        return {eMemberArr: []}
+        return {eMembers: {}}
       }
 
       // 2. 결과를 T.EMemberType[] 타입으로 변환 뙇!!
@@ -102,8 +103,17 @@ export class EMemberDBService {
         prevClubOId: row.prevClubOId
       }))
 
-      // 3. 리턴 뙇!!
-      return {eMemberArr}
+      // 3. clubOId별로 그룹화 뙇!!
+      const eMembers: {[clubOId: string]: T.EMemberType[]} = {}
+      eMemberArr.forEach(eMember => {
+        if (!eMembers[eMember.clubOId]) {
+          eMembers[eMember.clubOId] = []
+        }
+        eMembers[eMember.clubOId].push(eMember)
+      })
+
+      // 4. 리턴 뙇!!
+      return {eMembers}
       // ::
     } catch (errObj) {
       // ::

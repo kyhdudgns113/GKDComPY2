@@ -351,6 +351,42 @@ export class ClientMemberPortService {
     }
   }
 
+  /**
+   * loadEMembers
+   * - 전체 멤버 페이지의 멤버 정보를 불러오는 함수
+   *
+   * 입력값
+   * - commOId: string
+   *     + 공동체의 OId
+   *
+   * 출력값
+   * - eMembers: {[clubOId: string]: T.EMemberType[]}
+   *     + 클럽별로 그룹화된 전체 멤버 객체
+   *
+   * 작동 순서
+   * 1. 권한 췍!!
+   * 2. eMembers 읽기 뙇!!
+   * 3. 리턴 뙇!!
+   */
+  async loadEMembers(jwtPayload: T.JwtPayloadType, commOId: string) {
+    const where = `/client/member/loadEMembers`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuth_CommRead(where, jwtPayload, commOId)
+
+      // 2. eMembers 읽기 뙇!!
+      const {eMembers} = await this.dbHubService.readEMemberArrByCommOId(where, commOId)
+
+      // 3. 리턴 뙇!!
+      return {eMembers}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // DELETE AREA:
 
   /**

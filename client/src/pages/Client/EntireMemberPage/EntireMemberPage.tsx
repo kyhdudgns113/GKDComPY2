@@ -1,3 +1,6 @@
+import {useEffect} from 'react'
+
+import {useMemberCallbacksContext} from '@context'
 import {useAppSelector} from '@store'
 
 import {ButtonRowPart, ClubMemberListPart} from './parts'
@@ -13,6 +16,15 @@ type EntireMemberPageProps = DivCommonProps & {}
 export const EntireMemberPage: FC<EntireMemberPageProps> = ({className, style, ...props}) => {
   const community = useAppSelector(state => state.Community.community)
   const clubArr = useAppSelector(state => state.Community.clubArr)
+
+  const {loadEMembers} = useMemberCallbacksContext()
+
+  // 페이지 로딩시 데이터 로드
+  useEffect(() => {
+    if (community.commOId) {
+      loadEMembers(community.commOId)
+    }
+  }, [community]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`EntireMember_Page ClientPages ${className || ''}`} style={style} {...props}>

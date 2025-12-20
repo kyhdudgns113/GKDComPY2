@@ -345,8 +345,8 @@ export class DBHubService {
 
   async readEMemberArrByCommOId(where: string, commOId: string) {
     try {
-      const {eMemberArr} = await this.eMemberDBService.readEMemberArrByCommOId(where, commOId)
-      return {eMemberArr}
+      const {eMembers} = await this.eMemberDBService.readEMemberArrByCommOId(where, commOId)
+      return {eMembers}
       // ::
     } catch (errObj) {
       // ::
