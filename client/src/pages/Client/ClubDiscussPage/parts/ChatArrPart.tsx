@@ -66,7 +66,7 @@ export const ChatArrPart: FC<ChatArrPartProps> = ({className, style, ...props}) 
         lastYMD = chatYMD
 
         if (!isSameYMD) {
-          returnArr.push(<ChatDateObject key={idx} date={chatDate} />)
+          returnArr.push(<ChatDateObject key={idx + 'yes'} date={chatDate} />)
         }
 
         if (chat.userOId === userOId) {
