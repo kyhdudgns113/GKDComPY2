@@ -64,7 +64,7 @@ export class ClientMemberService {
 
   async saveEMembers(jwtPayload: JwtPayloadType, data: HTTP.SaveEMembersDataType) {
     try {
-      const {success} = await this.portService.saveEMembers(jwtPayload, data.commOId, data.eMemberArr)
+      const {success} = await this.portService.saveEMembers(jwtPayload, data)
       return {ok: true, body: {success}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {

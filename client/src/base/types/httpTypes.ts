@@ -1,3 +1,5 @@
+import * as ST from '@shareType'
+
 export type AddClubMemberDataType = {
   clubOId: string
   commOId: string
@@ -109,14 +111,7 @@ export type SaveClubMemberInfoDataType = {
 
 export type SaveEMembersDataType = {
   commOId: string
-  eMemberArr: Array<{
-    batterPower: number
-    clubOId: string
-    memName: string
-    pitcherPower: number
-    position: number
-    prevClubOId: string
-  }>
+  eMemberArr: ST.EMemberType[]
 }
 
 export type SignInDataType = {

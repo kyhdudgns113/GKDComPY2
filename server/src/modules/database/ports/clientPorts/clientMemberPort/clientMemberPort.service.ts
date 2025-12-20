@@ -276,8 +276,9 @@ export class ClientMemberPortService {
    * 2. eMembers 저장 뙇!!
    * 3. 리턴 뙇!!
    */
-  async saveEMembers(jwtPayload: T.JwtPayloadType, commOId: string, eMemberArr: T.EMemberType[]) {
+  async saveEMembers(jwtPayload: T.JwtPayloadType, data: HTTP.SaveEMembersDataType) {
     const where = `/client/member/saveEMembers`
+    const {commOId, eMemberArr} = data
 
     try {
       // 1. 권한 췍!!
