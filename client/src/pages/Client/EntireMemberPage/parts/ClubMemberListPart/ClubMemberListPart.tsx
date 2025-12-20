@@ -18,7 +18,7 @@ type ClubMemberListPartProps = DivCommonProps & {
 
 export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorIdx, ...props}) => {
   const clubArr = useAppSelector(state => state.Community.clubArr)
-  const eMemberArr = useAppSelector(state => state.EMember.eMembers[clubOId] || [])
+  const eMemberArr = useAppSelector(state => state.EMember.eMembers[clubOId]) || []
   const numClubs = clubArr.length + 1 // 클럽수 + 후보군 (탈퇴는 안 셈)
   const angle = Math.floor(360 / numClubs) * colorIdx
 
