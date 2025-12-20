@@ -13,8 +13,18 @@
 
         font-size: 14px;
 
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+
         &:hover {
           --gkd-block-l-bg: 0.85;
+        }
+
+        &._dragging {
+          opacity: 0.5;
         }
 
         &._bw_2 {
