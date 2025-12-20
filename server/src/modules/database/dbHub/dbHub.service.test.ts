@@ -7,6 +7,7 @@ export class DBHubServiceTest {
   private static communityDBService = TB.CommunityDBServiceTest.communityDBService
   private static dailyRecordDBService = TB.DailyRecordDBServiceTest.dailyRecordDBService
   private static docDBService = TB.DocDBServiceTest.docDBService
+  private static eMemberDBService = TB.EMemberDBServiceTest.eMemberDBService
   private static memberDBService = TB.MemberDBServiceTest.memberDBService
   private static userDBService = TB.UserDBServiceTest.userDBService
   private static weekRecordDBService = TB.WeekRecordDBServiceTest.weekRecordDBService
@@ -17,6 +18,7 @@ export class DBHubServiceTest {
     this.communityDBService,
     this.dailyRecordDBService,
     this.docDBService,
+    this.eMemberDBService,
     this.memberDBService,
     this.userDBService,
     this.weekRecordDBService
