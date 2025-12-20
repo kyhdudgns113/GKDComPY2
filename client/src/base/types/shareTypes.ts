@@ -69,8 +69,9 @@ export type EMemberType = {
   batterPower: number
   clubOId: string
   memName: string
-  position: number
   pitcherPower: number
+  position: number
+  prevClubOId: string
 }
 
 export type MemberType = {

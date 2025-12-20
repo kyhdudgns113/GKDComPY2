@@ -37,14 +37,6 @@ export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorI
         <EMemberRowObj key={eMemberIdx} clubOId={clubOId} eMember={eMember} posIdx={eMemberIdx} />
       ))}
 
-      {/* 3.5. 테스트용 멤버행 */}
-      <div className="_test_member_row_part">
-        <p className="_name_row _width_name_part">테스트멤버의닉네임</p>
-        <p className="_batter_row _width_batter_part">12,345</p>
-        <p className="_pitcher_row _width_pitcher_part">12,345</p>
-        <p className="_total_row _width_total_part">12,345</p>
-      </div>
-
       {/* 4. 드래그 드랍용 빈 공간 = padding 으로 대체한다 */}
     </div>
   )

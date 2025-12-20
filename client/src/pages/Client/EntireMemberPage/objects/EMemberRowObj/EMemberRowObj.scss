@@ -5,18 +5,24 @@
     .EntireMember_Page {
       .EMemberRow_Obj {
         align-items: center;
+
+        border-bottom-width: 1px;
+
         display: flex;
         flex-direction: row;
 
-        gap: 8px;
-
-        padding-left: 4px;
-        padding-right: 4px;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        font-size: 14px;
 
         &:hover {
-          background-color: v.$SAKURA_BG;
+          --gkd-block-l-bg: 0.85;
+        }
+
+        &._bw_2 {
+          border-bottom-width: 2px;
+        }
+
+        &._bw_4 {
+          border-bottom-width: 4px;
         }
 
         ._name_row {
@@ -33,4 +39,3 @@
     }
   }
 }
-

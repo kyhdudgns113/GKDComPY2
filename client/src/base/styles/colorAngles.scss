@@ -17,6 +17,11 @@ div[class*='block_'] {
 }
 
 @for $i from 0 through 360 {
+  div.block_bg_angle_#{$i} {
+    --gkd-block-l-bg: #{$block_l_bg};
+    --gkd-block-c-bg: #{$block_c_bg};
+    --gkd-block-angle: #{$i}deg;
+  }
   div.block_angle_#{$i} {
     --gkd-block-l-bg: #{$block_l_bg};
     --gkd-block-c-bg: #{$block_c_bg};
