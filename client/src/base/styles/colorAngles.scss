@@ -5,7 +5,7 @@ $block_c_bdr: 0.18;
 $block_tp: 0.6;
 $block_tp_white: 0.7;
 
-div[class*='block_'] {
+div[class*=' block_'] {
   background-color: oklch(
     var(--gkd-block-l-bg, #{$block_l_bg}) var(--gkd-block-c-bg, #{$block_c_bg}) var(--gkd-block-angle, 0deg) / var(--gkd-block-tp, 1)
   );
