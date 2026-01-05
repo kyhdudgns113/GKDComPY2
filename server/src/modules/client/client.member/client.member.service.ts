@@ -18,8 +18,8 @@ export class ClientMemberService {
 
   async addClubMember(jwtPayload: JwtPayloadType, data: HTTP.AddClubMemberDataType) {
     try {
-      const {clubMemberArr} = await this.portService.addClubMember(jwtPayload, data)
-      return {ok: true, body: {clubMemberArr}, gkdErrMsg: '', statusCode: 200}
+      const {clubMemberArr, commMemberArr} = await this.portService.addClubMember(jwtPayload, data)
+      return {ok: true, body: {clubMemberArr, commMemberArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

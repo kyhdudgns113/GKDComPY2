@@ -50,8 +50,11 @@ export class ClientMemberPortService {
       // 3. 클럽 멤버 배열 읽기 뙇!!
       const {clubMemberArr} = await this.dbHubService.readClubMemberArrByClubOId(where, clubOId)
 
-      // 4. 리턴 뙇!!
-      return {clubMemberArr}
+      // 4. 공동체 멤버 배열 읽기 뙇!!
+      const {commMemberArr} = await this.dbHubService.readCommMemberArrByCommOId(where, commOId)
+
+      // 5. 리턴 뙇!!
+      return {clubMemberArr, commMemberArr}
       // ::
     } catch (errObj) {
       // ::

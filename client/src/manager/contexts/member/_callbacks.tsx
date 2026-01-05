@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useAppDispatch, useMemberActions, useEMemberActions} from '@store'
+import {useAppDispatch, useMemberActions, useEMemberActions, useCommunityActions} from '@store'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -46,31 +46,36 @@ export const MemberCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const dispatch = useAppDispatch()
   const {setClubMemberArr, setMemberDeck, unselectClubMemberOpened} = useMemberActions()
   const {setEMembers} = useEMemberActions()
+  const {setCommMemberArr} = useCommunityActions()
 
   // POST AREA:
 
-  const addClubMember = useCallback(async (commOId: string, clubOId: string, memName: string, batterPower: number, pitcherPower: number) => {
-    const url = `/client/member/addClubMember`
-    const data: HTTP.AddClubMemberDataType = {commOId, clubOId, memName, batterPower, pitcherPower}
-    return F.postWithJwt(url, data)
-      .then(res => res.json())
-      .then(res => {
-        const {ok, body, statusCode, gkdErrMsg, message} = res
-        if (ok) {
-          const {clubMemberArr} = body
-          dispatch(setClubMemberArr(clubMemberArr))
-          return true
-        } // ::
-        else {
-          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+  const addClubMember = useCallback(
+    async (commOId: string, clubOId: string, memName: string, batterPower: number, pitcherPower: number) => {
+      const url = `/client/member/addClubMember`
+      const data: HTTP.AddClubMemberDataType = {commOId, clubOId, memName, batterPower, pitcherPower}
+      return F.postWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {clubMemberArr, commMemberArr} = body
+            dispatch(setClubMemberArr(clubMemberArr))
+            dispatch(setCommMemberArr(commMemberArr))
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
           return false
-        }
-      })
-      .catch(errObj => {
-        U.alertErrors(url, errObj)
-        return false
-      })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+        })
+    },
+    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   // PUT AREA:
 
