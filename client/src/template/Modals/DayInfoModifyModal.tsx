@@ -63,8 +63,8 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
   )
 
   const _executeModify = useCallback(
-    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => {
-      modifyDailyInfo(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments) // ::
+    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string, teamResultArr: number[][]) => {
+      modifyDailyInfo(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr) // ::
         .then(res => {
           if (res) {
             dispatch(closeModal())
@@ -76,13 +76,13 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
   )
 
   const onKeyDownModal = useCallback(
-    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) =>
+    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string, teamResultArr: number[][]) =>
       (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault()
           e.stopPropagation()
 
-          _executeModify(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
+          _executeModify(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr)
         } // ::
         else if (e.key === 'Escape') {
           dispatch(closeModal())
@@ -92,12 +92,12 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
   )
 
   const onSubmit = useCallback(
-    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) =>
+    (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string, teamResultArr: number[][]) =>
       (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         e.stopPropagation()
 
-        _executeModify(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments)
+        _executeModify(weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr)
       },
     [_executeModify]
   )
@@ -126,12 +126,12 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
     <Modal
       className={`DayInfoModify_Modal __MODAL_COMMON ${className || ''}`}
       onClose={() => {}}
-      onKeyDown={onKeyDownModal(weekOIdOpened, dateVal, enemyName, pitchOrder, dailyOrder, comments)}
+      onKeyDown={onKeyDownModal(weekOIdOpened, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr)}
       style={style}
       {...props} // ::
     >
       {/* 2. 일간 정보 수정 Form */}
-      <form className="_form_modal" onSubmit={onSubmit(weekOIdOpened, dateVal, enemyName, pitchOrder, dailyOrder, comments)}>
+      <form className="_form_modal" onSubmit={onSubmit(weekOIdOpened, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr)}>
         {/* 2-1. 상대 클럽명 */}
         <div className="_label_block_form">
           <label htmlFor="enemyName">상대 클럽명</label>

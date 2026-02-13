@@ -68,6 +68,7 @@ export type ModifyDailyInfoDataType = {
   pitchOrder: number
   dailyOrder: string
   comments: string
+  teamResultArr: number[][]
 }
 
 export type ModifyRowMemberInfoDataType = {

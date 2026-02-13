@@ -426,16 +426,26 @@ export class WeekRecordDBService {
      * 1. 일간 날짜 정보 수정 뙇!!
      */
 
-    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments} = dto
+    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr} = dto
 
     try {
       // 1. 일간 날짜 정보 수정 뙇!!
       const queryUpdate = `
         UPDATE weekRowDateInfos
-        SET enemyName = ?, pitchOrder = ?, dailyOrder = ?, comments = ?
+        SET enemyName = ?, pitchOrder = ?, dailyOrder = ?, comments = ?, teamResult0 = ?, teamResult1 = ?, teamResult2 = ?
         WHERE weekOId = ? AND dateVal = ?
       `
-      const paramUpdate = [enemyName, pitchOrder, dailyOrder, comments, weekOId, dateVal]
+      const paramUpdate = [
+        enemyName,
+        pitchOrder,
+        dailyOrder,
+        comments,
+        teamResultArr[0].join(' '),
+        teamResultArr[1].join(' '),
+        teamResultArr[2].join(' '),
+        weekOId,
+        dateVal
+      ]
       await connection.execute(queryUpdate, paramUpdate)
       // ::
     } catch (errObj) {

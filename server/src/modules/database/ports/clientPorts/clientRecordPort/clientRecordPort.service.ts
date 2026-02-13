@@ -431,7 +431,7 @@ export class ClientRecordPortService {
    */
   async modifyDailyInfo(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyDailyInfoDataType) {
     const where = `/client/record/modifyDailyInfo`
-    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments} = data
+    const {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr} = data
 
     try {
       // 1. 권한 췍!!
@@ -444,7 +444,8 @@ export class ClientRecordPortService {
         enemyName,
         pitchOrder,
         dailyOrder,
-        comments
+        comments,
+        teamResultArr
       }
       await this.dbHubService.updateDateInfo(where, dto)
 

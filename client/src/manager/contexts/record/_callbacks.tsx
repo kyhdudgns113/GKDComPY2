@@ -14,7 +14,7 @@ type ContextType = {
   addRowMember: (weekOId: string, rowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
   writeDailyRecord: (weekOId: string, rowMemName: string, dateVal: number, result0: number, result1: number, result2: number, condError: number, comment: string) => Promise<boolean>
 
-  modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => Promise<boolean>
+  modifyDailyInfo: (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string, teamResultArr: number[][]) => Promise<boolean>
   modifyRowMemberInfo: (weekOId: string, prevRowMemName: string, newRowMemName: string, batterPower: number, pitcherPower: number, position: number) => Promise<boolean>
   modifyWeeklyInfo: (weekOId: string, weekComments: string) => Promise<boolean>
 
@@ -167,9 +167,17 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   // PUT AREA:
 
   const modifyDailyInfo = useCallback(
-    async (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => {
+    async (
+      weekOId: string,
+      dateVal: number,
+      enemyName: string,
+      pitchOrder: number,
+      dailyOrder: string,
+      comments: string,
+      teamResultArr: number[][]
+    ) => {
       const url = `/client/record/modifyDailyInfo`
-      const data: HTTP.ModifyDailyInfoDataType = {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments}
+      const data: HTTP.ModifyDailyInfoDataType = {weekOId, dateVal, enemyName, pitchOrder, dailyOrder, comments, teamResultArr}
       return F.putWithJwt(url, data)
         .then(res => res.json())
         .then(res => {
