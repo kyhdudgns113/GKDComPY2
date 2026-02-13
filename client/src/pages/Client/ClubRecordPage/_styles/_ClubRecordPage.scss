@@ -1,13 +1,18 @@
 .Template {
   .Body {
     .ClubRecord_Page {
+      height: 100%;
       width: 100%;
+
+      * {
+        flex-shrink: 0;
+      }
 
       ._container_page {
         display: flex;
         flex-direction: row;
 
-        gap: 30px;
+        gap: 24px;
 
         height: fit-content;
 

@@ -4,7 +4,7 @@ import {useAppDispatch, useRecordActions, useRecordStates} from '@store'
 import {useRecordCallbacksContext} from '@context'
 
 import {DeleteWeekButton} from '../buttons'
-import {RecordTablePart} from '../parts'
+import {RecordTablePart, TeamStatisticPart} from '../parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -54,7 +54,10 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
       </div>
 
       {/* 3. 기록 테이블 */}
-      <RecordTablePart weekRow={weekRow} />
+      <div className="_row_1_tables_subpage">
+        <RecordTablePart weekRow={weekRow} />
+        <TeamStatisticPart weekRow={weekRow} />
+      </div>
     </div>
   )
 }

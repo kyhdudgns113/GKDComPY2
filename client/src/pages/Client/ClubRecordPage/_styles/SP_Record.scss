@@ -9,7 +9,7 @@
 
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
 
-        height: fit-content;
+        height: auto;
 
         transition: box-shadow 0.3s ease;
 
@@ -37,6 +37,23 @@
 
             text-align: center;
             user-select: none;
+          }
+        }
+
+        ._row_1_tables_subpage {
+          display: flex;
+          flex-direction: row;
+
+          height: 700px;
+
+          overflow: auto;
+
+          padding-bottom: 16px;
+          width: 1440px;
+
+          // flex 자식이 축소되지 않도록 설정 → overflow 시 스크롤 표시
+          > * {
+            flex-shrink: 0;
           }
         }
       }
