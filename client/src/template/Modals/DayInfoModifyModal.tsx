@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react'
 
 import {Modal} from '@component'
-import {useAppDispatch, useModalActions, useRecordActions, useRecordStates} from '@store'
+import {useAppDispatch, useClubStates, useModalActions, useRecordActions, useRecordStates} from '@store'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -12,7 +12,9 @@ import {useRecordCallbacksContext} from '@context'
 
 type DayInfoModifyModalProps = DivCommonProps & {}
 
+/* eslint-disable */
 export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, style, ...props}) => {
+  const {clubOpened} = useClubStates()
   const {closeModal} = useModalActions()
   const {dateInfoArr, dayIdxSelected, weekOIdOpened} = useRecordStates()
   const {resetDayIdxSelected} = useRecordActions()
@@ -24,8 +26,15 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
   const [dailyOrder, setDailyOrder] = useState<string>('')
   const [dateVal, setDateVal] = useState<number>(0)
   const [comments, setComments] = useState<string>('')
+  const [teamResultArr, setTeamResultArr] = useState<(number | null)[][]>([
+    [null, 0, 0, 0, 0, 0, null],
+    [null, 0, 0, 0, 0, 0, null],
+    [null, 0, 0, 0, 0, 0, null]
+  ])
 
   const dispatch = useAppDispatch()
+
+  const dateArr = ['월', '화', '수', '목', '금', '토']
 
   const _executeModify = useCallback(
     (weekOId: string, dateVal: number, enemyName: string, pitchOrder: number, dailyOrder: string, comments: string) => {
@@ -74,6 +83,7 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
       setDailyOrder(dateInfoArr[dayIdxSelected].dailyOrder)
       setDateVal(dateInfoArr[dayIdxSelected].dateVal)
       setComments(dateInfoArr[dayIdxSelected].comments)
+      setTeamResultArr(dateInfoArr[dayIdxSelected].teamResultArr)
     }
   }, [dayIdxSelected, dateInfoArr])
 
@@ -144,13 +154,57 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
           />
         </div>
 
+        {/* 2-5. 팀별 대진 결과 */}
+        <div className="_label_block_form">
+          <div className="_block_teamResult">
+            {/* 2-5-1. 대전 결과 헤더 */}
+            <div className="_row_header_teamResult">
+              <span className="_teamName_teamResult _bdr">팀명</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_result_teamResult _bdr">무</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_teamName_teamResult">팀명</span>
+            </div>
+
+            {/* 2-5-2. 대전결과 행_0 번째 */}
+            <div className="_row_record_teamResult idx0">
+              <span className="_teamName_teamResult _bdr">{clubOpened.clubName}</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_result_teamResult _bdr">무</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_teamName_teamResult">{`${enemyName}` || `${dateArr[dayIdxSelected || 0]}요일 상대`}</span>
+            </div>
+
+            {/* 2-5-3. 대전결과 행_1 번째 */}
+            <div className="_row_record_teamResult idx0">
+              <span className="_teamName_teamResult _bdr">{clubOpened.clubName}</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_result_teamResult _bdr">무</span>
+              <span className="_result_teamResult _bdr">승</span>
+              <span className="_points_teamResult _bdr">포인트</span>
+              <span className="_tropy_teamResult _bdr">T</span>
+              <span className="_teamName_teamResult">{`${enemyName}` || `${dateArr[dayIdxSelected || 0]}요일 상대`}</span>
+            </div>
+          </div>
+        </div>
+
         <div className="_button_row_form">
-          {/* 2-5. 수정하기 */}
+          {/* 2-6. 수정하기 */}
           <button type="submit" className="_button_form">
             수정하기
           </button>
 
-          {/* 2-6. 취소하기 */}
+          {/* 2-7. 취소하기 */}
           <button type="button" className="_button_form" onClick={() => dispatch(closeModal())}>
             취소하기
           </button>

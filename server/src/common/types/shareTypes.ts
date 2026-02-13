@@ -95,6 +95,7 @@ export type RecordDateInfo = {
   dateVal: number
   enemyName: string
   pitchOrder: number
+  teamResultArr: number[][] // [팀명, T, 포인트, 승, 무, 패, 포인트, T, 팀명] * 3, DB에는 string 으로 저장한다.
   weekOId: string
 }
 
