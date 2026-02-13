@@ -25,6 +25,9 @@ CREATE TABLE weekRowDateInfos (
   pitchOrder INT NOT NULL,
   dailyOrder VARCHAR(255) NOT NULL,
   comments VARCHAR(255) NOT NULL,
+  teamResult0 VARCHAR(63) NOT NULL DEFAULT '-1 0 0 0 0 0 -1',
+  teamResult1 VARCHAR(63) NOT NULL DEFAULT '-1 0 0 0 0 0 -1',
+  teamResult2 VARCHAR(63) NOT NULL DEFAULT '-1 0 0 0 0 0 -1',
 
   CONSTRAINT fk_weekRowDateInfos_weekOId
     FOREIGN KEY (weekOId)

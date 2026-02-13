@@ -306,7 +306,13 @@ export class WeekRecordDBService {
         enemyName: row.enemyName,
         pitchOrder: row.pitchOrder,
         dailyOrder: row.dailyOrder,
-        comments: row.comments
+        comments: row.comments,
+        teamResultArr: [
+          // ::
+          row.teamResult0.split(' ').map(Number),
+          row.teamResult1.split(' ').map(Number),
+          row.teamResult2.split(' ').map(Number)
+        ]
       }))
 
       return {dateInfoArr}
