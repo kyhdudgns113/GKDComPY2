@@ -28,7 +28,7 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
   const [comments, setComments] = useState<string>('')
   /** teamResultArr[row][0]=위쪽팀(우리), [row][6]=아랫쪽팀(상대). -1=선택안함, 0~4=요일인덱스 */
   const [teamResultArr, setTeamResultArr] = useState<number[][]>([
-    [-1, 0, 0, 0, 0, 0, -1],
+    [-1, 0, 0, 0, 0, 0, dayIdxSelected || 0],
     [-1, 0, 0, 0, 0, 0, -1],
     [-1, 0, 0, 0, 0, 0, -1]
   ])
@@ -110,11 +110,18 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
       setDateVal(dateInfoArr[dayIdxSelected].dateVal)
       setComments(dateInfoArr[dayIdxSelected].comments)
       if (dateInfoArr[dayIdxSelected].teamResultArr) {
-        setTeamResultArr(dateInfoArr[dayIdxSelected].teamResultArr)
+        // dateInfoArr 는 redux state 라 readonly 이다.
+        const newArr = dateInfoArr[dayIdxSelected].teamResultArr.map(row => [row[0], row[1], row[2], row[3], row[4], row[5], row[6]])
+
+        // 우리 클럽과 해당일자 상대클럽의 인덱스는 고정이다.
+        // DB 에 이상하게 저장되어있는 경우를 대비하기위해 초기화를 더 해준다.
+        newArr[0][0] = -1
+        newArr[0][6] = dayIdxSelected || 0
+        setTeamResultArr(newArr)
       } // ::
       else {
         setTeamResultArr([
-          [-1, 0, 0, 0, 0, 0, -1],
+          [-1, 0, 0, 0, 0, 0, dayIdxSelected || 0],
           [-1, 0, 0, 0, 0, 0, -1],
           [-1, 0, 0, 0, 0, 0, -1]
         ])
@@ -245,7 +252,7 @@ export const DayInfoModifyModal: FC<DayInfoModifyModalProps> = ({className, styl
                 value={teamResultArr[0]?.[5] ?? 0}
                 onChange={onChangeTeamResultNum(0, 5)}
               />
-              <span className="_teamName_teamResult">{`${enemyName}` || `${dateArr[dayIdxSelected || 0]}요일 상대`}</span>
+              <span className="_teamName_teamResult">{getOpponentDisplayText(dayIdxSelected)}</span>
             </div>
 
             {/* 2-5-3. 대전결과 행_1 번째 */}

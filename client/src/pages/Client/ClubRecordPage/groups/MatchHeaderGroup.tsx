@@ -20,11 +20,11 @@ export const MatchHeaderGroup: FC<MatchHeaderGroupProps> = ({weekRow, className,
       <tr>
         <th className="_th_category">클럽명</th>
         <th>{clubOpened.clubName}</th>
-        <th>{dateInfoArr[0].enemyName || '월 상대'}</th>
-        <th>{dateInfoArr[1].enemyName || '화 상대'}</th>
-        <th>{dateInfoArr[2].enemyName || '수 상대'}</th>
-        <th>{dateInfoArr[3].enemyName || '목 상대'}</th>
-        <th>{dateInfoArr[4].enemyName || '금 상대'}</th>
+        <th>{dateInfoArr?.[0]?.enemyName || '월 상대'}</th>
+        <th>{dateInfoArr?.[1]?.enemyName || '화 상대'}</th>
+        <th>{dateInfoArr?.[2]?.enemyName || '수 상대'}</th>
+        <th>{dateInfoArr?.[3]?.enemyName || '목 상대'}</th>
+        <th>{dateInfoArr?.[4]?.enemyName || '금 상대'}</th>
       </tr>
     </thead>
   )
