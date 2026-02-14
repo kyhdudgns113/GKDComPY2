@@ -1,11 +1,19 @@
 @use '../../../../base/styles/values.scss' as v;
 
+/**
+* 주간 팀별 대전 통계 파트
+* - 가로와 세로길이는 Record_SubPage 의 row 에서 결정된다.
+*/
 .Template {
   .Body {
     .ClubRecord_Page {
       .Record_SubPage {
         .TeamStatistic_Part {
-          margin-left: 16px;
+          display: flex;
+          flex-direction: row;
+          gap: 24px;
+
+          padding-top: 12px;
         }
       }
     }

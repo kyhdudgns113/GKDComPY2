@@ -1,0 +1,11 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .TeamScore_Object {
+        color: v.$SAKURA_TEXT;
+      }
+    }
+  }
+}

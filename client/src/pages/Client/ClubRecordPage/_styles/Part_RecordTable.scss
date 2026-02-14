@@ -1,5 +1,9 @@
 @use '../../../../base/styles/values.scss' as v;
 
+/**
+* 기록 테이블 파트
+* - 가로와 세로길이는 Record_SubPage 의 row 에서 결정된다.
+*/
 .Template {
   .Body {
     .ClubRecord_Page {

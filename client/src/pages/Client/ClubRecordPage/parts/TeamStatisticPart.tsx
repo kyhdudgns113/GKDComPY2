@@ -1,3 +1,9 @@
+import {useEffect, useState} from 'react'
+
+import {useRecordStates} from '@store'
+
+import {TeamScoreObject, TeamMatchObject} from '../objects'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -11,9 +17,19 @@ type TeamStatisticPartProps = DivCommonProps & {
 
 /* eslint-disable */
 export const TeamStatisticPart: FC<TeamStatisticPartProps> = ({weekRow, ...props}) => {
+  const {showModeRecord} = useRecordStates()
+
+  const [isShowStatistic, setIsShowStatistic] = useState<boolean>(false)
+
+  // 초기화: 표시 모드 상태 관리
+  useEffect(() => {
+    setIsShowStatistic(showModeRecord === 'statistic')
+  }, [showModeRecord])
+
   return (
-    <div className={`TeamStatistic_Part `} {...props}>
-      <p>TeamStatisticPart</p>
+    <div className={`TeamStatistic_Part `} hidden={!isShowStatistic} {...props}>
+      <TeamMatchObject />
+      <TeamScoreObject />
     </div>
   )
 }
