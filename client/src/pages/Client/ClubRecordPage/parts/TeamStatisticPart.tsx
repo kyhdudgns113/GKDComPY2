@@ -28,8 +28,8 @@ export const TeamStatisticPart: FC<TeamStatisticPartProps> = ({weekRow, ...props
 
   return (
     <div className={`TeamStatistic_Part `} hidden={!isShowStatistic} {...props}>
-      <TeamMatchObject />
-      <TeamScoreObject />
+      <TeamMatchObject weekRow={weekRow} />
+      <TeamScoreObject weekRow={weekRow} />
     </div>
   )
 }

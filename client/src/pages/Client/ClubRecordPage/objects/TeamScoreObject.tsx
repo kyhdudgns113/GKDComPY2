@@ -3,11 +3,16 @@ import type {DivCommonProps} from '@prop'
 
 import '../_styles/Obj_TeamScore.scss'
 
-type TeamScoreObjectProps = DivCommonProps & {}
+import * as ST from '@shareType'
 
-export const TeamScoreObject: FC<TeamScoreObjectProps> = ({className, style, ...props}) => {
+type TeamScoreObjectProps = DivCommonProps & {
+  weekRow: ST.WeekRowType
+}
+
+/* eslint-disable */
+export const TeamScoreObject: FC<TeamScoreObjectProps> = ({weekRow, ...props}) => {
   return (
-    <div className={`TeamScore_Object ${className || ''}`} style={style} {...props}>
+    <div className={`TeamScore_Object `} {...props}>
       TeamScoreObject
     </div>
   )
