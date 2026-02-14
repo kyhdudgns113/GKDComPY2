@@ -1,0 +1,40 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .ShowRecord_Button {
+        border-color: oklch(0.64 0.5 240);
+        border-radius: 8px;
+        border-width: 3px;
+
+        color: oklch(0.64 0.5 240);
+        cursor: pointer;
+
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        font-size: 18px;
+
+        transition: background-color 0.2s, box-shadow 0.2s, font-weight 0.2s;
+
+        user-select: none;
+
+        &:hover {
+          box-shadow: inset 0 0 4px 0 #666666;
+        }
+
+        &._off {
+          font-weight: 400;
+        }
+
+        &._on {
+          background-color: oklch(0.98 0.05 240);
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

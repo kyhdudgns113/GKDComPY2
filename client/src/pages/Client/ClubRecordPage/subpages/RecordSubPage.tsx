@@ -3,7 +3,7 @@ import {useEffect} from 'react'
 import {useAppDispatch, useRecordActions, useRecordStates} from '@store'
 import {useRecordCallbacksContext} from '@context'
 
-import {DeleteWeekButton} from '../buttons'
+import {DeleteWeekButton, ShowRecordButton, ShowStatisticButton} from '../buttons'
 import {RecordTablePart} from '../parts'
 
 import type {FC} from 'react'
@@ -45,16 +45,23 @@ export const RecordSubPage: FC<RecordSubPageProps> = ({className, style, ...prop
 
   return (
     <div className={`Record_SubPage ${className || ''}`} style={style} {...props}>
-      <div className="_row_0_title_subpage">
-        {/* 1. 타이틀 */}
+      {/* 1. 최상단 행 1 (좌측 고정): 타이틀, 삭제버튼 */}
+      <div className="_row_1_title_subpage">
+        {/* 1-1. 타이틀 */}
         <p className="_title_subpage">{`${weekRow.startDateVal}~${weekRow.endDateVal}`}</p>
 
-        {/* 2. 주차 삭제 버튼 */}
+        {/* 1-2. 주차 삭제 버튼 */}
         <DeleteWeekButton />
       </div>
 
+      {/* 2. 최상단 행 2 (중앙 고정): 표시 모드 버튼 */}
+      <div className="_row_2_mode_buttons_subpage">
+        <ShowRecordButton />
+        <ShowStatisticButton />
+      </div>
+
       {/* 3. 기록 테이블 */}
-      <div className="_row_1_tables_subpage">
+      <div className="_row_3_tables_subpage">
         <RecordTablePart weekRow={weekRow} />
       </div>
     </div>
