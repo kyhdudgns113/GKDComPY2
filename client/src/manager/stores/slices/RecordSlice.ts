@@ -13,6 +13,7 @@ interface RecordState {
   dayIdxSelected: number | null
   rowMemberArr: ST.RowMemberType[]
   rowMemberOpened: ST.RowMemberType | null
+  showModeRecord: T.ShowModeRecordType
   statisticArr: T.RecordStatisticType[]
   weekOIdOpened: string
   weekRowArr: ST.WeekRowType[]
@@ -25,6 +26,7 @@ const initialState: RecordState = {
   dayIdxSelected: null,
   rowMemberArr: [],
   rowMemberOpened: null,
+  showModeRecord: 'record',
   statisticArr: Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0})),
   weekOIdOpened: '',
   weekRowArr: []
@@ -103,6 +105,14 @@ export const recordSlice = createSlice({
     // rowMemberOpened 해제
     resetRowMemberOpened: state => {
       state.rowMemberOpened = null
+    },
+
+    // showModeRecord 설정
+    openShowModeRecord: state => {
+      state.showModeRecord = 'record'
+    },
+    openShowModeStatistic: state => {
+      state.showModeRecord = 'statistic'
     },
     // ::
     // 주차 OId 해제

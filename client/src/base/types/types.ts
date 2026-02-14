@@ -28,3 +28,4 @@ export type RecordStatisticType = {
   sumMiss: number
   sumCond: number
 }
+export type ShowModeRecordType = 'record' | 'statistic'
