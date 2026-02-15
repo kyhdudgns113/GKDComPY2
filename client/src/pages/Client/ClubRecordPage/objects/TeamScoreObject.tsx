@@ -21,7 +21,7 @@ export const TeamScoreObject: FC<TeamScoreObjectProps> = ({weekRow, ...props}) =
       {/* 2. 팀 점수 표 */}
       <table>
         <ScoreHeaderGroup weekRow={weekRow} />
-        <ScoreBodyGroup weekRow={weekRow} />
+        <ScoreBodyGroup />
       </table>
     </div>
   )

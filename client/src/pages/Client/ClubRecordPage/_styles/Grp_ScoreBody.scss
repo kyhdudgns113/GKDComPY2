@@ -24,6 +24,10 @@
             font-weight: 700;
           }
         }
+
+        tr._has_duplicate {
+          background-color: oklch(0.98 0.08 60);
+        }
       }
     }
   }
