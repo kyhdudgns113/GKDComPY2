@@ -90,7 +90,7 @@ export const ClubMemberListPart: FC<ClubMemberListPartProps> = ({clubOId, colorI
       {...props} // ::
     >
       {/* 1. 타이틀 */}
-      <p className="_title_part">{clubName}</p>
+      <p className="_title_part">{`${clubName} (${eMemberArr.length}명)`}</p>
 
       {/* 2. 배열 헤더 */}
       <ArrHeaderObj clubOId={clubOId} className={cnAngle} />

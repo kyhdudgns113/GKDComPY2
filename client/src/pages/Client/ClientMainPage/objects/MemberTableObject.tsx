@@ -38,13 +38,15 @@ export const MemberTableObject: FC<MemberTableObjectProps> = ({className, style,
         <tbody>
           {commMemberArr.map((member, memIdx) => {
             const club = clubArr.find(club => club.clubOId === member.clubOId) || NV.NULL_CLUB()
-            let clubName = club.clubName
+            const clubName = club.clubName
 
             if (member.clubOId === community.banClubOId) {
-              clubName = '탈퇴'
+              // clubName = '탈퇴'
+              return null
             } // ::
             else if (member.clubOId === community.subClubOId) {
-              clubName = '후보군'
+              // clubName = '후보군'
+              return null
             }
 
             const isBlue = memIdx % 10 === 9
