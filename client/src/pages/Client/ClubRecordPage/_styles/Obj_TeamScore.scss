@@ -5,6 +5,27 @@
     .ClubRecord_Page {
       .TeamScore_Object {
         color: v.$SAKURA_TEXT;
+
+        ._title_object {
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 12px;
+
+          text-align: center;
+
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          border-color: v.$SAKURA_BORDER;
+          border-radius: 8px;
+          border-width: 4px;
+
+          cursor: default;
+
+          width: fit-content;
+        }
       }
     }
   }

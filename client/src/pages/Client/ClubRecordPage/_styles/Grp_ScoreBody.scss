@@ -1,0 +1,30 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body {
+    .ClubRecord_Page {
+      .ScoreBody_Group {
+        color: v.$SAKURA_TEXT;
+
+        tr {
+          border-color: v.$SAKURA_BORDER;
+          border-bottom-width: 2px;
+          font-size: 14px;
+        }
+
+        td {
+          border-color: v.$SAKURA_BORDER;
+          border-right-width: 2px;
+          height: 54px;
+          text-align: center;
+
+          &._td_club_name {
+            border-right-width: 4px;
+
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}

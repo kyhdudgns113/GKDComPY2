@@ -1,5 +1,7 @@
 export * from './CommentRowGroup'
 export * from './MatchBodyGroup'
 export * from './MatchHeaderGroup'
+export * from './ScoreBodyGroup'
+export * from './ScoreHeaderGroup'
 export * from './MemberRowGroup'
 export * from './StatisticRowGroup'
