@@ -22,6 +22,17 @@ export type CommSettingType = {
   maxUsers: number
   maxClubs: number
 }
+export type MatchBlockInfoType = {
+  /**
+   * dayIdxArr
+   * - 해당 블록이 저장된 날짜의 인덱스의 목록을 넣는다.
+   * - 중복으로 기록될 수 있어서이다.
+   */
+  dayIdxArr: number[]
+  result: '승' | '무' | '패' | '?' | 'x'
+  tropy: number
+  points: number
+}
 export type RecordStatisticType = {
   sumDraw: number
   sumLose: number

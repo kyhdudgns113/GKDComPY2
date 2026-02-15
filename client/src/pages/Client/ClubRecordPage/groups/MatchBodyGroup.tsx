@@ -1,48 +1,27 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback} from 'react'
 
 import {useClubStates, useRecordStates} from '@store'
 
 import type {FC} from 'react'
 import type {TableBodyCommonProps} from '@prop'
-import type {WeekRowType} from '@shareType'
+
+import * as ST from '@shareType'
+import * as T from '@type'
 
 import '../_styles/Grp_MatchBody.scss'
 
 type MatchBodyGroupProps = TableBodyCommonProps & {
-  weekRow: WeekRowType
+  blockMatrix: T.MatchBlockInfoType[][]
+  weekRow: ST.WeekRowType
 }
 
 /* eslint-disable */
-type BlockInfoType = {
-  /**
-   * dayIdxArr
-   * - 해당 블록이 저장된 날짜의 인덱스의 목록을 넣는다.
-   * - 중복으로 기록될 수 있어서이다.
-   */
-  dayIdxArr: number[]
-  result: '승' | '무' | '패' | '?' | 'x'
-  tropy: number
-  points: number
-}
 
-export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({weekRow, className, style, ...props}) => {
+export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({blockMatrix, weekRow, ...props}) => {
   const {clubOpened} = useClubStates()
   const {dateInfoArr} = useRecordStates()
 
   const dateArr = ['월', '화', '수', '목', '금', '토']
-
-  const [blockMatrix, setBlockMatrix] = useState<BlockInfoType[][]>(
-    Array.from({length: 6}, () =>
-      Array.from({length: 6}, () => {
-        return {
-          dayIdxArr: [],
-          result: '?',
-          tropy: 0,
-          points: 0
-        }
-      })
-    )
-  )
 
   const _getClubName = useCallback(
     (dayIdx: number) => {
@@ -56,51 +35,8 @@ export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({weekRow, className, sty
     [clubOpened, dateInfoArr]
   )
 
-  // 초기화: 데이터 블록 배열
-  useEffect(() => {
-    const newBlockMatrix = Array.from({length: 6}, () =>
-      Array.from({length: 6}, () => {
-        return {
-          dayIdxArr: [],
-          result: '?',
-          tropy: 0,
-          points: 0
-        } as BlockInfoType
-      })
-    )
-
-    dateInfoArr.forEach((dateInfo, dayIdx) => {
-      const {teamResultArr} = dateInfo
-
-      teamResultArr.forEach(teamResult => {
-        const [dayIdxA, tropyA, pointsA, winResult, pointsB, tropyB, dayIdxB] = teamResult
-
-        // 같은 팀 끼리의 대전결과는 저장해서 안된다.
-        if (dayIdxA === dayIdxB) {
-          return
-        }
-
-        const [rowIdxA, rowIdxB] = [dayIdxA + 1, dayIdxB + 1]
-
-        newBlockMatrix[rowIdxA][rowIdxB].dayIdxArr.push(dayIdx)
-        newBlockMatrix[rowIdxB][rowIdxA].dayIdxArr.push(dayIdx)
-
-        newBlockMatrix[rowIdxA][rowIdxB].result = winResult === -1 ? '승' : winResult === 0 ? '무' : '패'
-        newBlockMatrix[rowIdxB][rowIdxA].result = winResult === -1 ? '패' : winResult === 0 ? '무' : '승'
-
-        newBlockMatrix[rowIdxA][rowIdxB].tropy = tropyA
-        newBlockMatrix[rowIdxB][rowIdxA].tropy = tropyB
-
-        newBlockMatrix[rowIdxA][rowIdxB].points = pointsA
-        newBlockMatrix[rowIdxB][rowIdxA].points = pointsB
-      })
-    })
-
-    setBlockMatrix(newBlockMatrix)
-  }, [dateInfoArr])
-
   return (
-    <tbody className={`MatchBody_Group ${className || ''}`} style={style} {...props}>
+    <tbody className={`MatchBody_Group `} {...props}>
       {[-1, 0, 1, 2, 3, 4].map((dayIdx, rowIdx) => {
         return (
           <tr key={dayIdx}>
