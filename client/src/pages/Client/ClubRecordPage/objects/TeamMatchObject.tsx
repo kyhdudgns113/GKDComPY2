@@ -16,7 +16,7 @@ export const TeamMatchObject: FC<TeamMatchObjectProps> = ({weekRow, ...props}) =
   return (
     <div className={`TeamMatch_Object `} {...props}>
       {/* 1. 타이틀 */}
-      <p className="_title_object">대전 결과</p>
+      <p className="_title_object">매치 결과</p>
 
       {/* 2. 대전 결과 표 */}
       <table>

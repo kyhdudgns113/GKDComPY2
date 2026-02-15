@@ -26,13 +26,19 @@
             background-color: #888888;
           }
           &._duplicate {
-            background-color: v.$SAKURA_BG_50;
+            background-color: oklch(0.98 0.1 60);
+            color: oklch(0.9 0.5 25);
+            font-weight: 700;
           }
           &._win {
-            background-color: v.$SAKURA_BG_50;
+            background-color: oklch(0.98 0.1 250);
+            color: oklch(0.8 0.5 250);
+            font-weight: 700;
           }
           &._lose {
-            background-color: v.$SAKURA_BG_50;
+            background-color: oklch(0.98 0.1 25);
+            color: oklch(0.8 0.5 25);
+            font-weight: 700;
           }
         }
       }
