@@ -1,39 +1,24 @@
-import {useCallback} from 'react'
-
-import {useClubStates, useRecordStates} from '@store'
+import {useGetEnemyClubName, useRecordStates} from '@store'
 
 import type {FC} from 'react'
 import type {TableBodyCommonProps} from '@prop'
 
 import * as ST from '@shareType'
-import * as T from '@type'
 
 import '../_styles/Grp_MatchBody.scss'
 
 type MatchBodyGroupProps = TableBodyCommonProps & {
-  blockMatrix: T.MatchBlockInfoType[][]
   weekRow: ST.WeekRowType
 }
 
+const DATE_ARR = ['월', '화', '수', '목', '금', '토']
+
 /* eslint-disable */
 
-export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({blockMatrix, weekRow, ...props}) => {
-  const {clubOpened} = useClubStates()
-  const {dateInfoArr} = useRecordStates()
+export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({weekRow, ...props}) => {
+  const {matchBlockMatrix} = useRecordStates()
 
-  const dateArr = ['월', '화', '수', '목', '금', '토']
-
-  const _getClubName = useCallback(
-    (dayIdx: number) => {
-      if (dayIdx === -1) {
-        return clubOpened.clubName
-      } // ::
-      else {
-        return dateInfoArr?.[dayIdx]?.enemyName || `${dateArr[dayIdx]} 상대`
-      }
-    },
-    [clubOpened, dateInfoArr]
-  )
+  const getEnemyClubName = useGetEnemyClubName()
 
   return (
     <tbody className={`MatchBody_Group `} {...props}>
@@ -41,7 +26,7 @@ export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({blockMatrix, weekRow, .
         return (
           <tr key={dayIdx}>
             {/* 1. 클럽 이름 */}
-            <td className="_td_club_name">{_getClubName(dayIdx)}</td>
+            <td className="_td_club_name">{getEnemyClubName(dayIdx)}</td>
 
             {/* 2. 대전기록 블록들 */}
             {Array.from({length: 6}).map((_, colIdx) => {
@@ -54,11 +39,11 @@ export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({blockMatrix, weekRow, .
                 content = ' '
               } // ::
               else {
-                const {dayIdxArr, result, tropy, points} = blockMatrix[rowIdx][colIdx]
+                const {dayIdxArr, result, tropy, points} = matchBlockMatrix[rowIdx][colIdx]
                 if (dayIdxArr.length > 1) {
                   CN += ' _duplicate '
                   content = '데이터 중복\n'
-                  content += `[${dayIdxArr.map(dayIdx => dateArr[dayIdx]).join(', ')}]`
+                  content += `[${dayIdxArr.map(dayIdx => DATE_ARR[dayIdx]).join(', ')}]`
                 } // ::
                 else if (dayIdxArr.length === 1) {
                   if (result === '승') {
@@ -68,7 +53,7 @@ export const MatchBodyGroup: FC<MatchBodyGroupProps> = ({blockMatrix, weekRow, .
                     CN += ' _lose '
                   }
 
-                  content += `[${dateArr[dayIdxArr[0]]}]\n`
+                  content += `[${DATE_ARR[dayIdxArr[0]]}]\n`
                   content += `(${result}) ${tropy}개 ${points}점`
                 }
               }

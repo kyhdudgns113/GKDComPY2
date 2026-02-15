@@ -11,6 +11,7 @@ interface RecordState {
   dailyRecordMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}}
   dateInfoArr: ST.RecordDateInfo[]
   dayIdxSelected: number | null
+  matchBlockMatrix: T.MatchBlockInfoType[][]
   rowMemberArr: ST.RowMemberType[]
   rowMemberOpened: ST.RowMemberType | null
   showModeRecord: T.ShowModeRecordType
@@ -24,6 +25,16 @@ const initialState: RecordState = {
   dailyRecordMap: {},
   dateInfoArr: [],
   dayIdxSelected: null,
+  matchBlockMatrix: Array.from({length: 6}, () =>
+    Array.from({length: 6}, () => {
+      return {
+        dayIdxArr: [],
+        result: '?',
+        tropy: 0,
+        points: 0
+      } as T.MatchBlockInfoType
+    })
+  ),
   rowMemberArr: [],
   rowMemberOpened: null,
   showModeRecord: 'record',
@@ -37,11 +48,62 @@ export const recordSlice = createSlice({
   name: 'record',
   initialState,
   reducers: {
-    // dailyRecordMap 초기화
+    incStaticCond: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumCond += 1
+    },
+    incStaticDraw: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumDraw += 1
+    },
+    incStaticLose: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumLose += 1
+    },
+    incStaticMiss: (state, action: PayloadAction<number>) => {
+      state.statisticArr[action.payload].sumMiss += 1
+    },
+
+    openShowModeRecord: state => {
+      state.showModeRecord = 'record'
+    },
+    openShowModeStatistic: state => {
+      state.showModeRecord = 'statistic'
+    },
+
     resetDailyRecordMap: state => {
       state.dailyRecordMap = {}
     },
-    // dailyRecordMap 설정
+    resetDateInfoArr: state => {
+      state.dateInfoArr = []
+    },
+    resetDayIdxSelected: state => {
+      state.dayIdxSelected = null
+    },
+    resetRowMemberArr: state => {
+      state.rowMemberArr = []
+    },
+    resetRowMemberOpened: state => {
+      state.rowMemberOpened = null
+    },
+    resetMatchBlockMatrix: state => {
+      state.matchBlockMatrix = Array.from({length: 6}, () =>
+        Array.from(
+          {length: 6},
+          () =>
+            ({
+              dayIdxArr: [],
+              result: '?',
+              tropy: 0,
+              points: 0
+            } as T.MatchBlockInfoType)
+        )
+      )
+    },
+    resetStatisticArr: state => {
+      state.statisticArr = Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}))
+    },
+    resetWeekOIdOpened: state => {
+      state.weekOIdOpened = ''
+    },
+
     setDailyRecordMapFromArr: (state, action: PayloadAction<ST.DailyRecordType[]>) => {
       const newMap: {[rowMemName: string]: {[dateVal: number]: ST.DailyRecordType}} = {}
       action.payload.forEach(record => {
@@ -53,83 +115,75 @@ export const recordSlice = createSlice({
       state.dailyRecordMap = newMap
       state.statisticArr = Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}))
     },
-    // ::
-    incStaticDraw: (state, action: PayloadAction<number>) => {
-      state.statisticArr[action.payload].sumDraw += 1
-    },
-    incStaticLose: (state, action: PayloadAction<number>) => {
-      state.statisticArr[action.payload].sumLose += 1
-    },
-    incStaticMiss: (state, action: PayloadAction<number>) => {
-      state.statisticArr[action.payload].sumMiss += 1
-    },
-    incStaticCond: (state, action: PayloadAction<number>) => {
-      state.statisticArr[action.payload].sumCond += 1
-    },
-    // statisticArr 초기화
-    resetStatisticArr: state => {
-      state.statisticArr = Array.from({length: 6}, () => ({sumDraw: 0, sumLose: 0, sumMiss: 0, sumCond: 0}))
-    },
-    // ::
-    // dateInfoArr 초기화
-    resetDateInfoArr: state => {
-      state.dateInfoArr = []
-    },
-    // dateInfoArr 설정
     setDateInfoArrFromArr: (state, action: PayloadAction<ST.RecordDateInfo[]>) => {
       state.dateInfoArr = action.payload.sort((a, b) => a.dateVal - b.dateVal)
     },
-    // ::
-    // dayIdxSelected 설정
     setDayIdxSelected: (state, action: PayloadAction<number>) => {
       state.dayIdxSelected = action.payload
     },
-    // dayIdxSelected 해제
-    resetDayIdxSelected: state => {
-      state.dayIdxSelected = null
+    setMatchBlockMatrixFromDateInfoArr: (state, action: PayloadAction<ST.RecordDateInfo[]>) => {
+      const dateInfoArr = action.payload
+      const newBlockMatrix = Array.from({length: 6}, () =>
+        Array.from(
+          {length: 6},
+          () =>
+            ({
+              dayIdxArr: [],
+              result: '?',
+              tropy: 0,
+              points: 0
+            } as T.MatchBlockInfoType)
+        )
+      )
+
+      dateInfoArr.forEach((dateInfo, dayIdx) => {
+        const {teamResultArr} = dateInfo
+
+        teamResultArr.forEach(teamResult => {
+          const [dayIdxA, tropyA, pointsA, winResult, pointsB, tropyB, dayIdxB] = teamResult
+
+          if (dayIdxA === dayIdxB) return
+
+          const [rowIdxA, rowIdxB] = [dayIdxA + 1, dayIdxB + 1]
+
+          newBlockMatrix[rowIdxA][rowIdxB].dayIdxArr.push(dayIdx)
+          newBlockMatrix[rowIdxB][rowIdxA].dayIdxArr.push(dayIdx)
+
+          newBlockMatrix[rowIdxA][rowIdxB].result = winResult === -1 ? '승' : winResult === 0 ? '무' : '패'
+          newBlockMatrix[rowIdxB][rowIdxA].result = winResult === -1 ? '패' : winResult === 0 ? '무' : '승'
+
+          newBlockMatrix[rowIdxA][rowIdxB].tropy = tropyA
+          newBlockMatrix[rowIdxB][rowIdxA].tropy = tropyB
+
+          newBlockMatrix[rowIdxA][rowIdxB].points = pointsA
+          newBlockMatrix[rowIdxB][rowIdxA].points = pointsB
+        })
+      })
+
+      state.matchBlockMatrix = newBlockMatrix
     },
-    // ::
-    // rowMemberArr 초기화
-    resetRowMemberArr: state => {
-      state.rowMemberArr = []
-    },
-    // rowMemberArr 설정
     setRowMemberArr: (state, action: PayloadAction<ST.RowMemberType[]>) => {
       state.rowMemberArr = action.payload
     },
-    // ::
-    // rowMemberOpened 설정
     setRowMemberOpened: (state, action: PayloadAction<ST.RowMemberType>) => {
       state.rowMemberOpened = action.payload
     },
-    // rowMemberOpened 해제
-    resetRowMemberOpened: state => {
-      state.rowMemberOpened = null
-    },
-
-    // showModeRecord 설정
-    openShowModeRecord: state => {
-      state.showModeRecord = 'record'
-    },
-    openShowModeStatistic: state => {
-      state.showModeRecord = 'statistic'
-    },
-    // ::
-    // 주차 OId 해제
-    resetWeekOIdOpened: state => {
-      state.weekOIdOpened = ''
-    },
-    // 주차 OId 설정
     setWeekOIdOpened: (state, action: PayloadAction<string>) => {
       state.weekOIdOpened = action.payload
     },
-    // ::
-    // 주차 배열 설정
     setWeekRowArr: (state, action: PayloadAction<ST.WeekRowType[]>) => {
       state.weekRowArr = action.payload
     }
   }
 })
+
+const DATE_ARR = ['월', '화', '수', '목', '금', '토'] as const
+
+// 유틸: 클럽명 반환 (인덱스 -1=우리클럽, 0~5=상대클럽)
+export const getEnemyClubName = (clubOpened: {clubName: string}, index: number, dateInfoArr: ST.RecordDateInfo[]): string => {
+  if (index === -1) return clubOpened.clubName
+  return dateInfoArr?.[index]?.enemyName || `${DATE_ARR[index]} 상대`
+}
 
 // Selector: statisticArr 선택
 const selectStatisticArr = (state: AdminStates) => state.Record.statisticArr

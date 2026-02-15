@@ -3,8 +3,7 @@ import type {TableHeadCommonProps} from '@prop'
 import type {WeekRowType} from '@shareType'
 
 import '../_styles/Grp_MatchHeader.scss'
-import {useClubStates} from '@store'
-import {useRecordStates} from '@store'
+import {useGetEnemyClubName} from '@store'
 
 type MatchHeaderGroupProps = TableHeadCommonProps & {
   weekRow: WeekRowType
@@ -12,19 +11,18 @@ type MatchHeaderGroupProps = TableHeadCommonProps & {
 
 /* eslint-disable */
 export const MatchHeaderGroup: FC<MatchHeaderGroupProps> = ({weekRow, className, style, ...props}) => {
-  const {clubOpened} = useClubStates()
-  const {dateInfoArr} = useRecordStates()
+  const getEnemyClubName = useGetEnemyClubName()
 
   return (
     <thead className={`MatchHeader_Group ${className || ''}`} style={style} {...props}>
       <tr>
         <th className="_th_category">클럽명</th>
-        <th>{clubOpened.clubName}</th>
-        <th>{dateInfoArr?.[0]?.enemyName || '월 상대'}</th>
-        <th>{dateInfoArr?.[1]?.enemyName || '화 상대'}</th>
-        <th>{dateInfoArr?.[2]?.enemyName || '수 상대'}</th>
-        <th>{dateInfoArr?.[3]?.enemyName || '목 상대'}</th>
-        <th>{dateInfoArr?.[4]?.enemyName || '금 상대'}</th>
+        <th>{getEnemyClubName(-1)}</th>
+        <th>{getEnemyClubName(0)}</th>
+        <th>{getEnemyClubName(1)}</th>
+        <th>{getEnemyClubName(2)}</th>
+        <th>{getEnemyClubName(3)}</th>
+        <th>{getEnemyClubName(4)}</th>
       </tr>
     </thead>
   )

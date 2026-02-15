@@ -1,3 +1,4 @@
+import {useCallback} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {configureStore} from '@reduxjs/toolkit'
 
@@ -34,6 +35,17 @@ export const useMemberStates = () => useAppSelector(state => state.Member)
 export const useModalStates = () => useAppSelector(state => state.Modal)
 export const useRecordStates = () => useAppSelector(state => state.Record)
 export const useTemplateStates = () => useAppSelector(state => state.Template)
+
+// AREA1-1: 파생 훅 (여러 state 조합)
+
+export const useGetEnemyClubName = () => {
+  const {clubOpened} = useClubStates()
+  const {dateInfoArr} = useRecordStates()
+  return useCallback(
+    (index: number) => Slices.getEnemyClubName(clubOpened, index, dateInfoArr),
+    [clubOpened, dateInfoArr]
+  )
+}
 export const useTestStates = () => useAppSelector(state => state.Test)
 
 // AREA2: Actions

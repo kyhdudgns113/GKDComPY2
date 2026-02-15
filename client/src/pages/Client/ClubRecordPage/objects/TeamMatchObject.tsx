@@ -6,15 +6,13 @@ import type {DivCommonProps} from '@prop'
 import '../_styles/Obj_TeamMatch.scss'
 
 import * as ST from '@shareType'
-import * as T from '@type'
 
 type TeamMatchObjectProps = DivCommonProps & {
-  blockMatrix: T.MatchBlockInfoType[][]
   weekRow: ST.WeekRowType
 }
 
 /* eslint-disable */
-export const TeamMatchObject: FC<TeamMatchObjectProps> = ({blockMatrix, weekRow, ...props}) => {
+export const TeamMatchObject: FC<TeamMatchObjectProps> = ({weekRow, ...props}) => {
   return (
     <div className={`TeamMatch_Object `} {...props}>
       {/* 1. 타이틀 */}
@@ -23,7 +21,7 @@ export const TeamMatchObject: FC<TeamMatchObjectProps> = ({blockMatrix, weekRow,
       {/* 2. 대전 결과 표 */}
       <table>
         <MatchHeaderGroup weekRow={weekRow} />
-        <MatchBodyGroup blockMatrix={blockMatrix} weekRow={weekRow} />
+        <MatchBodyGroup weekRow={weekRow} />
       </table>
     </div>
   )
