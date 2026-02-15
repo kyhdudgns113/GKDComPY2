@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 
-import {useRecordStates} from '@store'
+import {useAppDispatch, useRecordActions, useRecordStates} from '@store'
 
 import {TeamScoreObject, TeamMatchObject} from '../objects'
 
@@ -17,7 +17,10 @@ type TeamStatisticPartProps = DivCommonProps & {
 
 /* eslint-disable */
 export const TeamStatisticPart: FC<TeamStatisticPartProps> = ({weekRow, ...props}) => {
-  const {showModeRecord} = useRecordStates()
+  const {dateInfoArr, showModeRecord} = useRecordStates()
+  const {setMatchBlockMatrixFromDateInfoArr} = useRecordActions()
+
+  const dispatch = useAppDispatch()
 
   const [isShowStatistic, setIsShowStatistic] = useState<boolean>(false)
 
@@ -25,6 +28,11 @@ export const TeamStatisticPart: FC<TeamStatisticPartProps> = ({weekRow, ...props
   useEffect(() => {
     setIsShowStatistic(showModeRecord === 'statistic')
   }, [showModeRecord])
+
+  // 초기화: matchBlockMatrix 설정
+  useEffect(() => {
+    dispatch(setMatchBlockMatrixFromDateInfoArr())
+  }, [dateInfoArr, dispatch])
 
   return (
     <div className={`TeamStatistic_Part `} hidden={!isShowStatistic} {...props}>

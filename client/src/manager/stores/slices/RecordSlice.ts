@@ -121,8 +121,8 @@ export const recordSlice = createSlice({
     setDayIdxSelected: (state, action: PayloadAction<number>) => {
       state.dayIdxSelected = action.payload
     },
-    setMatchBlockMatrixFromDateInfoArr: (state, action: PayloadAction<ST.RecordDateInfo[]>) => {
-      const dateInfoArr = action.payload
+    setMatchBlockMatrixFromDateInfoArr: state => {
+      const dateInfoArr = state.dateInfoArr
       const newBlockMatrix = Array.from({length: 6}, () =>
         Array.from(
           {length: 6},
